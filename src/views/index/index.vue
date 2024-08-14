@@ -1,12 +1,16 @@
 <template>
   <div>
-    <header :class="{'header': true, 'header-active': menuChild.showflag}">
+    <header :class="{'header': true, 'header-active': menuChild.showflag || flag}">
       <div class="header-menu">
-        <div class="header-nav" :class="{'nav-active': menuChild.showflag}">
+        <div class="header-nav">
           <div class="logo">
-            <img :src="menuChild.showflag?'../../assets/indexImage/logo1.png':'../../assets/indexImage/logo.png'" alt="Logo" />
+            <img :src="menuChild.showflag || flag?'../../assets/indexImage/logo1.png':'../../assets/indexImage/logo.png'" alt="Logo" />
           </div>
-          <el-menu :class="{'active-menu': menuChild.showflag}">
+          <el-menu 
+            :class="{
+              'active-menu': menuChild.showflag || flag,
+            }"            
+          >
             <menu-item
                 v-for="(item, index) in menuItems"
                 :key="index"
@@ -15,7 +19,7 @@
                 v-on:menuChild="menuChildItem"
               />
           </el-menu>
-          <el-button :class="{'login-button': true, 'active-button': menuChild.showflag}">
+          <el-button :class="{'login-button': true, 'active-button': menuChild.showflag || flag}">
               登录
           </el-button>
         </div>
@@ -27,13 +31,24 @@
 
     <div class="main-content">
       <div>
-         <div class="title">鼠标就是快门 点击即看成片</div>
-        <div class="subtitle">打破模特、经纪、摄影、后期、场租、机酒的限制</div>
-        <div class="buttons">
+        <h1>
+          <p>
+            专注电商需求的AI商拍工具
+          </p>
+          <p>
+            鼠标就是快门 点击即看成片
+          </p>
+        </h1>
+        <div>打破模特、经纪、摄影、后期、场租、机酒的限制</div>
+        <div>
           <a href="#">免费试用</a>
           <a href="#">观看演示视频</a>
         </div>
       </div>
+    </div>
+    <div>
+      <div style="width:200px;height:500px;background:green"></div>
+      <div style="width:200px;height:500px;background:red"></div>
     </div>
   </div>
 </template>
@@ -55,15 +70,32 @@ export default {
         showflag: false,
         uniqueId: "",
         childMenu: []
-      }
+      },
+      flag:false, //窗口显示头部字体颜色
     };
+  },
+  computed:{
+    scrollThreshold(){
+      return window.innerHeight * 0.3
+    }
   },
   mounted() {
     getDefaultRouters().then((res) => {
       this.menuItems = res.data;
     });
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
+     handleScroll() {
+      if (window.scrollY > this.scrollThreshold) {
+        this.flag = true;
+      }else{
+        this.flag = false
+      }
+    },
     menuChildItem(data, uniqueId) {
       if (this.menuChild.uniqueId === "") {
         this.menuChild.uniqueId = uniqueId;
@@ -93,31 +125,8 @@ body, html {
   height: 100%; /* Ensure the body and html take the full height */
 }
 
-.el-menu {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  border-bottom: 1px;
-  background-color: transparent;
-  border-right: none;
-}
-
-::v-deep .el-menu-item {
-  font-size: 16px;
-  color: #fff !important;
-}
-
-::v-deep .el-menu-item:hover {
-  background-color: transparent;
-}
-
-::v-deep .el-menu-item.is-active {
-  background-color: transparent; /* 默认焦点背景色 */
-}
-
 .header {
-  position: absolute;
+  position: fixed;
   top: 0;
   display: flex;
   width: 100%;
@@ -128,6 +137,10 @@ body, html {
 
 .header-active .header-nav {
   background-color: #fff;
+}
+
+::v-deep .active-menu .el-menu-item {
+  color: #333 !important;
 }
 
 .header-menu {
@@ -156,6 +169,30 @@ body, html {
 .header-nav .logo img {
   height: 40px;
   margin-right: 10px;
+}
+
+
+.el-menu {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  border-bottom: 1px;
+  background-color: transparent;
+  border-right: none;
+}
+
+::v-deep .el-menu-item {
+  font-size: 16px;
+  color: #fff !important;
+}
+
+::v-deep .el-menu-item:hover {
+  background-color: transparent;
+}
+
+::v-deep .el-menu-item.is-active {
+  background-color: transparent; /* 默认焦点背景色 */
 }
 
 .login-button {
@@ -201,37 +238,4 @@ body, html {
   color: #fff;
 }
 
-.main-content .title {
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.main-content .subtitle {
-  font-size: 18px;
-  margin-bottom: 40px;
-}
-
-.main-content .buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-
-.main-content .buttons a {
-  padding: 10px 20px;
-  background-color: #0066ff;
-  color: #fff;
-  border-radius: 5px;
-  text-decoration: none;
-  transition: background-color 0.3s;
-}
-
-.main-content .buttons a:hover {
-  background-color: #004bb5;
-}
-
-::v-deep .active-menu .el-menu-item {
-  color: #333 !important;
-}
 </style>

@@ -20,6 +20,20 @@
                 />
             </el-menu>
         </el-scrollbar>
+        <div style="position:relative;margin-top:-50%;width:180px;height:70px">
+            <div class="text">
+                <div>
+                    <img width="24" height="16" src="https://www.weshop.com/_next/image?url=%2Fpro_points.png&w=32&q=75" loading="lazy"> 
+                    <span style="font-weight: 500;margin-left: 4px;font-size: 14px;line-height: 20px;color: #7530fe;">200</span>
+                    <span style="margin-left: 4px;font-weight: 500;font-size: 14px;line-height: 20px;">算力点</span>
+                </div>
+                <router-link to="/">
+                    <div class="button">
+                        去购买
+                    </div>
+                </router-link>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -97,3 +111,25 @@ export default {
 };
 </script>
 
+<style scoped>
+.text{
+    position:absolute;
+    top: 10%;
+    left: 10%;
+    font-size:20px
+}
+.button{
+    width: 138px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #7530fe;
+    color: #7530fe;
+    margin-top: 4px;
+    border-radius: 6px;
+    font-weight: 500;
+    margin-right: 12px;
+    margin-left: 12px;
+}
+</style>

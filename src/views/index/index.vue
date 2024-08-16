@@ -4,7 +4,7 @@
       <div class="header-menu">
         <div class="header-nav">
           <div class="logo">
-            <img :src="menuChild.showflag || flag ?require('@/assets/indexImage/logo.png'):require('@/assets/indexImage/logo1.png')" />
+             <img :src="menuChild.showflag || flag ?require('@/assets/indexImage/logo.png'):require('@/assets/indexImage/logo1.png')" />
           </div>
           <el-menu 
             :class="{

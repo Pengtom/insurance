@@ -1,0 +1,811 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="7433" viewBox="0 0 1920 7433">
+  <defs>
+    <style>
+      .cls-1, .cls-62, .cls-64, .cls-89 {
+        fill: none;
+      }
+
+      .cls-1 {
+        opacity: 0.999;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-首页-未登录);
+      }
+
+      .cls-3, .cls-53, .cls-86, .cls-87 {
+        fill: #98a0b4;
+      }
+
+      .cls-3, .cls-84, .cls-86 {
+        font-size: 16px;
+      }
+
+      .cls-3, .cls-53, .cls-70, .cls-71, .cls-82, .cls-87 {
+        font-family: MiSans-Regular, MiSans;
+      }
+
+      .cls-4 {
+        fill: #efefef;
+      }
+
+      .cls-5, .cls-51, .cls-63, .cls-65, .cls-66, .cls-67, .cls-69, .cls-70, .cls-71, .cls-72, .cls-73, .cls-82 {
+        fill: #fff;
+      }
+
+      .cls-6, .cls-63, .cls-82 {
+        font-size: 18px;
+      }
+
+      .cls-43, .cls-44, .cls-51, .cls-54, .cls-6, .cls-63, .cls-66, .cls-67, .cls-69, .cls-73, .cls-84, .cls-86 {
+        font-family: MiSans-Demibold, MiSans;
+        font-weight: 300;
+      }
+
+      .cls-7 {
+        fill: url(#pattern);
+      }
+
+      .cls-8 {
+        fill: url(#pattern-2);
+      }
+
+      .cls-9 {
+        fill: url(#pattern-3);
+      }
+
+      .cls-10 {
+        fill: url(#pattern-4);
+      }
+
+      .cls-11 {
+        fill: url(#pattern-5);
+      }
+
+      .cls-12 {
+        fill: url(#pattern-6);
+      }
+
+      .cls-13 {
+        fill: url(#pattern-7);
+      }
+
+      .cls-14 {
+        fill: url(#pattern-8);
+      }
+
+      .cls-15 {
+        fill: url(#pattern-9);
+      }
+
+      .cls-16 {
+        fill: url(#pattern-10);
+      }
+
+      .cls-17 {
+        fill: url(#pattern-11);
+      }
+
+      .cls-18 {
+        fill: url(#pattern-12);
+      }
+
+      .cls-19 {
+        fill: url(#pattern-13);
+      }
+
+      .cls-20 {
+        fill: url(#pattern-14);
+      }
+
+      .cls-21 {
+        fill: url(#pattern-15);
+      }
+
+      .cls-22 {
+        fill: url(#pattern-16);
+      }
+
+      .cls-23 {
+        fill: url(#pattern-17);
+      }
+
+      .cls-24 {
+        fill: url(#pattern-18);
+      }
+
+      .cls-25 {
+        fill: url(#pattern-19);
+      }
+
+      .cls-26 {
+        fill: url(#pattern-20);
+      }
+
+      .cls-27 {
+        fill: url(#pattern-21);
+      }
+
+      .cls-28 {
+        fill: url(#pattern-22);
+      }
+
+      .cls-29 {
+        fill: url(#pattern-23);
+      }
+
+      .cls-30 {
+        fill: url(#pattern-24);
+      }
+
+      .cls-31 {
+        fill: url(#pattern-25);
+      }
+
+      .cls-32 {
+        fill: url(#pattern-26);
+      }
+
+      .cls-33 {
+        fill: url(#pattern-27);
+      }
+
+      .cls-34 {
+        fill: url(#pattern-28);
+      }
+
+      .cls-35 {
+        fill: url(#pattern-29);
+      }
+
+      .cls-36 {
+        fill: url(#pattern-30);
+      }
+
+      .cls-37 {
+        fill: url(#pattern-31);
+      }
+
+      .cls-38 {
+        fill: url(#pattern-32);
+      }
+
+      .cls-39 {
+        fill: url(#pattern-33);
+      }
+
+      .cls-40 {
+        fill: url(#pattern-34);
+      }
+
+      .cls-41 {
+        fill: url(#pattern-35);
+      }
+
+      .cls-42 {
+        fill: url(#pattern-36);
+      }
+
+      .cls-43 {
+        font-size: 58px;
+      }
+
+      .cls-44, .cls-69 {
+        font-size: 24px;
+      }
+
+      .cls-45 {
+        fill: url(#pattern-37);
+      }
+
+      .cls-46 {
+        fill: url(#pattern-38);
+      }
+
+      .cls-47 {
+        fill: url(#pattern-39);
+      }
+
+      .cls-48, .cls-57 {
+        stroke: #1821ff;
+        stroke-width: 5px;
+      }
+
+      .cls-48 {
+        fill: url(#pattern-40);
+      }
+
+      .cls-49 {
+        fill: url(#pattern-41);
+      }
+
+      .cls-50 {
+        fill: #1821ff;
+      }
+
+      .cls-51, .cls-53 {
+        font-size: 21px;
+      }
+
+      .cls-52 {
+        fill: #040000;
+      }
+
+      .cls-54 {
+        font-size: 36px;
+      }
+
+      .cls-55 {
+        fill: url(#pattern-42);
+      }
+
+      .cls-56 {
+        fill: url(#pattern-43);
+      }
+
+      .cls-57 {
+        fill: url(#pattern-44);
+      }
+
+      .cls-58 {
+        fill: url(#pattern-45);
+      }
+
+      .cls-59 {
+        fill: url(#pattern-46);
+      }
+
+      .cls-60 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-61 {
+        opacity: 0.302;
+      }
+
+      .cls-62, .cls-64 {
+        stroke: #fff;
+      }
+
+      .cls-64 {
+        stroke-width: 2px;
+      }
+
+      .cls-65 {
+        opacity: 0.499;
+      }
+
+      .cls-66 {
+        font-size: 12px;
+      }
+
+      .cls-67, .cls-70 {
+        font-size: 20px;
+      }
+
+      .cls-68 {
+        fill: #1816ff;
+      }
+
+      .cls-71 {
+        font-size: 29px;
+      }
+
+      .cls-72 {
+        font-size: 85px;
+        font-family: MiSans-Semibold, MiSans;
+        font-weight: 600;
+      }
+
+      .cls-73 {
+        font-size: 48px;
+      }
+
+      .cls-74 {
+        fill: url(#pattern-48);
+      }
+
+      .cls-75 {
+        fill: url(#pattern-49);
+      }
+
+      .cls-76 {
+        fill: url(#pattern-50);
+      }
+
+      .cls-77 {
+        fill: url(#pattern-51);
+      }
+
+      .cls-78 {
+        fill: url(#pattern-52);
+      }
+
+      .cls-79 {
+        fill: url(#pattern-53);
+      }
+
+      .cls-80 {
+        fill: url(#pattern-54);
+      }
+
+      .cls-81 {
+        fill: url(#pattern-55);
+      }
+
+      .cls-83 {
+        fill: url(#pattern-56);
+      }
+
+      .cls-85 {
+        fill: rgba(86,85,250,0.11);
+        fill-rule: evenodd;
+      }
+
+      .cls-87 {
+        font-size: 14px;
+      }
+
+      .cls-88 {
+        stroke: none;
+      }
+    </style>
+    <pattern id="pattern" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1440 2048">
+      <image width="1440" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image8.png"/>
+    </pattern>
+    <pattern id="pattern-2" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 728 928">
+      <image width="728" height="928" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image9.png"/>
+    </pattern>
+    <pattern id="pattern-3" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 752">
+      <image width="560" height="752" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image10.png"/>
+    </pattern>
+    <pattern id="pattern-4" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1456 2048">
+      <image width="1456" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image11.png"/>
+    </pattern>
+    <pattern id="pattern-5" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1280 1600">
+      <image width="1280" height="1600" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image12.png"/>
+    </pattern>
+    <pattern id="pattern-6" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1280 1584">
+      <image width="1280" height="1584" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image13.png"/>
+    </pattern>
+    <pattern id="pattern-7" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 752">
+      <image width="560" height="752" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image14.png"/>
+    </pattern>
+    <pattern id="pattern-8" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 560">
+      <image width="560" height="560" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image15.png"/>
+    </pattern>
+    <pattern id="pattern-9" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 840">
+      <image width="560" height="840" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image16.png"/>
+    </pattern>
+    <pattern id="pattern-10" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 736 976">
+      <image width="736" height="976" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image17.png"/>
+    </pattern>
+    <pattern id="pattern-11" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 920 1304">
+      <image width="920" height="1304" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image18.png"/>
+    </pattern>
+    <pattern id="pattern-12" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 856 1144">
+      <image width="856" height="1144" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image19.png"/>
+    </pattern>
+    <pattern id="pattern-13" width="1" height="1" viewBox="0 6.14 280 336">
+      <image preserveAspectRatio="xMidYMid slice" width="280" height="374.206" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image20.png"/>
+    </pattern>
+    <pattern id="pattern-14" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1280 1952">
+      <image width="1280" height="1952" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image21.png"/>
+    </pattern>
+    <pattern id="pattern-15" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1280 1688">
+      <image width="1280" height="1688" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image22.png"/>
+    </pattern>
+    <pattern id="pattern-16" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 728">
+      <image width="560" height="728" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image23.png"/>
+    </pattern>
+    <pattern id="pattern-17" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1536 2048">
+      <image width="1536" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image24.png"/>
+    </pattern>
+    <pattern id="pattern-18" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 800">
+      <image width="560" height="800" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image25.png"/>
+    </pattern>
+    <pattern id="pattern-19" width="1" height="1" viewBox="0 32.883 280 316">
+      <image preserveAspectRatio="xMidYMid slice" width="280" height="444" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image26.png"/>
+    </pattern>
+    <pattern id="pattern-20" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1680">
+      <image width="1120" height="1680" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image27.png"/>
+    </pattern>
+    <pattern id="pattern-21" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 560 560">
+      <image width="560" height="560" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image28.png"/>
+    </pattern>
+    <pattern id="pattern-22" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 736 976">
+      <image width="736" height="976" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image29.png"/>
+    </pattern>
+    <pattern id="pattern-23" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1664">
+      <image width="1120" height="1664" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image30.png"/>
+    </pattern>
+    <pattern id="pattern-24" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1280 1856">
+      <image width="1280" height="1856" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image31.png"/>
+    </pattern>
+    <pattern id="pattern-25" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1408">
+      <image width="1120" height="1408" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image32.png"/>
+    </pattern>
+    <pattern id="pattern-26" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1488">
+      <image width="1120" height="1488" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image33.png"/>
+    </pattern>
+    <pattern id="pattern-27" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 2048 2048">
+      <image width="2048" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image34.png"/>
+    </pattern>
+    <pattern id="pattern-28" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1680">
+      <image width="1120" height="1680" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image35.png"/>
+    </pattern>
+    <pattern id="pattern-29" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1680">
+      <image width="1120" height="1680" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image36.png"/>
+    </pattern>
+    <pattern id="pattern-30" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1456 2048">
+      <image width="1456" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image37.png"/>
+    </pattern>
+    <pattern id="pattern-31" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1120 1568">
+      <image width="1120" height="1568" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image38.png"/>
+    </pattern>
+    <pattern id="pattern-32" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1360 2048">
+      <image width="1360" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image39.png"/>
+    </pattern>
+    <pattern id="pattern-33" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1536 2048">
+      <image width="1536" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image40.png"/>
+    </pattern>
+    <pattern id="pattern-34" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1536 2048">
+      <image width="1536" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image41.png"/>
+    </pattern>
+    <pattern id="pattern-35" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1536 2048">
+      <image width="1536" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image42.png"/>
+    </pattern>
+    <pattern id="pattern-36" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 1152 2048">
+      <image width="1152" height="2048" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image43.png"/>
+    </pattern>
+    <pattern id="pattern-37" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image49.png"/>
+    </pattern>
+    <pattern id="pattern-38" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image50.png"/>
+    </pattern>
+    <pattern id="pattern-39" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image51.png"/>
+    </pattern>
+    <pattern id="pattern-40" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image52.png"/>
+    </pattern>
+    <pattern id="pattern-41" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 1160 720">
+      <image width="1160" height="720" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image53.png"/>
+    </pattern>
+    <pattern id="pattern-42" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image56.png"/>
+    </pattern>
+    <pattern id="pattern-43" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image57.png"/>
+    </pattern>
+    <pattern id="pattern-44" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image58.png"/>
+    </pattern>
+    <pattern id="pattern-45" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 136 136">
+      <image width="136" height="136" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image59.png"/>
+    </pattern>
+    <pattern id="pattern-46" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 1160 840">
+      <image width="1160" height="840" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image60.png"/>
+    </pattern>
+    <clipPath id="clip-path">
+      <rect id="矩形_7" data-name="矩形 7" class="cls-1" width="1920" height="977"/>
+    </clipPath>
+    <pattern id="pattern-48" width="1" height="1" viewBox="0 -3.415 147 41.829">
+      <image preserveAspectRatio="xMidYMid slice" width="147" height="35" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image65.png"/>
+    </pattern>
+    <pattern id="pattern-49" width="1" height="1" viewBox="-38.67 0 199.339 57.187">
+      <image preserveAspectRatio="xMidYMid slice" width="122" height="57.188" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image66.png"/>
+    </pattern>
+    <pattern id="pattern-50" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 210 60">
+      <image width="210" height="60" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image67.png"/>
+    </pattern>
+    <pattern id="pattern-51" width="1" height="1" viewBox="0 -2.247 137.667 39.495">
+      <image preserveAspectRatio="xMidYMid slice" width="137.667" height="35" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image68.png"/>
+    </pattern>
+    <pattern id="pattern-52" width="1" height="1" viewBox="-9.876 0 141.752 40.667">
+      <image preserveAspectRatio="xMidYMid slice" width="122" height="40.667" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image69.png"/>
+    </pattern>
+    <pattern id="pattern-53" width="1" height="1" viewBox="-2.789 0 127.577 36.6">
+      <image preserveAspectRatio="xMidYMid slice" width="122" height="36.6" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image70.png"/>
+    </pattern>
+    <pattern id="pattern-54" width="1" height="1" viewBox="-6.501 0 135.002 38.73">
+      <image preserveAspectRatio="xMidYMid slice" width="122" height="38.73" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image71.png"/>
+    </pattern>
+    <pattern id="pattern-55" width="1" height="1" viewBox="-24.051 0 170.103 48.8">
+      <image preserveAspectRatio="xMidYMid slice" width="122" height="48.8" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image72.png"/>
+    </pattern>
+    <pattern id="pattern-56" preserveAspectRatio="none" width="100%" height="100%" viewBox="0 0 1382 250">
+      <image width="1382" height="250" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image73.png"/>
+    </pattern>
+    <clipPath id="clip-首页-未登录">
+      <rect width="1920" height="7433"/>
+    </clipPath>
+  </defs>
+  <g id="首页-未登录" class="cls-2">
+    <rect class="cls-5" width="1920" height="7433"/>
+    <text id="_-_End_-" data-name="- End -" class="cls-3" transform="translate(934 6802)"><tspan x="0" y="0">- End -</tspan></text>
+    <g id="组6">
+      <rect id="矩形_25" data-name="矩形 25" class="cls-4" width="1048" height="86" rx="43" transform="translate(436 4090)"/>
+      <g id="精选" transform="translate(448 4101)">
+        <g id="组件_90_1" data-name="组件 90 – 1">
+          <rect id="矩形_26" data-name="矩形 26" class="cls-5" width="119" height="64" rx="32"/>
+        </g>
+        <text id="精选-2" data-name="精选" class="cls-6" transform="translate(68 39)"><tspan x="0" y="0">精选</tspan></text>
+        <image id="图像_13" data-name="图像 13" width="41" height="41" transform="translate(15 12)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image.png"/>
+      </g>
+      <g id="服饰" transform="translate(608 4113)">
+        <text id="服饰-2" data-name="服饰" class="cls-6" transform="translate(53 28)"><tspan x="0" y="0">服饰</tspan></text>
+        <image id="图像_14" data-name="图像 14" width="41" height="41" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image2.png"/>
+      </g>
+      <g id="美妆个护" transform="translate(753 4113)">
+        <text id="美妆个护-2" data-name="美妆个护" class="cls-6" transform="translate(53 28)"><tspan x="0" y="0">美妆个护</tspan></text>
+        <image id="图像_15" data-name="图像 15" width="41" height="41" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image3.png"/>
+      </g>
+      <g id="家居" transform="translate(934 4113)">
+        <text id="家居-2" data-name="家居" class="cls-6" transform="translate(53 28)"><tspan x="0" y="0">家居</tspan></text>
+        <image id="图像_16" data-name="图像 16" width="41" height="41" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image4.png"/>
+      </g>
+      <g id="潮玩" transform="translate(1064 4101)">
+        <text id="潮玩-2" data-name="潮玩" class="cls-6" transform="translate(68 39)"><tspan x="0" y="0">潮玩</tspan></text>
+        <image id="图像_17" data-name="图像 17" width="41" height="41" transform="translate(15 11)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image5.png"/>
+      </g>
+      <g id="童装" transform="translate(1209 4102)">
+        <text id="童装-2" data-name="童装" class="cls-6" transform="translate(68 39)"><tspan x="0" y="0">童装</tspan></text>
+        <image id="图像_18" data-name="图像 18" width="41" height="41" transform="translate(15 11)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image6.png"/>
+      </g>
+      <g id="箱包" transform="translate(1369 4112.764)">
+        <text id="箱包-2" data-name="箱包" class="cls-6" transform="translate(53 28.236)"><tspan x="0" y="0">箱包</tspan></text>
+        <image id="图像_19" data-name="图像 19" width="41" height="41.236" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image7.png"/>
+      </g>
+    </g>
+    <path id="_862e20b3f835c5b6a119bfc2e2367d79" data-name="862e20b3f835c5b6a119bfc2e2367d79" class="cls-7" d="M25,0H255a25,25,0,0,1,25,25V368a25,25,0,0,1-25,25H25A25,25,0,0,1,0,368V25A25,25,0,0,1,25,0Z" transform="translate(63 4199)"/>
+    <rect id="_6755c9ec349cb7c442bbf7b484d5348a" data-name="6755c9ec349cb7c442bbf7b484d5348a" class="cls-8" width="280" height="376" rx="25" transform="translate(366 4199)"/>
+    <rect id="_8c315f55156ee500a3735d8e0481fc48" data-name="8c315f55156ee500a3735d8e0481fc48" class="cls-9" width="280" height="281" rx="25" transform="translate(669 4199)"/>
+    <rect id="_746ab96dbf7aec540165c992bd6380c0" data-name="746ab96dbf7aec540165c992bd6380c0" class="cls-10" width="280" height="350" rx="25" transform="translate(971 4199)"/>
+    <rect id="_09dc35c8143dc7b82d14b748e1560299" data-name="09dc35c8143dc7b82d14b748e1560299" class="cls-11" width="280" height="350" rx="25" transform="translate(1274 4199)"/>
+    <rect id="_0dda140e8132cb225398a0232685718b" data-name="0dda140e8132cb225398a0232685718b" class="cls-12" width="280" height="422" rx="25" transform="translate(1577 4199)"/>
+    <rect id="_5dc6ad80dd9520d4b9e4b9cb270f719e" data-name="5dc6ad80dd9520d4b9e4b9cb270f719e" class="cls-13" width="280" height="421" rx="25" transform="translate(63 4615)"/>
+    <rect id="_35cd5f17beb0fc448010fc9cb225df59" data-name="35cd5f17beb0fc448010fc9cb225df59" class="cls-14" width="280" height="376" rx="25" transform="translate(366 4598)"/>
+    <rect id="_2fcc6d74a2f96ad06c2239394abb811a" data-name="2fcc6d74a2f96ad06c2239394abb811a" class="cls-15" width="280" height="348" rx="25" transform="translate(669 4503)"/>
+    <rect id="_725f9ec7eb057308395354bad8a2ef9f" data-name="725f9ec7eb057308395354bad8a2ef9f" class="cls-16" width="280" height="374" rx="25" transform="translate(971 4572)"/>
+    <rect id="_3ced37f9bb3ca3ce8043631727f07af8" data-name="3ced37f9bb3ca3ce8043631727f07af8" class="cls-17" width="280" height="374" rx="25" transform="translate(1274 4572)"/>
+    <rect id="d92fce06946de084f9d9f9ec5dc16591" class="cls-18" width="280" height="420" rx="25" transform="translate(1577 4644)"/>
+    <rect id="b163589ec8eee6a4a081f4c66a369124" class="cls-19" width="280" height="336" rx="25" transform="translate(63 5059)"/>
+    <rect id="_693423ac2e635eb9c51a9f518d491e3d" data-name="693423ac2e635eb9c51a9f518d491e3d" class="cls-20" width="280" height="384" rx="25" transform="translate(366 4997)"/>
+    <rect id="_8d37c9a2577cc9390407b542e63d995e" data-name="8d37c9a2577cc9390407b542e63d995e" class="cls-21" width="280" height="424" rx="25" transform="translate(669 4874)"/>
+    <rect id="fcb57a1ce55039e00d9f365376919a0c" class="cls-22" width="280" height="420" rx="25" transform="translate(971 4969)"/>
+    <rect id="_7aa7df29904b942c96c0bdf58db766fe" data-name="7aa7df29904b942c96c0bdf58db766fe" class="cls-23" width="280" height="397" rx="25" transform="translate(1274 4969)"/>
+    <rect id="_91c486f1fbe4633c19d2fbe8315bcad5" data-name="91c486f1fbe4633c19d2fbe8315bcad5" class="cls-24" width="280" height="414" rx="25" transform="translate(1577 5087)"/>
+    <rect id="f14106eff228a162be120b89a722908f" class="cls-25" width="280" height="316" rx="25" transform="translate(63 5418)"/>
+    <rect id="_5dfa33d17722784e44ab3a4162a24787" data-name="5dfa33d17722784e44ab3a4162a24787" class="cls-26" width="280" height="420" rx="25" transform="translate(366 5404)"/>
+    <rect id="fefa64b655df8bd09709db8555800ddf" class="cls-27" width="280" height="345" rx="25" transform="translate(669 5321)"/>
+    <rect id="_6438d13f653c318ae801f1bb8b03eabe" data-name="6438d13f653c318ae801f1bb8b03eabe" class="cls-28" width="280" height="420" rx="25" transform="translate(971 5412)"/>
+    <rect id="_0439272cdcc7c946c7afc40993962b74" data-name="0439272cdcc7c946c7afc40993962b74" class="cls-29" width="280" height="420" rx="25" transform="translate(1274 5389)"/>
+    <rect id="_9d713396f58daac90f907fde087defad" data-name="9d713396f58daac90f907fde087defad" class="cls-30" width="280" height="421" rx="25" transform="translate(1577 5524)"/>
+    <rect id="b7510f79319a964070fb44c6d4d0df00" class="cls-31" width="280" height="370" rx="25" transform="translate(63 5757)"/>
+    <rect id="_3d4fdbb002a54bceb9da90ff22eeb4d0" data-name="3d4fdbb002a54bceb9da90ff22eeb4d0" class="cls-32" width="280" height="421" rx="25" transform="translate(366 5847)"/>
+    <rect id="de2980da3ed9c8731a65aefa57d1fd9c" class="cls-33" width="280" height="422" rx="25" transform="translate(669 5689)"/>
+    <rect id="_7af5ca63b7918978a643d05b389f746d" data-name="7af5ca63b7918978a643d05b389f746d" class="cls-34" width="280" height="372" rx="25" transform="translate(971 5855)"/>
+    <rect id="e008ee423db13e0d4d136aec123a924f" class="cls-35" width="280" height="372" rx="25" transform="translate(1274 5832)"/>
+    <rect id="_2ef0ce49d8911cc6883a76a63b4b03b2" data-name="2ef0ce49d8911cc6883a76a63b4b03b2" class="cls-36" width="280" height="370" rx="25" transform="translate(1577 5968)"/>
+    <rect id="_3e7cf761cef40b10b77d9d7e93292c5a" data-name="3e7cf761cef40b10b77d9d7e93292c5a" class="cls-37" width="280" height="373" rx="25" transform="translate(63 6150)"/>
+    <rect id="_0ab1ad17086ab73821ebcada73a6ce0d" data-name="0ab1ad17086ab73821ebcada73a6ce0d" class="cls-38" width="280" height="421" rx="25" transform="translate(366 6291)"/>
+    <rect id="c83ce4e6d6614f579850d534aa40e23b" class="cls-39" width="280" height="372" rx="25" transform="translate(669 6134)"/>
+    <rect id="_67e1708bde466326bc5b964eb61d7b14" data-name="67e1708bde466326bc5b964eb61d7b14" class="cls-40" width="280" height="372" rx="25" transform="translate(973 6250)"/>
+    <rect id="_112bd4a6fb4668e7882af3aebfc3a934" data-name="112bd4a6fb4668e7882af3aebfc3a934" class="cls-41" width="280" height="371" rx="25" transform="translate(1276 6227)"/>
+    <rect id="f3dfdb23be8889fba8e30da48c9f3a20" class="cls-42" width="280" height="374" rx="25" transform="translate(1579 6361)"/>
+    <text id="优秀案例" class="cls-43" transform="translate(960 4050)"><tspan x="-116" y="0">优秀案例</tspan></text>
+    <g id="文生图" transform="translate(1410 3475)">
+      <text id="文生图_" data-name="文生图 &gt;" class="cls-44" transform="translate(72 345)"><tspan x="0" y="0">文生图 &gt;</tspan></text>
+      <image id="图像_12" data-name="图像 12" width="238" height="304" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image44.png"/>
+    </g>
+    <g id="图生图" transform="translate(1126 3475)">
+      <text id="图生图_" data-name="图生图 &gt;" class="cls-44" transform="translate(72 345)"><tspan x="0" y="0">图生图 &gt;</tspan></text>
+      <image id="图像_11" data-name="图像 11" width="238" height="304" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image45.png"/>
+    </g>
+    <g id="智能打光" transform="translate(842 3475)">
+      <text id="智能打光_" data-name="智能打光 &gt;" class="cls-44" transform="translate(60 345)"><tspan x="0" y="0">智能打光 &gt;</tspan></text>
+      <image id="图像_10" data-name="图像 10" width="238" height="304" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image46.png"/>
+    </g>
+    <g id="高清增强" transform="translate(558 3475)">
+      <text id="高清增强_" data-name="高清增强 &gt;" class="cls-44" transform="translate(60 345)"><tspan x="0" y="0">高清增强 &gt;</tspan></text>
+      <image id="图像_9" data-name="图像 9" width="238" height="304" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image47.png"/>
+    </g>
+    <g id="去背景" transform="translate(274 3475)">
+      <text id="去背景_" data-name="去背景 &gt;" class="cls-44" transform="translate(72 345)"><tspan x="0" y="0">去背景 &gt;</tspan></text>
+      <image id="图像_8" data-name="图像 8" width="238" height="304" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image48.png"/>
+    </g>
+    <g id="_229c2de104ac28e5e655874403c4415d" data-name="229c2de104ac28e5e655874403c4415d" transform="translate(714 3195)">
+      <rect id="_229c2de104ac28e5e655874403c4415d-2" data-name="229c2de104ac28e5e655874403c4415d" class="cls-45" width="79" height="79" rx="15"/>
+    </g>
+    <g id="_2cfc14f95eee9eaaa9a590d2efe28004" data-name="2cfc14f95eee9eaaa9a590d2efe28004" transform="translate(623 3195)">
+      <rect id="_2cfc14f95eee9eaaa9a590d2efe28004-2" data-name="2cfc14f95eee9eaaa9a590d2efe28004" class="cls-46" width="79" height="79" rx="15"/>
+    </g>
+    <g id="_52eec322cedb1db118bf377a3560cc7b" data-name="52eec322cedb1db118bf377a3560cc7b" transform="translate(532 3195)">
+      <rect id="_52eec322cedb1db118bf377a3560cc7b-2" data-name="52eec322cedb1db118bf377a3560cc7b" class="cls-47" width="79" height="79" rx="15"/>
+    </g>
+    <g id="bea9613d8623b951d42aca34a89e8771" transform="translate(441 3195)">
+      <g id="bea9613d8623b951d42aca34a89e8771-2" data-name="bea9613d8623b951d42aca34a89e8771" class="cls-48">
+        <rect class="cls-88" width="79" height="79" rx="15"/>
+        <rect class="cls-89" x="2.5" y="2.5" width="74" height="74" rx="12.5"/>
+      </g>
+    </g>
+    <rect id="图像_2" data-name="图像 2" class="cls-49" width="663" height="412" transform="translate(285 2755)"/>
+    <image id="图像_26" data-name="图像 26" width="664" height="412" transform="translate(285 2755)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image54.png"/>
+    <image id="图像_25" data-name="图像 25" width="150" height="196" transform="translate(845 2709)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image55.png"/>
+    <g id="免费试用" transform="translate(1154 3121)">
+      <rect id="矩形_22" data-name="矩形 22" class="cls-50" width="220" height="58" rx="10"/>
+      <text id="免费试用-2" data-name="免费试用" class="cls-51" transform="translate(68 37)"><tspan x="0" y="0">免费试用</tspan></text>
+    </g>
+    <path id="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 2932)"/>
+    <text id="上万的的背景库_将单个图像转换为多个营销资产_提高销售转化" data-name="上万的的背景库，将单个图像转换为多个营销资产，提高销售转化" class="cls-53" transform="translate(1190 2951)"><tspan x="0" y="22">上万的的背景库，将单个图像转换为多个营销资</tspan><tspan x="0" y="50">产，提高销售转化</tspan></text>
+    <path id="dui-2" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 3011)"/>
+    <text id="通过以_10_倍的速度生成完整的产品组合来简化工作流程" data-name="通过以 10 倍的速度生成完整的产品组合来简化工作流程" class="cls-53" transform="translate(1190 3030)"><tspan x="0" y="22">通过以 10 倍的速度生成完整的产品组合来简化</tspan><tspan x="0" y="50">工作流程</tspan></text>
+    <path id="dui-3" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 2882)"/>
+    <text id="_50_秒内完成产品类别的专业级产品摄影" data-name="50 秒内完成产品类别的专业级产品摄影" class="cls-53" transform="translate(1190 2923)"><tspan x="0" y="0">50 秒内完成产品类别的专业级产品摄影</tspan></text>
+    <path id="dui-4" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 2831)"/>
+    <text id="打造丰富的背景_还原真实的使用场景" data-name="打造丰富的背景，还原真实的使用场景" class="cls-53" transform="translate(1190 2872)"><tspan x="0" y="0">打造丰富的背景，还原真实的使用场景</tspan></text>
+    <text id="AI_商品商拍" data-name="AI 商品商拍" class="cls-54" transform="translate(1154 2819)"><tspan x="0" y="0">AI 商品商拍</tspan></text>
+    <g id="组件_108_1" data-name="组件 108 – 1" transform="translate(1353 2472)">
+      <rect id="图像_7" data-name="图像 7" class="cls-55" width="79" height="79" rx="15"/>
+    </g>
+    <g id="组件_107_1" data-name="组件 107 – 1" transform="translate(1262 2472)">
+      <rect id="图像_6" data-name="图像 6" class="cls-56" width="79" height="79" rx="15"/>
+    </g>
+    <g id="组件_106_1" data-name="组件 106 – 1" transform="translate(1171 2472)">
+      <g id="图像_5" data-name="图像 5" class="cls-57">
+        <rect class="cls-88" width="79" height="79" rx="15"/>
+        <rect class="cls-89" x="2.5" y="2.5" width="74" height="74" rx="12.5"/>
+      </g>
+    </g>
+    <g id="组件_105_1" data-name="组件 105 – 1" transform="translate(1080 2472)">
+      <rect id="图像_4" data-name="图像 4" class="cls-58" width="79" height="79" rx="15"/>
+    </g>
+    <rect id="图像_1" data-name="图像 1" class="cls-59" width="665" height="481" transform="translate(924 1963)"/>
+    <rect id="图像_2-2" data-name="图像 2" class="cls-49" width="663" height="412" transform="translate(924 2032)"/>
+    <image id="图像_3" data-name="图像 3" width="150" height="196" transform="translate(1484 1986)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image61.png"/>
+    <image id="图像_27" data-name="图像 27" width="710" height="566.528" transform="translate(285 1261.472)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image62.png"/>
+    <g id="免费试用-3" data-name="免费试用" transform="translate(285 2398)">
+      <rect id="矩形_22-2" data-name="矩形 22" class="cls-50" width="220" height="58" rx="10"/>
+      <text id="免费试用-4" data-name="免费试用" class="cls-51" transform="translate(68 37)"><tspan x="0" y="0">免费试用</tspan></text>
+    </g>
+    <path id="dui-5" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(263 2212)"/>
+    <text id="跨越国籍_年龄_性别的人工智能模型" data-name="跨越国籍、年龄、性别的人工智能模型" class="cls-53" transform="translate(321 2253)"><tspan x="0" y="0">跨越国籍、年龄、性别的人工智能模型</tspan></text>
+    <path id="dui-6" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(263 2316)"/>
+    <text id="室内外场景_不受拍摄时间_地点限制" data-name="室内外场景，不受拍摄时间、地点限制" class="cls-53" transform="translate(321 2357)"><tspan x="0" y="0">室内外场景，不受拍摄时间、地点限制</tspan></text>
+    <path id="dui-7" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(263 2264)"/>
+    <text id="超过_200_名全球知名模特的独家数字形象" data-name="超过 200 名全球知名模特的独家数字形象" class="cls-53" transform="translate(321 2305)"><tspan x="0" y="0">超过 200 名全球知名模特的独家数字形象</tspan></text>
+    <path id="dui-8" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(263 2160)"/>
+    <text id="在_60_秒内生成逼真的真人脸" data-name="在 60 秒内生成逼真的真人脸" class="cls-53" transform="translate(321 2201)"><tspan x="0" y="0">在 60 秒内生成逼真的真人脸</tspan></text>
+    <path id="dui-9" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(263 2108)"/>
+    <text id="创建海量自定义个人模特" class="cls-53" transform="translate(321 2149)"><tspan x="0" y="0">创建海量自定义个人模特</tspan></text>
+    <text id="AI_模特商拍" data-name="AI 模特商拍" class="cls-54" transform="translate(285 2096)"><tspan x="0" y="0">AI 模特商拍</tspan></text>
+    <path id="dui-10" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 1489)"/>
+    <text id="全流程营销闭环管理" class="cls-53" transform="translate(1190 1530)"><tspan x="0" y="0">全流程营销闭环管理</tspan></text>
+    <path id="dui-11" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 1593)"/>
+    <text id="个性化分发与效果分析" class="cls-53" transform="translate(1190 1634)"><tspan x="0" y="0">个性化分发与效果分析</tspan></text>
+    <path id="dui-12" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 1541)"/>
+    <text id="快速生成多平台内容" class="cls-53" transform="translate(1190 1582)"><tspan x="0" y="0">快速生成多平台内容</tspan></text>
+    <path id="dui-13" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 1437)"/>
+    <text id="商品与热点的智能匹配" class="cls-53" transform="translate(1190 1478)"><tspan x="0" y="0">商品与热点的智能匹配</tspan></text>
+    <path id="dui-14" data-name="dui" class="cls-52" d="M33.5,22A11.5,11.5,0,1,0,45,33.5,11.5,11.5,0,0,0,33.5,22Zm6.094,8.68L32.775,37.5a.834.834,0,0,1-1.179,0l-4.19-4.19a.834.834,0,0,1,1.179-1.179l3.6,3.6L38.415,29.5a.834.834,0,0,1,1.179,1.179Z" transform="translate(1132 1385)"/>
+    <text id="_60秒完成内容创作_精准营销" data-name="60秒完成内容创作，精准营销" class="cls-53" transform="translate(1190 1426)"><tspan x="0" y="0">60秒完成内容创作，精准营销</tspan></text>
+    <text id="AI_数字运营" data-name="AI 数字运营" class="cls-54" transform="translate(1154 1373)"><tspan x="0" y="0">AI 数字运营</tspan></text>
+    <text id="领先的AI工具_重新定义卓越" data-name="领先的AI工具 重新定义卓越" class="cls-43" transform="translate(960 1154)"><tspan x="-355.83" y="0">领先的AI工具 重新定义卓越</tspan></text>
+    <g id="蒙版组_1" data-name="蒙版组 1" class="cls-60">
+      <g id="kal-visuals-3UcQtXSvA88-unsplash" transform="translate(0 -152)">
+        <image id="kal-visuals-3UcQtXSvA88-unsplash-2" data-name="kal-visuals-3UcQtXSvA88-unsplash" width="1920" height="1280.5" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image63.jpg"/>
+      </g>
+    </g>
+    <rect id="矩形_3" data-name="矩形 3" class="cls-61" width="1920" height="977"/>
+    <g id="计划和定价" transform="translate(583 33)">
+      <path id="路径_20" data-name="路径 20" class="cls-62" d="M409.752,44.072l5.129,5.3,5.216-5.3" transform="translate(-311 -33)"/>
+      <text id="计划和定价-2" data-name="计划和定价" class="cls-63" transform="translate(45 19)"><tspan x="-45" y="0">计划和定价</tspan></text>
+    </g>
+    <g id="解决方案" transform="translate(456 33)">
+      <text id="解决方案-2" data-name="解决方案" class="cls-63" transform="translate(36 19)"><tspan x="-36" y="0">解决方案</tspan></text>
+      <path id="路径_2" data-name="路径 2" class="cls-62" d="M409.752,44.072l5.129,5.3,5.216-5.3" transform="translate(-329 -33)"/>
+    </g>
+    <g id="帮助" transform="translate(728 33)">
+      <text id="帮助-2" data-name="帮助" class="cls-63" transform="translate(18 19)"><tspan x="-18" y="0">帮助</tspan></text>
+      <path id="路径_3" data-name="路径 3" class="cls-62" d="M409.752,44.072l5.129,5.3,5.216-5.3" transform="translate(-365 -33)"/>
+    </g>
+    <g id="滚动下滑" transform="translate(959.986 914.514)">
+      <path id="路径_4" data-name="路径 4" class="cls-64" d="M954.986,914.5v31.029l10.327-10.149" transform="translate(-954.986 -914.502)"/>
+    </g>
+    <g id="播放按键" transform="translate(987 567)">
+      <rect id="矩形_2" data-name="矩形 2" class="cls-65" width="274" height="74" rx="12"/>
+      <circle id="椭圆_1" data-name="椭圆 1" cx="20" cy="20" r="20" transform="translate(26 18)"/>
+      <path id="多边形_1" data-name="多边形 1" class="cls-5" d="M7.5,0,15,11H0Z" transform="translate(52 31) rotate(90)"/>
+      <text id="想了解更多_" data-name="想了解更多？" class="cls-66" transform="translate(80 28)"><tspan x="0" y="0">想了解更多？</tspan></text>
+      <text id="观看演示视频" class="cls-67" transform="translate(80 54)"><tspan x="0" y="0">观看演示视频</tspan></text>
+    </g>
+    <g id="免费试用-5" data-name="免费试用" transform="translate(659 521)">
+      <rect id="矩形_2-2" data-name="矩形 2" class="cls-68" width="305" height="74" rx="12" transform="translate(0 46)"/>
+      <text id="免费试用-6" data-name="免费试用" class="cls-69" transform="translate(198 92)"><tspan x="-48" y="0">免费试用</tspan></text>
+      <g id="组_1" data-name="组 1" transform="translate(-659 -521)">
+        <path id="路径_5" data-name="路径 5" class="cls-64" d="M929.434,595.522l8.59,8.405-8.59,8.792"/>
+        <path id="路径_6" data-name="路径 6" class="cls-64" d="M919.839,604H938"/>
+      </g>
+      <image id="替代图" width="103" height="120" transform="translate(23)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image64"/>
+    </g>
+    <text id="来自全球30万_用户的信赖" data-name="来自全球30万+用户的信赖" class="cls-70" transform="translate(960 803)"><tspan x="-118.38" y="0">来自全球30万+用户的信赖</tspan></text>
+    <text id="打破模特_经纪_摄影_后期_场租_机酒的限制" data-name="打破模特、经纪、摄影、后期、场租、机酒的限制" class="cls-71" transform="translate(960 462)"><tspan x="-319" y="0">打破模特、经纪、摄影、后期、场租、机酒的限制</tspan></text>
+    <text id="鼠标就是快门_点击即看成片" data-name="鼠标就是快门 点击即看成片" class="cls-72" transform="translate(960 386)"><tspan x="-522.537" y="0">鼠标就是快门 点击即看成片</tspan></text>
+    <text id="专注电商需求的AI商拍工具" class="cls-73" transform="translate(960 287)"><tspan x="-287.448" y="0">专注电商需求的AI商拍工具</tspan></text>
+    <g id="logo墙">
+      <rect id="ic_brand_shopify" class="cls-74" width="123" height="35" transform="translate(278 835)"/>
+      <rect id="ic_brand_shopify-2" data-name="ic_brand_shopify" class="cls-75" width="122" height="35" transform="translate(455 835)"/>
+      <rect id="ic_brand_shopify-3" data-name="ic_brand_shopify" class="cls-76" width="122" height="35" transform="translate(810 835)"/>
+      <rect id="ic_brand_shopify-4" data-name="ic_brand_shopify" class="cls-77" width="122" height="35" transform="translate(633 835)"/>
+      <rect id="ic_brand_shopify-5" data-name="ic_brand_shopify" class="cls-78" width="122" height="35" transform="translate(1520 835)"/>
+      <rect id="ic_brand_shopify-6" data-name="ic_brand_shopify" class="cls-79" width="122" height="35" transform="translate(1343 835)"/>
+      <rect id="ic_brand_shopify-7" data-name="ic_brand_shopify" class="cls-80" width="122" height="35" transform="translate(1165 835)"/>
+      <rect id="ic_brand_shopify-8" data-name="ic_brand_shopify" class="cls-81" width="122" height="35" transform="translate(988 835)"/>
+    </g>
+    <g id="登录" transform="translate(1769 23)">
+      <g id="未登录">
+        <g id="矩形_1" data-name="矩形 1" class="cls-62">
+          <rect class="cls-88" width="94" height="45" rx="22.5"/>
+          <rect class="cls-89" x="0.5" y="0.5" width="93" height="44" rx="22"/>
+        </g>
+        <text id="登录-2" data-name="登录" class="cls-82" transform="translate(47 30)"><tspan x="-18" y="0">登录</tspan></text>
+      </g>
+    </g>
+    <g id="logo" transform="translate(57 27)">
+      <rect id="白色" class="cls-83" width="197" height="36"/>
+    </g>
+    <g id="最后一栏">
+      <rect id="矩形_67" data-name="矩形 67" class="cls-4" width="1920" height="420" transform="translate(0 7013)"/>
+      <text id="人台模特" class="cls-84" transform="translate(274 7142)"><tspan x="0" y="0">人台模特</tspan></text>
+      <text id="真人模特" class="cls-84" transform="translate(274 7174)"><tspan x="0" y="0">真人模特</tspan></text>
+      <text id="儿童服饰" class="cls-84" transform="translate(274 7206)"><tspan x="0" y="0">儿童服饰</tspan></text>
+      <text id="商品图片" class="cls-84" transform="translate(274 7238)"><tspan x="0" y="0">商品图片</tspan></text>
+      <g id="icon">
+        <path id="路径_18" data-name="路径 18" class="cls-85" d="M7,0H24.5a7,7,0,0,1,7,7V8.168a7,7,0,0,1-7,7H7a7,7,0,0,1-7-7V7A7,7,0,0,1,7,0" transform="translate(412 7096)"/>
+        <path id="路径_19" data-name="路径 19" d="M5,10.682V4H6.313L9.048,8.462V4H10.3v6.682H8.947L6.253,6.325v4.357Zm6.728,0V4h4.955V5.13H13.077V6.612h3.355V7.738H13.077V9.556H16.81v1.126Zm7.174,0L17.307,4h1.381L19.7,8.59,20.917,4h1.6l1.171,4.667L24.718,4h1.358l-1.623,6.682H23.022l-1.331-5-1.326,5Z" transform="translate(412.834 7096.667)"/>
+      </g>
+      <text id="创建你自己的模特" class="cls-84" transform="translate(274 7110)"><tspan x="0" y="0">创建你自己的模特</tspan></text>
+      <text id="AI_商拍" data-name="AI 商拍" class="cls-86" transform="translate(274 7076)"><tspan x="0" y="0">AI 商拍</tspan></text>
+      <text id="建筑外观" class="cls-84" transform="translate(639 7110)"><tspan x="0" y="0">建筑外观</tspan></text>
+      <text id="室内装修" class="cls-84" transform="translate(639 7142)"><tspan x="0" y="0">室内装修</tspan></text>
+      <text id="电商海报" class="cls-84" transform="translate(639 7174)"><tspan x="0" y="0">电商海报</tspan></text>
+      <text id="直播间场景" class="cls-84" transform="translate(639 7206)"><tspan x="0" y="0">直播间场景</tspan></text>
+      <text id="AI_设计" data-name="AI 设计" class="cls-86" transform="translate(639 7076)"><tspan x="0" y="0">AI 设计</tspan></text>
+      <text id="AI_营销" data-name="AI 营销" class="cls-86" transform="translate(915 7076)"><tspan x="0" y="0">AI 营销</tspan></text>
+      <text id="SEO营销策略" class="cls-84" transform="translate(915 7110)"><tspan x="0" y="0">SEO营销策略</tspan></text>
+      <text id="新媒体营销策略" class="cls-84" transform="translate(915 7142)"><tspan x="0" y="0">新媒体营销策略</tspan></text>
+      <text id="小红书爆款文案" class="cls-84" transform="translate(915 7174)"><tspan x="0" y="0">小红书爆款文案</tspan></text>
+      <text id="公众号运营专家" class="cls-84" transform="translate(915 7206)"><tspan x="0" y="0">公众号运营专家</tspan></text>
+      <text id="短视频脚本创作" class="cls-84" transform="translate(915 7238)"><tspan x="0" y="0">短视频脚本创作</tspan></text>
+      <text id="AI_电商" data-name="AI 电商" class="cls-86" transform="translate(1222 7076)"><tspan x="0" y="0">AI 电商</tspan></text>
+      <text id="市场调研" class="cls-84" transform="translate(1222 7110)"><tspan x="0" y="0">市场调研</tspan></text>
+      <text id="选品分析" class="cls-84" transform="translate(1222 7142)"><tspan x="0" y="0">选品分析</tspan></text>
+      <text id="A_页面策划" data-name="A+页面策划" class="cls-84" transform="translate(1222 7174)"><tspan x="0" y="0">A+页面策划</tspan></text>
+      <text id="用户风评管理" class="cls-84" transform="translate(1222 7206)"><tspan x="0" y="0">用户风评管理</tspan></text>
+      <text id="消费者需求分析" class="cls-84" transform="translate(1222 7238)"><tspan x="0" y="0">消费者需求分析</tspan></text>
+      <text id="出海本土化内容生成" class="cls-84" transform="translate(1222 7270)"><tspan x="0" y="0">出海本土化内容生成</tspan></text>
+      <text id="联系我们" class="cls-86" transform="translate(1531 7076)"><tspan x="0" y="0">联系我们</tspan></text>
+      <text id="企业微信" class="cls-84" transform="translate(1531 7110)"><tspan x="0" y="0">企业微信</tspan></text>
+      <text id="关注我们" class="cls-86" transform="translate(1531 7168)"><tspan x="0" y="0">关注我们</tspan></text>
+      <image id="图像_20" data-name="图像 20" width="27" height="27" transform="translate(1531 7185)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image74.png"/>
+      <image id="图像_21" data-name="图像 21" width="27" height="27" transform="translate(1575 7185)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image75.png"/>
+      <image id="图像_22" data-name="图像 22" width="27" height="27" transform="translate(1619 7185)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image76.png"/>
+      <text id="_2024_艾铂特_珠海_人工智能科技有限公司" data-name="© 2024 艾铂特（珠海）人工智能科技有限公司" class="cls-87" transform="translate(364 7405)"><tspan x="0" y="0">© 2024 艾铂特（珠海）人工智能科技有限公司</tspan></text>
+      <text id="粤ICP备xxxxxxxx号-x" class="cls-87" transform="translate(737 7405)"><tspan x="0" y="0">粤ICP备xxxxxxxx号-x</tspan></text>
+      <text id="粤公网安备_xxxxxxxxxxxxxxxx号" data-name="粤公网安备 xxxxxxxxxxxxxxxx号" class="cls-87" transform="translate(974 7405)"><tspan x="0" y="0">粤公网安备 xxxxxxxxxxxxxxxx号</tspan></text>
+      <image id="图像_23" data-name="图像 23" width="19" height="19" transform="translate(951 7390)" xlink:href="%E9%A6%96%E9%A1%B5-%E6%9C%AA%E7%99%BB%E5%BD%95-image77.png"/>
+      <text id="网信算备_xxxxxxxxxxxxx号" data-name="网信算备 xxxxxxxxxxxxx号" class="cls-87" transform="translate(1255 7405)"><tspan x="0" y="0">网信算备 xxxxxxxxxxxxx号</tspan></text>
+      <text id="举报投诉" class="cls-87" transform="translate(1501 7405)"><tspan x="0" y="0">举报投诉</tspan></text>
+    </g>
+    <g id="免费试用-7" data-name="免费试用" transform="translate(1154 1675)">
+      <rect id="矩形_22-3" data-name="矩形 22" class="cls-50" width="220" height="58" rx="10"/>
+      <text id="免费试用-8" data-name="免费试用" class="cls-51" transform="translate(68 37)"><tspan x="0" y="0">免费试用</tspan></text>
+    </g>
+    <g id="开始使用" transform="translate(329 33)">
+      <text id="开始使用-2" data-name="开始使用" class="cls-63" transform="translate(36 19)"><tspan x="-36" y="0">开始使用</tspan></text>
+      <path id="路径_1" data-name="路径 1" class="cls-62" d="M409.752,44.072l5.129,5.3,5.216-5.3" transform="translate(-329 -33)"/>
+    </g>
+  </g>
+</svg>

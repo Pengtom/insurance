@@ -4,7 +4,7 @@
       <div class="header-menu">
         <div class="header-nav">
           <div class="logo">
-            <img :src="menuChild.showflag || flag?'../../assets/indexImage/logo1.png':'../../assets/indexImage/logo.png'" alt="Logo" />
+            <img :src="menuChild.showflag || flag ?require('@/assets/indexImage/logo.png'):require('@/assets/indexImage/logo1.png')" />
           </div>
           <el-menu 
             :class="{
@@ -306,7 +306,7 @@
         <div class="content-area">
           <div class="card-wrapper">
             <div class="card">
-              <label class="radio-container">
+              <label class="radio-container" style="background-color: #ffffff;">
                 <input type="radio" class="radio-control">
                 <div class="image-label">
                   <div class="image-box">
@@ -315,10 +315,39 @@
                   </div>                  
                 </div>
               </label>
+              <label class="radio-container">
+                <input type="radio" class="radio-control">
+                <div class="image-label">
+                  <div class="image-box">
+                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image2.png">
+                    服饰
+                  </div>                  
+                </div>
+              </label>
+               <label class="radio-container">
+                <input type="radio" class="radio-control">
+                <div class="image-label">
+                  <div class="image-box">
+                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image3.png">
+                    美妆个护
+                  </div>                  
+                </div>
+              </label>
+               <label class="radio-container">
+                <input type="radio" class="radio-control">
+                <div class="image-label">
+                  <div class="image-box">
+                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image4.png">
+                    家具
+                  </div>                  
+                </div>
+              </label>
             </div>
           </div>
         </div>
-        <div class="footer-area"></div>
+        <div style="width:100%;padding:20px 10px;">
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -803,17 +832,17 @@ body, html {
   border-radius: 38px !important;
   border: 10px solid #f5f7fd !important;
   max-width: 100%;
-  overflow: scroll;
+  overflow: hidden;
+  background-color: #f5f7fd !important;
   box-sizing: border-box;
   margin: 0;
-  color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
   line-height: 1.5714285714285714;
   list-style: none;
   display: inline-block;
   background: #f5f5f5;
-  border-radius: 6px;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  color: #333;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
 }
 .card{
   position: relative;
@@ -821,6 +850,17 @@ body, html {
   align-items: stretch;
   justify-items: flex-start;
   width: 100%;
+}
+.radio-container{
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  border-radius: 4px;
+  transform: translateZ(0);
+  margin-right: 18px;
+  /* background-color: #ffffff; */
+  border-radius: 28px !important;
 }
 .radio-control{
   position: absolute;

@@ -1,5 +1,6 @@
 import { login, SMSlogin, wxLogin, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getIsLogin, removeIsLogin, setIsLogin } from '../../utils/auth'
 
 const user = {
   state: {
@@ -7,7 +8,7 @@ const user = {
     id: '',
     name: '',
     avatar: '',
-    isLogin: true,
+    isLogin: getIsLogin(),
     roles: [],
     permissions: []
   },
@@ -47,7 +48,7 @@ const user = {
         login(username, password, code, uuid).then(res => {
           setToken(res.token)
           commit('SET_TOKEN', res.token)
-          commit('SET_ISLOGIN',false)
+          commit('SET_ISLOGIN',true)
           resolve()
         }).catch(error => {
           reject(error)
@@ -58,8 +59,9 @@ const user = {
       return new Promise((resolve, reject) => {
         SMSlogin(userInfo).then(res => {
           setToken(res.token)
+          setIsLogin(true)
           commit('SET_TOKEN', res.token)
-          commit('SET_ISLOGIN',false)
+          commit('SET_ISLOGIN',true)
           resolve()
         }).catch(error => {
           reject(error)
@@ -72,8 +74,9 @@ const user = {
        wxLogin(state).then(res => {
         if(res.message === "用户已登录"){
           setToken(res.token)
+          setIsLogin(true)
           commit('SET_TOKEN', res.token)
-          commit('SET_ISLOGIN',false)
+          commit('SET_ISLOGIN',true)
         }
           resolve(res)
         }).catch(error => {
@@ -111,8 +114,9 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_PERMISSIONS', [])
-          commit('SET_ISLOGIN',true)
+          commit('SET_ISLOGIN',false)
           removeToken()
+          removeIsLogin()
           resolve()
         }).catch(error => {
           reject(error)

@@ -1,55 +1,41 @@
 <template>
   <div>
-    <header :class="{'header': true, 'header-active': menuChild.showflag || flag}">
-      <div class="header-menu">
-        <div class="header-nav">
-          <div class="logo">
-             <img :src="menuChild.showflag || flag ?require('@/assets/indexImage/logo.png'):require('@/assets/indexImage/logo1.png')" />
-          </div>
-          <el-menu 
-            :class="{
-              'active-menu': menuChild.showflag || flag,
-            }"            
-          >
-            <menu-item
-                v-for="(item, index) in menuItems"
-                :key="index"
-                :item="item"
-                :index="'menu-' + index"
-                v-on:menuChild="menuChildItem"
-              />
-          </el-menu>
-          <el-button :class="{'login-button': true, 'active-button': menuChild.showflag || flag}">
-              登录
-          </el-button>
-        </div>
-      </div>
-      <div v-if="menuChild.showflag" class="header-menu-down">
-        <expansionMenu :childMenu="menuChild.childMenu"/>
-      </div>
-    </header>
-
+    <headerVue :menuItems="menuItems" :flag="flag" />
     <div class="main-content">
       <div class="content-wrapper">
         <h1 class="content-wrapper">
-          <p class="primary-text">
-            专注电商需求的AI商拍工具
-          </p>
-          <p class="secondary-text">
-            鼠标就是快门 点击即看成片
-          </p>
+          <p class="primary-text">专注电商需求的AI商拍工具</p>
+          <p class="secondary-text">鼠标就是快门 点击即看成片</p>
         </h1>
         <div class="description">
           打破模特、经纪、摄影、后期、场租、机酒的限制
         </div>
-       <div class="info-sections">
+        <div class="info-sections">
           <div class="info-item">
-            <img class="info-img-large" loading="lazy" width="91" height="106" src="https://www.weshop.com/ic_home_ai_model.webp">
+            <img
+              class="info-img-large"
+              loading="lazy"
+              width="91"
+              height="106"
+              src="https://www.weshop.com/ic_home_ai_model.webp"
+            />
             <p class="info-text">免费试用</p>
-            <img class="info-img-small" loading="lazy" width="20" height="20" src="https://www.weshop.com/ic_home_try_arrow.svg">
+            <img
+              class="info-img-small"
+              loading="lazy"
+              width="20"
+              height="20"
+              src="https://www.weshop.com/ic_home_try_arrow.svg"
+            />
           </div>
           <div class="info-item info-right">
-            <img class="info-img-medium" loading="lazy" width="40" height="40" src="https://www.weshop.com/ic_home_play.svg">
+            <img
+              class="info-img-medium"
+              loading="lazy"
+              width="40"
+              height="40"
+              src="https://www.weshop.com/ic_home_play.svg"
+            />
             <div class="info-details">
               <div class="info-detail-title">想了解更多?</div>
               <div class="info-detail-item">观看演示视频</div>
@@ -62,42 +48,68 @@
       <div class="text-content">领先的AI工具 重新定义卓越</div>
       <div class="spacer-1">
         <div class="empty-space">
-          <div style="width:580px;height:420px">
-            <img width="580" height="420" src="../../assets/indexImage/首页-未登录-image62.png" alt="Content Image 1" class="main-image" />
+          <div style="width: 580px; height: 420px">
+            <img
+              width="580"
+              height="420"
+              src="../../assets/indexImage/首页-未登录-image62.png"
+              alt="Content Image 1"
+              class="main-image"
+            />
           </div>
         </div>
         <div class="content-container">
           <div class="header-text">AI 数字运营</div>
           <div class="carousel-container">
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                60秒完成内容创作，精准营销
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>60秒完成内容创作，精准营销</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                商品与热点的智能匹配
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>商品与热点的智能匹配</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                全流程营销闭环管理
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>全流程营销闭环管理</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                快速生成多平台内容
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>快速生成多平台内容</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                个性化分发与效果分析
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>个性化分发与效果分析</p>
             </div>
           </div>
           <a class="cta-link">
@@ -109,33 +121,107 @@
         <div class="image-gallery">
           <div class="gallery-row">
             <div class="hero-images">
-              <img class="image1" width="580" height="420" loading="lazy" src="../../assets/indexImage/首页-未登录-image60.png">
-              <img class="image2" width="580" height="420" loading="lazy" src="../../assets/indexImage/首页-未登录-image60.png">
+              <img
+                class="image1"
+                width="580"
+                height="420"
+                loading="lazy"
+                src="../../assets/indexImage/首页-未登录-image60.png"
+              />
+              <img
+                class="image2"
+                width="580"
+                height="420"
+                loading="lazy"
+                src="../../assets/indexImage/首页-未登录-image60.png"
+              />
             </div>
             <div class="featured-images">
-              <div style="position: relative;overflow: hidden; width:580px;height:360px">
-                  <img class="image1" width="580" height="360" loading="lazy" src="../../assets/indexImage/首页-未登录-image53.png">
-                  <img class="image2" width="580" height="360" loading="lazy" src="../../assets/indexImage/首页-未登录-image53.png">
-              </div>  
+              <div
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  width: 580px;
+                  height: 360px;
+                "
+              >
+                <img
+                  class="image1"
+                  width="580"
+                  height="360"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image53.png"
+                />
+                <img
+                  class="image2"
+                  width="580"
+                  height="360"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image53.png"
+                />
+              </div>
             </div>
             <div class="thumbnail-images">
-              <div style="position: relative;overflow: hidden; width:130px;height:170px">
-                  <img class="image1" width="130" height="170" loading="lazy" src="../../assets/indexImage/首页-未登录-image61.png">
-                  <img class="image2" width="130" height="170" loading="lazy" src="../../assets/indexImage/首页-未登录-image61.png">
-              </div>             
+              <div
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  width: 130px;
+                  height: 170px;
+                "
+              >
+                <img
+                  class="image1"
+                  width="130"
+                  height="170"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image61.png"
+                />
+                <img
+                  class="image2"
+                  width="130"
+                  height="170"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image61.png"
+                />
+              </div>
             </div>
-           <div class="icon-gallery">
+            <div class="icon-gallery">
               <div class="icon-item">
-                <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image59.png">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image59.png"
+                />
               </div>
               <div class="icon-item">
-                <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image58.png">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image58.png"
+                />
               </div>
               <div class="icon-item">
-                <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image57.png">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image57.png"
+                />
               </div>
               <div class="icon-item">
-                <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image56.png">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image56.png"
+                />
               </div>
             </div>
           </div>
@@ -144,34 +230,54 @@
           <div class="header-text">AI 模特商拍</div>
           <div class="carousel-container">
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                创建海量自定义个人模特
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>创建海量自定义个人模特</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                在 60 秒内生成逼真的真人脸
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>在 60 秒内生成逼真的真人脸</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                跨越国籍、年龄、性别的人工智能模型
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>跨越国籍、年龄、性别的人工智能模型</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                超过 200 名全球知名模特的独家数字形象
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>超过 200 名全球知名模特的独家数字形象</p>
             </div>
             <div class="carousel-item">
-              <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-              <p>
-                室内外场景，不受拍摄时间、地点限制
-              </p>
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>室内外场景，不受拍摄时间、地点限制</p>
             </div>
           </div>
           <a class="cta-link">
@@ -180,121 +286,269 @@
         </div>
       </div>
       <div class="spacer-1">
-          <div class="image-gallery">
-            <div class="gallery-row">
-              <div class="hero-images">
-                <img class="image1" width="580" height="420" loading="lazy" src="https://ai-image.weshop.com/home-resource/home-aiprod-fore.webp">
+        <div class="image-gallery">
+          <div class="gallery-row">
+            <div class="hero-images">
+              <img
+                class="image1"
+                width="580"
+                height="420"
+                loading="lazy"
+                src="https://ai-image.weshop.com/home-resource/home-aiprod-fore.webp"
+              />
+            </div>
+            <div class="featured-images">
+              <div
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  width: 580px;
+                  height: 360px;
+                "
+              >
+                <img
+                  class="image1"
+                  width="580"
+                  height="360"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image54.png"
+                />
+                <img
+                  class="image2"
+                  width="580"
+                  height="360"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image54.png"
+                />
               </div>
-              <div class="featured-images">
-                <div style="position: relative;overflow: hidden; width:580px;height:360px">
-                    <img class="image1" width="580" height="360" loading="lazy" src="../../assets/indexImage/首页-未登录-image54.png">
-                    <img class="image2" width="580" height="360" loading="lazy" src="../../assets/indexImage/首页-未登录-image54.png">
-                </div>  
+            </div>
+            <div class="thumbnail-images">
+              <div
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  width: 130px;
+                  height: 170px;
+                "
+              >
+                <img
+                  class="image1"
+                  width="130"
+                  height="170"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image55.png"
+                />
+                <img
+                  class="image2"
+                  width="130"
+                  height="170"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image55.png"
+                />
               </div>
-              <div class="thumbnail-images">
-                <div style="position: relative;overflow: hidden; width:130px;height:170px">
-                    <img class="image1" width="130" height="170" loading="lazy" src="../../assets/indexImage/首页-未登录-image55.png">
-                    <img class="image2" width="130" height="170" loading="lazy" src="../../assets/indexImage/首页-未登录-image55.png">
-                </div>             
-              </div>
+            </div>
             <div class="icon-gallery">
-                <div class="icon-item">
-                  <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image52.png">
-                </div>
-                <div class="icon-item">
-                  <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image51.png">
-                </div>
-                <div class="icon-item">
-                  <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image50.png">
-                </div>
-                <div class="icon-item">
-                  <img class="icon" width="68" height="68" loading="lazy" src="../../assets/indexImage/首页-未登录-image49.png">
-                </div>
+              <div class="icon-item">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image52.png"
+                />
+              </div>
+              <div class="icon-item">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image51.png"
+                />
+              </div>
+              <div class="icon-item">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image50.png"
+                />
+              </div>
+              <div class="icon-item">
+                <img
+                  class="icon"
+                  width="68"
+                  height="68"
+                  loading="lazy"
+                  src="../../assets/indexImage/首页-未登录-image49.png"
+                />
               </div>
             </div>
           </div>
-          <div class="content-container">
-            <div class="header-text">AI 模特商拍</div>
-            <div class="carousel-container">
-              <div class="carousel-item">
-                <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-                <p>
-                  创建海量自定义个人模特
-                </p>
-              </div>
-              <div class="carousel-item">
-                <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-                <p>
-                  在 60 秒内生成逼真的真人脸
-                </p>
-              </div>
-              <div class="carousel-item">
-                <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-                <p>
-                  跨越国籍、年龄、性别的人工智能模型
-                </p>
-              </div>
-              <div class="carousel-item">
-                <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-                <p>
-                  超过 200 名全球知名模特的独家数字形象
-                </p>
-              </div>
-              <div class="carousel-item">
-                <img style="object-fit:contain" width=20 height="25" loading="lazy" src="https://www.weshop.com/ic_home_intro_item.svg">
-                <p>
-                  室内外场景，不受拍摄时间、地点限制
-                </p>
-              </div>
+        </div>
+        <div class="content-container">
+          <div class="header-text">AI 模特商拍</div>
+          <div class="carousel-container">
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>创建海量自定义个人模特</p>
             </div>
-            <a class="cta-link">
-              <div class="cta-text">免费试用</div>
-            </a>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>在 60 秒内生成逼真的真人脸</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>跨越国籍、年龄、性别的人工智能模型</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>超过 200 名全球知名模特的独家数字形象</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                src="https://www.weshop.com/ic_home_intro_item.svg"
+              />
+              <p>室内外场景，不受拍摄时间、地点限制</p>
+            </div>
           </div>
+          <a class="cta-link">
+            <div class="cta-text">免费试用</div>
+          </a>
+        </div>
       </div>
       <div class="spacer-3">
         <router-link to="">
           <div class="custom-image-container">
-            <img width="172" height="220" loading="lazy" class="custom-main-img" src="../../assets/indexImage/首页-未登录-image48.png">
+            <img
+              width="172"
+              height="220"
+              loading="lazy"
+              class="custom-main-img"
+              src="../../assets/indexImage/首页-未登录-image48.png"
+            />
             <div class="custom-text-overlay">
               去背景
-              <img width="24" height="24" loading="lazy" class="custom-main-img" src="https://www.weshop.com/ic_home_arrow.svg">
+              <img
+                width="24"
+                height="24"
+                loading="lazy"
+                class="custom-main-img"
+                src="https://www.weshop.com/ic_home_arrow.svg"
+              />
             </div>
           </div>
         </router-link>
         <router-link to="">
           <div class="custom-image-container">
-            <img width="172" height="220" loading="lazy" class="custom-main-img" src="../../assets/indexImage/首页-未登录-image47.png">
+            <img
+              width="172"
+              height="220"
+              loading="lazy"
+              class="custom-main-img"
+              src="../../assets/indexImage/首页-未登录-image47.png"
+            />
             <div class="custom-text-overlay">
               高清增强
-              <img width="24" height="24" loading="lazy" class="custom-main-img" src="https://www.weshop.com/ic_home_arrow.svg">
+              <img
+                width="24"
+                height="24"
+                loading="lazy"
+                class="custom-main-img"
+                src="https://www.weshop.com/ic_home_arrow.svg"
+              />
             </div>
           </div>
         </router-link>
         <router-link to="">
           <div class="custom-image-container">
-            <img width="172" height="220" loading="lazy" class="custom-main-img" src="../../assets/indexImage/首页-未登录-image46.png">
+            <img
+              width="172"
+              height="220"
+              loading="lazy"
+              class="custom-main-img"
+              src="../../assets/indexImage/首页-未登录-image46.png"
+            />
             <div class="custom-text-overlay">
               智能打光
-              <img width="24" height="24" loading="lazy" class="custom-main-img" src="https://www.weshop.com/ic_home_arrow.svg">
+              <img
+                width="24"
+                height="24"
+                loading="lazy"
+                class="custom-main-img"
+                src="https://www.weshop.com/ic_home_arrow.svg"
+              />
             </div>
           </div>
         </router-link>
         <router-link to="">
           <div class="custom-image-container">
-            <img width="172" height="220" loading="lazy" class="custom-main-img" src="../../assets/indexImage/首页-未登录-image45.png">
+            <img
+              width="172"
+              height="220"
+              loading="lazy"
+              class="custom-main-img"
+              src="../../assets/indexImage/首页-未登录-image45.png"
+            />
             <div class="custom-text-overlay">
               图生图
-              <img width="24" height="24" loading="lazy" class="custom-main-img" src="https://www.weshop.com/ic_home_arrow.svg">
+              <img
+                width="24"
+                height="24"
+                loading="lazy"
+                class="custom-main-img"
+                src="https://www.weshop.com/ic_home_arrow.svg"
+              />
             </div>
           </div>
         </router-link>
         <router-link to="">
           <div class="custom-image-container">
-            <img width="172" height="220" loading="lazy" class="custom-main-img" src="../../assets/indexImage/首页-未登录-image44.png">
+            <img
+              width="172"
+              height="220"
+              loading="lazy"
+              class="custom-main-img"
+              src="../../assets/indexImage/首页-未登录-image44.png"
+            />
             <div class="custom-text-overlay">
               文生图
-              <img width="24" height="24" loading="lazy" class="custom-main-img" src="https://www.weshop.com/ic_home_arrow.svg">
+              <img
+                width="24"
+                height="24"
+                loading="lazy"
+                class="custom-main-img"
+                src="https://www.weshop.com/ic_home_arrow.svg"
+              />
             </div>
           </div>
         </router-link>
@@ -306,229 +560,130 @@
         <div class="content-area">
           <div class="card-wrapper">
             <div class="card">
-              <label class="radio-container" style="background-color: #ffffff;">
-                <input type="radio" class="radio-control">
+              <label class="radio-container" style="background-color: #ffffff">
+                <input type="radio" class="radio-control" />
                 <div class="image-label">
                   <div class="image-box">
-                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image.png">
+                    <img
+                      class="icon-image"
+                      width="36"
+                      height="36"
+                      loading="lazy"
+                      src="../../assets/indexImage/首页-未登录-image.png"
+                    />
                     精选
-                  </div>                  
+                  </div>
                 </div>
               </label>
               <label class="radio-container">
-                <input type="radio" class="radio-control">
+                <input type="radio" class="radio-control" />
                 <div class="image-label">
                   <div class="image-box">
-                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image2.png">
+                    <img
+                      class="icon-image"
+                      width="36"
+                      height="36"
+                      loading="lazy"
+                      src="../../assets/indexImage/首页-未登录-image2.png"
+                    />
                     服饰
-                  </div>                  
+                  </div>
                 </div>
               </label>
-               <label class="radio-container">
-                <input type="radio" class="radio-control">
+              <label class="radio-container">
+                <input type="radio" class="radio-control" />
                 <div class="image-label">
                   <div class="image-box">
-                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image3.png">
+                    <img
+                      class="icon-image"
+                      width="36"
+                      height="36"
+                      loading="lazy"
+                      src="../../assets/indexImage/首页-未登录-image3.png"
+                    />
                     美妆个护
-                  </div>                  
+                  </div>
                 </div>
               </label>
-               <label class="radio-container">
-                <input type="radio" class="radio-control">
+              <label class="radio-container">
+                <input type="radio" class="radio-control" />
                 <div class="image-label">
                   <div class="image-box">
-                    <img class="icon-image" width="36" height="36" loading="lazy" src="../../assets/indexImage/首页-未登录-image4.png">
+                    <img
+                      class="icon-image"
+                      width="36"
+                      height="36"
+                      loading="lazy"
+                      src="../../assets/indexImage/首页-未登录-image4.png"
+                    />
                     家具
-                  </div>                  
+                  </div>
                 </div>
               </label>
             </div>
           </div>
         </div>
-        <div style="width:100%;padding:20px 10px;">
-          <div></div>
+        <div style="width: 100%; padding: 20px 20px">
+          <div><load-image /></div>
         </div>
       </div>
     </div>
+
+    <footerVue :menuItems="menuItems" />
   </div>
 </template>
 
 <script>
-import MenuItem from "./menuItem.vue";
-import expansionMenu from "./expansionMenu.vue";
+import headerVue from "./header.vue";
 import { getDefaultRouters } from "@/api/menu";
+import footerVue from "./footer.vue";
+import loadImage from "./loadImage.vue";
 
 export default {
   components: {
-    MenuItem,
-    expansionMenu
+    headerVue,
+    loadImage,
+    footerVue,
   },
   data() {
     return {
       menuItems: [],
-      menuChild: {
-        showflag: false,
-        uniqueId: "",
-        childMenu: []
-      },
-      flag:false, //窗口显示头部字体颜色
+      flag: false, //窗口显示头部字体颜色
     };
   },
-  computed:{
-    scrollThreshold(){
-      return window.innerHeight * 0.3
-    }
+  computed: {
+    scrollThreshold() {
+      return window.innerHeight * 0.3;
+    },
   },
   mounted() {
     getDefaultRouters().then((res) => {
       this.menuItems = res.data;
     });
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
-     handleScroll() {
+    handleScroll() {
       if (window.scrollY > this.scrollThreshold) {
         this.flag = true;
-      }else{
-        this.flag = false
+      } else {
+        this.flag = false;
       }
     },
-    menuChildItem(data, uniqueId) {
-      if (this.menuChild.uniqueId === "") {
-        this.menuChild.uniqueId = uniqueId;
-        this.menuChild.showflag = true;
-      } else {
-        if (this.menuChild.uniqueId === uniqueId) {
-          this.menuChild.showflag = !this.menuChild.showflag;
-          this.menuChild.uniqueId = "";
-        } else {
-          this.menuChild.uniqueId = uniqueId;
-        }
-      }
-      this.menuChild.childMenu = data;
-    }
-  }
+  },
 };
 </script>
 
 <style scoped>
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #000;
-  color: #fff;
-  overflow-x: hidden;
-  height: 100%; /* Ensure the body and html take the full height */
-}
-
-.header {
-  position: fixed;
-  top: 0;
-  display: flex;
-  width: 100%;
-  height: 80px;
-  z-index: 999;
-  flex-direction: column;
-}
-
-.header-active .header-nav {
-  background-color: #fff;
-}
-
-::v-deep .active-menu .el-menu-item {
-  color: #333 !important;
-}
-
-.header-menu {
-  position: absolute;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-}
-
-.header-nav {
-  color: #fff;
-  background: hsla(0, 0%, 100%, 0);
-  position: relative;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0 50px;
-}
-
-.header-nav .logo {
-  display: flex;
-  align-items: center;
-}
-
-.header-nav .logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.el-menu {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  margin-left: 20px;
-  border-bottom: 1px;
-  background-color: transparent;
-  border-right: none;
-}
-
-::v-deep .el-menu-item {
-  font-size: 16px;
-  color: #fff !important;
-}
-
-::v-deep .el-menu-item:hover {
-  background-color: transparent;
-}
-
-::v-deep .el-menu-item.is-active {
-  background-color: transparent; /* 默认焦点背景色 */
-}
-
-.login-button {
-  border: 1px solid #fff;
-  padding: 0 24px;
-  height: 40px;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: 400;
-  background-color: transparent;
-}
-
-.active-button {
-  border-color: #333;
-  color: #333;
-}
-
-.header-menu-down {
-  height: calc(100vh - 80px);
-  background-color: hsla(0, 0%, 100%, .6);
-  backdrop-filter: blur(30px);
-  position: absolute;
-  top: 80px;
-  width: 100%;
-  overflow: hidden;
-}
-
 .main-content {
   position: relative;
   text-align: center;
   padding: 100px 20px;
-  background: url('../../assets/indexImage/首页-未登录-image63.jpg') no-repeat center center/cover;
+  background: url("../../assets/indexImage/首页-未登录-image63.jpg") no-repeat
+    center center/cover;
   opacity: 0.9;
   height: 100vh;
   width: 100vw;
@@ -607,14 +762,14 @@ body, html {
   line-height: 28px;
 }
 
-.info-img-small{
+.info-img-small {
   margin-left: 4px;
   height: 18px;
   width: 18px;
 }
 
-.info-right{
-  background-color: hsla(0, 0%, 100%, .35);
+.info-right {
+  background-color: hsla(0, 0%, 100%, 0.35);
   min-width: 240px;
   justify-content: flex-start;
   padding: 7px;
@@ -637,14 +792,14 @@ body, html {
   line-height: 25px;
   font-weight: 500;
 }
-.container{
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 100px 0;
 }
 
-.text-content{
+.text-content {
   font-size: 50px;
   font-weight: 500;
   text-align: center;
@@ -652,7 +807,7 @@ body, html {
   color: #333;
 }
 
-.spacer-1{
+.spacer-1 {
   display: flex;
   flex-wrap: wrap;
   color: #333;
@@ -664,8 +819,8 @@ body, html {
   margin-bottom: 120px;
 }
 
-.empty-space{
- padding-right: 40px;
+.empty-space {
+  padding-right: 40px;
   position: relative;
   display: flex;
   align-items: center;
@@ -674,35 +829,35 @@ body, html {
 }
 
 /* ============================== */
-.content-container{
+.content-container {
   display: flex;
   width: 420px;
   flex-direction: column;
   align-items: flex-start;
 }
-.header-text{
+.header-text {
   font-weight: 500;
   font-size: 30px;
 }
-.carousel-container{
+.carousel-container {
   margin-top: 20px;
   color: #97a0b4;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.carousel-item{
+.carousel-item {
   display: flex;
   gap: 12px;
   font-weight: 400;
   font-size: 18px;
   line-height: 25px;
 }
-.carousel-item p{
+.carousel-item p {
   margin: 0;
   padding: 0;
 }
-.cta-text{
+.cta-text {
   margin-top: 30px;
   display: flex;
   align-items: center;
@@ -714,62 +869,62 @@ body, html {
   background-color: #7530fe;
   height: 50px;
 }
-.spacer-2{
+.spacer-2 {
   flex-direction: row-reverse;
 }
-.image-gallery{
+.image-gallery {
   padding-right: 40px;
 }
-.gallery-row{
+.gallery-row {
   position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
   z-index: 2;
 }
-.hero-images{
+.hero-images {
   position: relative;
   overflow: hidden;
   width: 580px;
   height: 420px;
 }
-.image1{
+.image1 {
   width: 100%;
   height: auto;
   display: block;
 }
-.image2{
+.image2 {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-.featured-images{
+.featured-images {
   position: absolute;
   top: 60px;
   border-radius: 20px;
 }
-.thumbnail-images{
+.thumbnail-images {
   position: absolute;
   border-radius: 20px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
   top: 20px;
   right: -40px;
 }
-.icon-gallery{
+.icon-gallery {
   display: flex;
   gap: 12px;
   margin-top: 26px;
 }
-.icon-item{
+.icon-item {
   position: relative;
   cursor: pointer;
 }
-.icon{
+.icon {
   display: block;
 }
-.icon-gallery .icon-item:first-child::before{
+.icon-gallery .icon-item:first-child::before {
   content: "";
   position: absolute;
   border: 4px solid #7530fe;
@@ -780,7 +935,7 @@ body, html {
   bottom: 0;
 }
 /* =============== */
-.spacer-3{
+.spacer-3 {
   display: flex;
   gap: 40px;
   margin-top: 20px;
@@ -788,17 +943,17 @@ body, html {
   align-items: center;
   justify-content: center;
 }
-.custom-image-container{
+.custom-image-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
   max-width: 260px;
 }
-.custom-main-img{
+.custom-main-img {
   display: block;
 }
-.custom-text-overlay{
+.custom-text-overlay {
   font-size: 20px;
   font-weight: 500;
   display: flex;
@@ -806,20 +961,20 @@ body, html {
   white-space: nowrap;
 }
 
-.wrapper{
+.wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
 }
-.headline{
+.headline {
   font-size: 50px;
   font-weight: 500;
   margin-top: 40px;
   color: #333;
   text-align: center;
 }
-.content-area{
+.content-area {
   margin-top: 20px;
   width: 100%;
   padding: 0 20px;
@@ -827,7 +982,7 @@ body, html {
   align-items: center;
   justify-content: center;
 }
-.card-wrapper{
+.card-wrapper {
   padding: 0 !important;
   border-radius: 38px !important;
   border: 10px solid #f5f7fd !important;
@@ -842,16 +997,16 @@ body, html {
   display: inline-block;
   background: #f5f5f5;
   color: #333;
-  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
-.card{
+.card {
   position: relative;
   display: flex;
   align-items: stretch;
   justify-items: flex-start;
   width: 100%;
 }
-.radio-container{
+.radio-container {
   position: relative;
   text-align: center;
   cursor: pointer;
@@ -862,7 +1017,7 @@ body, html {
   /* background-color: #ffffff; */
   border-radius: 28px !important;
 }
-.radio-control{
+.radio-control {
   position: absolute;
   top: 0;
   left: 0;
@@ -871,7 +1026,7 @@ body, html {
   opacity: 0;
   pointer-events: none;
 }
-.image-label{
+.image-label {
   min-height: 28px;
   line-height: 28px;
   padding: 0 11px;
@@ -879,7 +1034,7 @@ body, html {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.image-box{
+.image-box {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -892,7 +1047,7 @@ body, html {
   line-height: 22px;
   font-weight: 500;
 }
-.icon-image{
+.icon-image {
   border-radius: 18px;
 }
 </style>

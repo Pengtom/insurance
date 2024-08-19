@@ -42,7 +42,7 @@ module.exports = {
         }
       },
       '/apix':{
-        target:'http://localhost:7861',
+        target:'http://127.0.0.1:7861',
         changeOrigin: true,
         pathRewrite: {
           '^/apix':''

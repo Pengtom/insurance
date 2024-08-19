@@ -3,13 +3,27 @@
     <div class="menuContainer">
       <div class="container">
         <!-- 添加 -->
-        <div v-for="(menu, index) in childMenu.children" :key="index" class="menu-item">
+        <div
+          v-for="(menu, index) in childMenu.children"
+          :key="index"
+          class="menu-item"
+        >
           <div class="menu-title">{{ menu.meta.title }}</div>
           <div class="sub-menu-container">
-            <div v-for="(subMenu, subIndex) in menu.children" :key="subIndex" class="sub-menu">
-              <router-link :to="subMenu.path" class="sub-menu-title">{{ subMenu.meta.title }}</router-link>
+            <div
+              v-for="(subMenu, subIndex) in menu.children"
+              :key="subIndex"
+              class="sub-menu"
+            >
+              <router-link :to="subMenu.path" class="sub-menu-title">{{
+                subMenu.meta.title
+              }}</router-link>
               <div v-if="subMenu.children" class="sub-sub-menu">
-                <div v-for="(subSubMenu, subSubIndex) in subMenu.children" :key="subSubIndex" class="sub-sub-menu-item">
+                <div
+                  v-for="(subSubMenu, subSubIndex) in subMenu.children"
+                  :key="subSubIndex"
+                  class="sub-sub-menu-item"
+                >
                   {{ subSubMenu.meta.title }}
                 </div>
               </div>
@@ -24,8 +38,8 @@
 <script>
 export default {
   name: "expansionMenu",
-  props:{
-    childMenu:Object
+  props: {
+    childMenu: Object,
   },
 };
 </script>

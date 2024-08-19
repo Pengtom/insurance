@@ -50,10 +50,10 @@ export default {
         showOptions: false,
         active: true
       };
-      // const res = await save({ type: 1, name: "任务-" + newTaskId })
-      // newTask.id = res.msg;
+      const res = await save({ type: 1, name: "任务-" + newTaskId })
+      newTask.id = res.msg;
       this.tasks.unshift(newTask)
-      this.currentTaskId = newTask.id;
+      // this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
 
@@ -66,27 +66,21 @@ export default {
       this.init()
       this.showOptions = false;
     },
-
-    resizeImage(imageFile, maxSize) {
+    resizeImage(imageFile, targetHeight) {
       return new Promise((resolve, reject) => {
         const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
 
+        img.onload = () => {
           let width = img.width;
           let height = img.height;
 
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height;
-              height = maxSize;
-            }
+          // 计算缩放比例
+          if (height > targetHeight) {
+            const scale = targetHeight / height;
+            width *= scale;
+            height = targetHeight;
           }
 
           canvas.width = width;
@@ -101,6 +95,7 @@ export default {
             }
           }, imageFile.type);
         };
+
         img.onerror = (error) => reject(error);
         img.src = URL.createObjectURL(imageFile);
       });
@@ -133,7 +128,9 @@ export default {
       this.uploadingTaskId = this.currentTaskId;
 
       try {
-        const resizedImageBlob = await this.resizeImage(file.file, 1024);
+        const resizedImageBlob = await this.resizeImage(file.file, 2048);
+        console.log(resizedImageBlob);
+        
         const imageByteArray = await blobToByteArray(resizedImageBlob);
 
         const form = new FormData();
@@ -151,8 +148,11 @@ export default {
             console.log(error);
           })
 
+        const blob = await readFileAsBlob(resizedImageBlob);
+        const newFile = new File([blob], resizedImageBlob.name, { type: resizedImageBlob.type });
+        
         const formdata = new FormData()
-        formdata.append("file", file.file)
+        formdata.append("file", newFile)
         formdata.append("type", "0")
         console.log(formdata);
 
@@ -166,13 +166,6 @@ export default {
           this.$set(task, "type", [])
         }
         this.$set(this.currentTask, 'loading', true);
-        const qzProject = {
-          id: this.currentTask.id,
-          primaryImage: this.currentTask.uploadedImage,
-          maskImage: this.currentTask.maskImageSrc
-        }
-        console.log(qzProject);
-        // update(qzProject)
       } finally {
         this.uploadingTaskId = null;
       }
@@ -284,39 +277,46 @@ export default {
         this.$set(this.currentTask, 'maskImage', maskImage)
       };
     },
-    async img2img(){
+    async img2img() {
       const fileName = Date.now()
-      let fileImg = this.dataURLtoBlob(this.currentTask.maskImageSrc,fileName+'.png')
+      let fileImg = this.dataURLtoBlob(this.currentTask.maskImageSrc, fileName + '.png')
       const formdata = new FormData()
       formdata.append("file", fileImg)
       formdata.append("type", "1")
       const res = await upload(formdata)
-      console.log(res,"============================");
-      
+      console.log(res, "============================");
+      const qzProject = {
+        id: this.currentTask.id,
+        primaryImage: this.currentTask.uploadedImage,
+        maskImage: res.url
+      }
+      console.log(qzProject);
+      update(qzProject)
+
       const Img2imgVo = {
         projectId: this.currentTask.id,
-        type : "0",
-        selectModelId : "1707581895913837020",
-        selectPmodeId:"",
-        lastImage:this.currentTask.uploadedImage,
-        lastMask:res.url
+        type: "0",
+        selectModelId: "1757161178342450824",
+        selectPmodelId: "1707581895913837020",
+        lastImage: this.currentTask.uploadedImage,
+        lastMask: res.url
       }
 
       await img2img(Img2imgVo)
-      
+
     },
     dataURLtoBlob(dataurl, name) {
       var arr = dataurl.split(","),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
       while (n--) {
-             u8arr[n] = bstr.charCodeAt(n);
+        u8arr[n] = bstr.charCodeAt(n);
       }
       return new File([u8arr], name, {
-            type: mime
-       });
+        type: mime
+      });
     },
   },
   watch: {
@@ -350,4 +350,27 @@ export default {
 };
 async function blobToByteArray(blob) {
   return new Uint8Array(await new Response(blob).arrayBuffer());
+}
+
+function readFileAsBlob(file) {
+  return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+          const dataUrl = fileReader.result;
+          const [header, base64] = dataUrl.split(',');
+          const mime = header.match(/:(.*?);/)[1];
+          const binary = atob(base64);
+          const binaryLength = binary.length;
+          const u8arr = new Uint8Array(binaryLength);
+
+          for (let i = 0; i < binaryLength; i++) {
+              u8arr[i] = binary.charCodeAt(i);
+          }
+
+          const blob = new Blob([u8arr], { type: mime });
+          resolve(blob);
+      };
+      fileReader.onerror = () => reject(new Error('FileReader failed'));
+      fileReader.readAsDataURL(file);
+  });
 }

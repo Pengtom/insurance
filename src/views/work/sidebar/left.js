@@ -13,7 +13,7 @@ export default {
       isDrawerVisible: false,
       uploadingTaskId: null,
       loadingInstance: null, // 用于保存 loading 实例
-      radio: '推荐'
+      radio: 0
     };
   },
   computed: {
@@ -25,18 +25,17 @@ export default {
     this.init()
   },
   methods: {
-    init() {
+    async init() {
       const params = { type: "1", name: "" }
-      queryListTask(params).then(res => {
-        this.tasks = res.data
-        this.tasks.forEach(item => {
-          if (item.primaryImage) {
-            item.uploadedImage = item.primaryImage
-          } else {
-            item.imagesrc = "https://www.weshop.com/mask.svg"
-          }
-          this.$set(item, 'showOptions', false);
-        })
+      const res = await queryListTask(params)
+      this.tasks = res.data
+      this.tasks.forEach(item => {
+        if (item.primaryImage) {
+          item.uploadedImage = item.primaryImage
+        } else {
+          item.imagesrc = "https://www.weshop.com/mask.svg"
+        }
+        this.$set(item, 'showOptions', false);
       })
     },
     async addTask() {
@@ -53,7 +52,7 @@ export default {
       const res = await save({ type: 1, name: "任务-" + newTaskId })
       newTask.id = res.msg;
       this.tasks.unshift(newTask)
-      // this.currentTaskId = newTask.id;
+      this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
 
@@ -63,41 +62,68 @@ export default {
 
     async deleteTask(taskId) {
       await deleteTaskById(taskId)
+      this.tasks = this.tasks.filter(item => item.id !== taskId)
       this.init()
+      if (this.tasks.length === 0) {
+        this.isDrawerVisible = false
+      }
       this.showOptions = false;
     },
-    resizeImage(imageFile, targetHeight) {
+    resizeImage(file, targetHeight) {
       return new Promise((resolve, reject) => {
-        const img = new Image();
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        // 创建 FileReader 对象读取文件内容
+        const reader = new FileReader();
 
-        img.onload = () => {
-          let width = img.width;
-          let height = img.height;
+        // 当文件读取成功时
+        reader.onload = (event) => {
+          const image = new Image();
+          image.src = event.target.result;
 
-          // 计算缩放比例
-          if (height > targetHeight) {
-            const scale = targetHeight / height;
-            width *= scale;
-            height = targetHeight;
-          }
+          image.onload = () => {
+            // 创建临时画布以保持缩放后的图像
+            const tmp_canvas = document.createElement('canvas');
+            const tmp_ctx = tmp_canvas.getContext('2d');
 
-          canvas.width = width;
-          canvas.height = height;
-          ctx.drawImage(img, 0, 0, width, height);
-
-          canvas.toBlob((blob) => {
-            if (blob) {
-              resolve(blob);
-            } else {
-              reject(new Error('Canvas could not convert image to Blob.'));
+            // 计算缩放因子
+            let scaleFactor = 1;
+            if (image.height > targetHeight) {
+              scaleFactor = targetHeight / image.height;
             }
-          }, imageFile.type);
+
+            // 计算缩放后的宽度和高度
+            const scaledWidth = image.width * scaleFactor;
+            const scaledHeight = image.height * scaleFactor;
+
+            // 设置画布的大小
+            tmp_canvas.width = scaledWidth;
+            tmp_canvas.height = scaledHeight;
+
+            // 绘制缩放后的图像到画布上
+            tmp_ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, scaledWidth, scaledHeight);
+
+            // 将画布内容转换为 Blob
+            tmp_canvas.toBlob((blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error("Canvas to Blob conversion failed"));
+              }
+            });
+          };
+
+          // 处理图像加载错误
+          image.onerror = (error) => {
+            reject(new Error("Image loading failed"));
+          };
         };
 
-        img.onerror = (error) => reject(error);
-        img.src = URL.createObjectURL(imageFile);
+        // 处理文件读取错误
+        reader.onerror = (error) => {
+          reject(new Error("File reading failed"));
+        };
+
+        // 读取文件为 Data URL
+        reader.readAsDataURL(file);
       });
     },
     iSImageStatus(file) {
@@ -130,7 +156,7 @@ export default {
       try {
         const resizedImageBlob = await this.resizeImage(file.file, 2048);
         console.log(resizedImageBlob);
-        
+
         const imageByteArray = await blobToByteArray(resizedImageBlob);
 
         const form = new FormData();
@@ -150,7 +176,6 @@ export default {
 
         const blob = await readFileAsBlob(resizedImageBlob);
         const newFile = new File([blob], resizedImageBlob.name, { type: resizedImageBlob.type });
-        
         const formdata = new FormData()
         formdata.append("file", newFile)
         formdata.append("type", "0")
@@ -161,7 +186,7 @@ export default {
         if (task) {
           console.log(task);
           this.$set(task, 'uploadedImage', res.url);
-          this.$set(task, "fileList", file.file)
+          this.$set(task, "fileList", newFile)
           this.$set(task, "clickCoordinates", [])
           this.$set(task, "type", [])
         }
@@ -295,11 +320,12 @@ export default {
 
       const Img2imgVo = {
         projectId: this.currentTask.id,
-        type: "0",
-        selectModelId: "1757161178342450824",
+        type: this.radio,
+        selectModelId: "7344977078054518905",
         selectPmodelId: "1707581895913837020",
         lastImage: this.currentTask.uploadedImage,
-        lastMask: res.url
+        lastMask: res.url,
+        quantity: "1"
       }
 
       await img2img(Img2imgVo)
@@ -354,23 +380,23 @@ async function blobToByteArray(blob) {
 
 function readFileAsBlob(file) {
   return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-          const dataUrl = fileReader.result;
-          const [header, base64] = dataUrl.split(',');
-          const mime = header.match(/:(.*?);/)[1];
-          const binary = atob(base64);
-          const binaryLength = binary.length;
-          const u8arr = new Uint8Array(binaryLength);
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      const dataUrl = fileReader.result;
+      const [header, base64] = dataUrl.split(',');
+      const mime = header.match(/:(.*?);/)[1];
+      const binary = atob(base64);
+      const binaryLength = binary.length;
+      const u8arr = new Uint8Array(binaryLength);
 
-          for (let i = 0; i < binaryLength; i++) {
-              u8arr[i] = binary.charCodeAt(i);
-          }
+      for (let i = 0; i < binaryLength; i++) {
+        u8arr[i] = binary.charCodeAt(i);
+      }
 
-          const blob = new Blob([u8arr], { type: mime });
-          resolve(blob);
-      };
-      fileReader.onerror = () => reject(new Error('FileReader failed'));
-      fileReader.readAsDataURL(file);
+      const blob = new Blob([u8arr], { type: mime });
+      resolve(blob);
+    };
+    fileReader.onerror = () => reject(new Error('FileReader failed'));
+    fileReader.readAsDataURL(file);
   });
 }

@@ -98,7 +98,6 @@ export default {
   mounted() {
     this.fetchMenuItems().then((data) => {
       this.items = this.findStartData(this.menuItems);
-      console.log("Found Items:", this.items);
     });
   },
   methods: {

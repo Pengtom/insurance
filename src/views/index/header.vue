@@ -135,9 +135,6 @@ export default {
       },
     };
   },
-  // create(){
-  //   this.isLogin = this.$store.state.user.isLogin
-  // },
   computed: {
     ...mapGetters(["isLogin"]),
   },
@@ -213,7 +210,6 @@ export default {
   watch: {
     $route: {
       handler: function (route) {
-        console.log(route, "=============================");
         this.redirect = route.query && route.query.redirect;
       },
       immediate: true,

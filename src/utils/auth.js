@@ -15,7 +15,6 @@ export function removeToken() {
 }
 
 export function getIsLogin() {
-  console.log(Cookies.get("isLogin"));
   return Cookies.get("isLogin")
 }
 

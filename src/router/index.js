@@ -42,9 +42,16 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/',
+    path: '',
     component: () => import('@/views/index'),
-    hidden: true
+    hidden: true,
+    redirect:'/',
+    children:[
+      {
+        path:'/',
+        component:()=>import('@/views/index/content')
+      }
+    ]
   },
   {
     path: '/register',

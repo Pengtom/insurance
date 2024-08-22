@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Left from "../sidebar/left.vue";
+import Left from "../model/left.vue";
 import Right from "../right.vue";
 export default {
   data() {

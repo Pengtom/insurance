@@ -13,7 +13,7 @@
           v-for="task in tasks"
           :key="task.id"
           class="task"
-          :class="{ active: task.id === currentTaskId}"
+          :class="{ active: task.id === currentTaskId }"
           @click="openDrawer(task.id)"
         >
           <div class="task-info">
@@ -95,11 +95,11 @@
               <p>原图</p>
             </div>
             <div class="image-preview image-preview2">
-              <img :src="currentTask.maskImage" class="uploaded-image" />
+              <img :src="currentTask.maskImageSrc" class="uploaded-image" />
               <p v-if="currentTask.loading">选区图</p>
               <p v-if="!currentTask.loading">
                 <a
-                  @click="dialogVisible = true"
+                  @click="openDialog"
                   style="color: #7530fe; text-decoration: underline"
                   >编辑选区</a
                 >
@@ -109,40 +109,56 @@
         </div>
         ·
       </transition>
-      <div class="radio-group-container">
-        <el-radio-group v-model="radio">
-          <el-radio-button :label="0">推荐</el-radio-button>
-          <el-radio-button :label="1">自定义</el-radio-button>
-        </el-radio-group>
-      </div>
-      <div style="padding: 0 10px; overflow-y: auto">
-        <custom :radio="radio" />
-      </div>
+      <custom @radioval = radioval @modelId="modelId" />
       <div class="fixed-bottom">
-        <div class="info-text">本次任务将消耗10算力点</div>
+        <div class="info-text">
+          本次任务将消耗
+          <span style="margin-right:4px;color:#7530fe">{{ 10 * quantity }}算力点</span>          
+        </div>
         <div class="button-container">
           <el-button class="execute-button" @click="img2img">执行</el-button>
           <div class="settings-container">
-            <img
-              width="16"
-              height="16"
-              src="https://www.weshop.com/ic_agent_setting.svg"
-            />
-            <div class="modal-container" v-if="false">
+            <div class="settings-image" @click="openSelectFlag">
+              <img
+                width="16"
+                height="16"
+                src="https://www.weshop.com/ic_agent_setting.svg"
+              />
+            </div>
+            <div class="modal-container" v-if="selectFlag">
               <img
                 width="44"
                 height="44"
                 class="close-icon"
                 src="https://www.weshop.com/ic_modal_close.svg"
+                @click="openSelectFlag"
               />
               <div class="count-settings">
                 <div class="placeholder"></div>
                 <div class="count-options-container">
                   <p class="count-label">生成张数</p>
                   <div class="count-options">
-                    <div class="count-option">1</div>
-                    <div class="count-option">2</div>
-                    <div class="count-option">4</div>
+                    <div
+                      class="count-option"
+                      :class="{ selected: quantity === 1 }"
+                      @click="selectNum(1)"
+                    >
+                      1
+                    </div>
+                    <div
+                      class="count-option"
+                      :class="{ selected: quantity === 2 }"
+                      @click="selectNum(2)"
+                    >
+                      2
+                    </div>
+                    <div
+                      class="count-option"
+                      :class="{ selected: quantity === 4 }"
+                      @click="selectNum(4)"
+                    >
+                      4
+                    </div>
                   </div>
                 </div>
               </div>
@@ -154,9 +170,10 @@
     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
-      width="60%"
+      width="50%"
       :modal="false"
       flex
+      :before-close="dialogclose"
     >
       <img
         :src="currentTask.uploadedImage"
@@ -171,26 +188,19 @@
       <img
         width="400"
         height="400"
-        src="@/assets/images/9ec4209d66a0806e592740124ca25f2.jpg"
-      />
-      <img
-        width="400"
-        height="400"
-        :src="currentTask.maskImage"
+        :src="currentTask.maskImageSrc"
         class="overlay-image"
       />
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="dialogclose">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import left from "./left";
+import left from "../left";
 import custom from "./custom.vue";
 export default {
   ...left,
@@ -216,8 +226,8 @@ canvas {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: var(--FillColor6);
-  border-right: 1px var(--BorderColor11) solid;
+  background-color: #fff;
+  border-right: 1px #e3e3e3 solid;
 }
 
 .sticky-header {
@@ -425,11 +435,6 @@ p {
   opacity: 0;
 }
 
-.radio-group-container {
-  display: flex;
-  justify-content: center; /* 水平居中对齐 */
-  align-items: center; /* 垂直居中对齐 */
-}
 .fixed-bottom {
   background-color: #fff;
   display: flex;
@@ -477,6 +482,16 @@ p {
   cursor: pointer;
   background-color: #f5f7fd;
   margin-left: 8px;
+}
+.settings-image {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #f5f7fd;
 }
 .modal-container {
   position: absolute;
@@ -539,5 +554,8 @@ p {
   position: absolute;
   left: 45%;
   object-fit: contain;
+}
+.selected {
+  border: 1px solid #7530fe;
 }
 </style>

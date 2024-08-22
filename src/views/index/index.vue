@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="overflow:hidden;">
     <headerVue :menuItems="menuItems" :flag="flag" />
     <!-- <contentVue/> -->
     <app-main/>

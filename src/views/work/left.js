@@ -13,7 +13,10 @@ export default {
       isDrawerVisible: false,
       uploadingTaskId: null,
       loadingInstance: null, // 用于保存 loading 实例
-      radio: 0
+      radio: 0,
+      selectModelId: '', //模特id
+      selectFlag: false,
+      quantity: 1,
     };
   },
   computed: {
@@ -34,6 +37,9 @@ export default {
           item.uploadedImage = item.primaryImage
         } else {
           item.imagesrc = "https://www.weshop.com/mask.svg"
+        }
+        if (item.maskImage) {
+          this.$set(item, 'maskImageSrc', item.maskImage)
         }
         this.$set(item, 'showOptions', false);
       })
@@ -154,7 +160,7 @@ export default {
       this.uploadingTaskId = this.currentTaskId;
 
       try {
-        const resizedImageBlob = await this.resizeImage(file.file, 2048);
+        const resizedImageBlob = await this.resizeImage(file.file, 1024);
         console.log(resizedImageBlob);
 
         const imageByteArray = await blobToByteArray(resizedImageBlob);
@@ -196,10 +202,17 @@ export default {
       }
     },
 
-    openDrawer(taskId) {
-      if (this.currentTaskId !== taskId) {
+    async openDrawer(taskId) {
+      if (this.currentTask.id !== taskId) {
         this.currentTaskId = taskId;
         this.isDrawerVisible = true;
+        if (this.currentTask.maskImage) {
+          this.$set(this.currentTask, 'loading', true);
+          const res = await this.applyMask(this.currentTask.maskImage)
+          console.log(res, "=================");
+
+          this.$set(this.currentTask, 'loading', false);
+        }
       }
     },
 
@@ -211,7 +224,7 @@ export default {
     getImageClickCoordinates(event) {
       event.preventDefault()
       if (this.currentTask.clickCoordinates) {
-        if (this.currentTask.clickCoordinates.length > 10) {
+        if (this.currentTask.clickCoordinates.length > 20) {
           this.$message.error("点击次数太多！")
           return;
         }
@@ -247,69 +260,120 @@ export default {
           method: 'post',
           body: formdata
         }).then(res => res.json())
-          .then(data => {
+          .then(async data => {
             const maskBase64 = data.masks;
             const maskBase64Masksf = data.masksf;
-            this.$set(this.currentTask, "maskImageSrc", `data:image/png;base64,${maskBase64}`)
+            this.$set(this.currentTask, "maskImage", `data:image/png;base64,${maskBase64}`)
             this.$set(this.currentTask, "lastMask", `data:image/png;base64,${maskBase64Masksf}`)
-            this.applyMask(maskBase64)
+            await this.applyMask(`data:image/png;base64,${maskBase64}`)
           })
       }
     },
     applyMask(maskBase) {
-      const imageUrl = URL.createObjectURL(this.currentTask.fileList); // 替换为你的图像URL
-      const maskBase64 = `data:image/png;base64,${maskBase}`
+      return new Promise((resolve, reject) => {
+        const imageUrl = this.currentTask.uploadedImage;
+        const maskBase64 = maskBase;
 
-      const imageCanvas = document.getElementById('imageCanvas');
-      const maskCanvas = document.getElementById('maskCanvas');
-      const resultCanvas = document.getElementById('resultCanvas');
+        const imageCanvas = document.getElementById('imageCanvas');
+        const maskCanvas = document.getElementById('maskCanvas');
+        const resultCanvas = document.getElementById('resultCanvas');
 
-      const imageContext = imageCanvas.getContext('2d');
-      const maskContext = maskCanvas.getContext('2d');
-      const resultContext = resultCanvas.getContext('2d');
+        const imageContext = imageCanvas.getContext('2d');
+        const maskContext = maskCanvas.getContext('2d');
+        const resultContext = resultCanvas.getContext('2d');
 
-      const image = new Image();
-      const mask = new Image();
+        const image = new Image();
+        const mask = new Image();
+        image.crossOrigin = 'anonymous';
+        mask.crossOrigin = 'anonymous';
+        image.src = imageUrl;
+        mask.src = maskBase64;
 
-      image.src = imageUrl;
-      mask.src = maskBase64;
+        let imagesLoaded = 0;
+        const onImageLoad = () => {
+          imagesLoaded++;
+          if (imagesLoaded === 2) { // 确保两个图像都加载完成
+            try {
+              imageCanvas.width = image.width;
+              imageCanvas.height = image.height;
+              maskCanvas.width = image.width;
+              maskCanvas.height = image.height;
+              resultCanvas.width = image.width;
+              resultCanvas.height = image.height;
 
-      image.onload = () => {
-        imageCanvas.width = image.width;
-        imageCanvas.height = image.height;
-        maskCanvas.width = image.width;
-        maskCanvas.height = image.height;
-        resultCanvas.width = image.width;
-        resultCanvas.height = image.height;
+              imageContext.drawImage(image, 0, 0);
+              maskContext.drawImage(mask, 0, 0);
 
-        imageContext.drawImage(image, 0, 0);
-        maskContext.drawImage(mask, 0, 0);
+              const imageData = imageContext.getImageData(0, 0, image.width, image.height);
+              const maskData = maskContext.getImageData(0, 0, image.width, image.height);
 
-        const imageData = imageContext.getImageData(0, 0, image.width, image.height);
-        const maskData = maskContext.getImageData(0, 0, image.width, image.height);
+              const resultData = resultContext.createImageData(image.width, image.height);
 
-        const resultData = resultContext.createImageData(image.width, image.height);
+              for (let i = 0; i < imageData.data.length; i += 4) {
+                const alpha = maskData.data[i] > 128 ? 255 : 0; // 使用蒙版的亮度作为阈值
+                resultData.data[i] = imageData.data[i];
+                resultData.data[i + 1] = imageData.data[i + 1];
+                resultData.data[i + 2] = imageData.data[i + 2];
+                resultData.data[i + 3] = alpha;
+              }
 
-        for (let i = 0; i < imageData.data.length; i += 4) {
-          const alpha = maskData.data[i] > 128 ? 255 : 0; // 使用蒙版的亮度作为阈值
-          resultData.data[i] = imageData.data[i];
-          resultData.data[i + 1] = imageData.data[i + 1];
-          resultData.data[i + 2] = imageData.data[i + 2];
-          resultData.data[i + 3] = alpha;
-        }
-        resultContext.putImageData(resultData, 0, 0);
-        const maskImage = resultCanvas.toDataURL();
-        this.$set(this.currentTask, 'maskImage', maskImage)
-      };
+              resultContext.putImageData(resultData, 0, 0);
+              const maskImageSrc = resultCanvas.toDataURL();
+              this.$set(this.currentTask, 'maskImageSrc', maskImageSrc);
+              resolve(); // 处理完成，解析 Promise
+            } catch (error) {
+              reject(error); // 处理过程中发生错误，拒绝 Promise
+            }
+          }
+        };
+
+        image.onload = onImageLoad;
+        mask.onload = onImageLoad;
+      });
+    }
+    ,
+    async openDialog() {
+      if (this.currentTask.fileName) {
+        this.dialogVisible = true
+        return
+      }
+      const file = await getFileFromUrl(this.currentTask.uploadedImage, Date.now() + ".png")
+      this.uploadingTaskId = this.currentTaskId;
+      this.$set(this.currentTask, 'loading', true);
+      try {
+        const resizedImageBlob = await this.resizeImage(file, 1024);
+        console.log(resizedImageBlob);
+
+        const imageByteArray = await blobToByteArray(resizedImageBlob);
+
+        const form = new FormData();
+        form.append('image', new Blob([imageByteArray]), "image.png");
+        const task = this.currentTask;
+        fetch('/apix/imagev2', {
+          method: "POST",
+          body: form
+        }).then((response) => response.json())
+          .then((data) => {
+            if (task) {
+              this.$set(task, 'fileName', data.message);
+              this.dialogVisible = true
+            }
+          }).catch(error => {
+            console.log(error);
+          })
+      } finally {
+        this.uploadingTaskId = null;
+      }
     },
-    async img2img() {
+    async dialogclose() {
       const fileName = Date.now()
-      let fileImg = this.dataURLtoBlob(this.currentTask.maskImageSrc, fileName + '.png')
+      let fileImg = dataURLtoBlob(this.currentTask.maskImage, fileName + '.png')
       const formdata = new FormData()
       formdata.append("file", fileImg)
       formdata.append("type", "1")
       const res = await upload(formdata)
       console.log(res, "============================");
+      this.$set(this.currentTask, "maskImage", res.url)
       const qzProject = {
         id: this.currentTask.id,
         primaryImage: this.currentTask.uploadedImage,
@@ -317,39 +381,49 @@ export default {
       }
       console.log(qzProject);
       update(qzProject)
-
+      this.dialogVisible = false
+    },
+    modelId(selectModelId) {
+      this.selectModelId = selectModelId
+    },
+    radioval(radioval) {
+      this.radio = radioval
+    },
+    async img2img() {
+      if (!this.selectModelId) {
+        this.$message({
+          message: "❌ 请选择或填写AI模特、商拍场景或描述中的至少一项 ❗",
+          type: '',
+        })
+        return
+      }
       const Img2imgVo = {
         projectId: this.currentTask.id,
         type: this.radio,
-        selectModelId: "7344977078054518905",
+        selectModelId: this.selectModelId,
         selectPmodelId: "1707581895913837020",
         lastImage: this.currentTask.uploadedImage,
-        lastMask: res.url,
-        quantity: "1"
+        lastMask: this.currentTask.maskImage,
+        quantity: this.quantity
       }
+      console.log(Img2imgVo);
 
-      await img2img(Img2imgVo)
-
+      // await img2img(Img2imgVo)
     },
-    dataURLtoBlob(dataurl, name) {
-      var arr = dataurl.split(","),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-      }
-      return new File([u8arr], name, {
-        type: mime
-      });
+    openSelectFlag() {
+      this.selectFlag = !this.selectFlag
     },
+    selectNum(num) {
+      this.quantity = num
+    }
   },
   watch: {
     isDrawerVisible() {
       this.$emit("data", this.isDrawerVisible)
     },
     'currentTask.loading'(newValue) {
+      console.log(newValue);
+
       if (newValue) {
         // 当加载开始时
         this.$nextTick(() => {
@@ -364,6 +438,7 @@ export default {
         if (this.loadingInstance) {
           this.loadingInstance.close();
           this.loadingInstance = null;
+          this.currentTask.loading = null
         }
       }
     },
@@ -398,5 +473,42 @@ function readFileAsBlob(file) {
     };
     fileReader.onerror = () => reject(new Error('FileReader failed'));
     fileReader.readAsDataURL(file);
+  });
+}
+
+function dataURLtoBlob(dataurl, name) {
+  var arr = dataurl.split(","),
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+  return new File([u8arr], name, {
+    type: mime
+  });
+}
+
+function getFileFromUrl(url, fileName) {
+  return new Promise((resolve, reject) => {
+    var blob = null;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.setRequestHeader('Accept', 'image/png');
+    xhr.responseType = "blob";
+    // 加载时处理
+    xhr.onload = () => {
+      // 获取返回结果
+      blob = xhr.response;
+      let file = new File([blob], fileName, { type: 'image/png' });
+      // 返回结果
+      resolve(file);
+    };
+    xhr.onerror = (e) => {
+      reject(e)
+    };
+    // 发送
+    xhr.send();
   });
 }

@@ -90,3 +90,12 @@
   .el-submenu__icon-arrow {
   display: none;
 }
+
+.el-message {
+  top: 40px !important;
+  padding: 15px !important;
+  background-color: rgb(255,245,242) !important; 
+  color: rgb(64, 61, 60) !important;
+  border-radius: 12px !important;
+  border: 1px solid rgb(245, 63, 63) !important;
+}

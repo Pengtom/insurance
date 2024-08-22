@@ -3,17 +3,19 @@
     <!-- 左侧历史记录 -->
     <div class="left">
       <h2>GPT</h2>
-      <p>全能AI对话机器人，智能问答、写爆款文案、写视频脚本、写代码、AI绘画等.</p>
+      <p>
+        全能AI对话机器人，智能问答、写爆款文案、写视频脚本、写代码、AI绘画等.
+      </p>
       <el-button type="primary" @click="addTask" class="new-task-button">
         新建对话
       </el-button>
       <div class="tasks">
-        <div 
-          v-for="(task, index) in tasks" 
-          :key="index" 
-          class="task" 
+        <div
+          v-for="(task, index) in tasks"
+          :key="index"
+          class="task"
           @click="selectTask(index)"
-          :class="{ 'active-task': index === currentTaskIndex }" 
+          :class="{ 'active-task': index === currentTaskIndex }"
         >
           <el-tag type="success" class="task-tag">任务 {{ index + 1 }}</el-tag>
         </div>
@@ -23,31 +25,37 @@
     <!-- 右侧对话框 -->
     <div class="chat-container">
       <div class="chat-box">
-        <div 
-          v-for="(message, index) in messages" 
-          :key="index" 
-          :class="{'message-left': message.sender === 'other', 'message-right': message.sender === 'self'}"
+        <div
+          v-for="(message, index) in messages"
+          :key="index"
+          :class="{
+            'message-left': message.sender === 'other',
+            'message-right': message.sender === 'self',
+          }"
         >
-          <img 
-            :src="message.avatar" 
-            class="message-avatar" 
-            :class="{'avatar-left': message.sender === 'other', 'avatar-right': message.sender === 'self'}" 
+          <img
+            :src="message.avatar"
+            class="message-avatar"
+            :class="{
+              'avatar-left': message.sender === 'other',
+              'avatar-right': message.sender === 'self',
+            }"
           />
           <div class="message-content">{{ message.text }}</div>
         </div>
       </div>
       <div class="input-container">
-        <textarea 
-          v-model="newMessage" 
-          @keyup.enter="sendMessage" 
-          @input="adjustTextareaHeight" 
-          placeholder="Type a message..." 
+        <textarea
+          v-model="newMessage"
+          @keyup.enter="sendMessage"
+          @input="adjustTextareaHeight"
+          placeholder="Type a message..."
           ref="messageInput"
         />
-        <el-button 
-          class="send-button" 
-          :class="buttonClass" 
-          :disabled="isButtonDisabled" 
+        <el-button
+          class="send-button"
+          :class="buttonClass"
+          :disabled="isButtonDisabled"
           @click="sendMessage"
         >
           发送
@@ -65,7 +73,7 @@ export default {
     return {
       tasks: [], // 存储任务和对应的消息
       currentTaskIndex: null, // 当前选中的任务索引
-      newMessage: '',
+      newMessage: "",
       //   messages: [
       //   { sender: 'self', text: 'Hello!', avatar: '/girl.png' },
       //   { sender: 'other', text: 'Hi there!', avatar: '/girl.png' },
@@ -79,17 +87,19 @@ export default {
   computed: {
     messages() {
       // 返回当前选中的任务的消息
-      return this.currentTaskIndex !== null ? this.tasks[this.currentTaskIndex].messages : [];
+      return this.currentTaskIndex !== null
+        ? this.tasks[this.currentTaskIndex].messages
+        : [];
     },
     isButtonDisabled() {
       return !this.newMessage.trim();
     },
     buttonClass() {
       return {
-        'send-button-disabled': !this.newMessage.trim(),
-        'send-button-active': this.newMessage.trim(),
+        "send-button-disabled": !this.newMessage.trim(),
+        "send-button-active": this.newMessage.trim(),
       };
-    }
+    },
   },
   methods: {
     addTask() {
@@ -104,12 +114,15 @@ export default {
       const textarea = this.$refs.messageInput;
       const currentHeight = textarea.clientHeight;
       const maxHeightIncrease = currentHeight * 0.5; // 最大增加高度的50%
-      textarea.style.height = 'auto'; // Reset height to auto to shrink
-      const newHeight = Math.min(textarea.scrollHeight, currentHeight + maxHeightIncrease);
+      textarea.style.height = "auto"; // Reset height to auto to shrink
+      const newHeight = Math.min(
+        textarea.scrollHeight,
+        currentHeight + maxHeightIncrease
+      );
       textarea.style.height = `${newHeight}px`; // Set height to new height
     },
     sendMessage() {
-    if (this.newMessage.trim()) {
+      if (this.newMessage.trim()) {
         if (this.currentTaskIndex === null || this.tasks.length === 0) {
           // 如果没有任务，则创建一个新的任务
           this.addTask();
@@ -117,26 +130,39 @@ export default {
 
         // 将消息添加到当前选中的任务
         if (this.currentTaskIndex !== null) {
-          this.tasks[this.currentTaskIndex].messages.push({
-            sender: 'self',
-            text: this.newMessage.trim(),
-            avatar: '/girl.png'
-          },
-          { sender: 'self', text: 'Hello!', avatar: '/girl.png' },
-          { sender: 'other', text: 'Hi there!', avatar: '/girl.png' },
-          { sender: 'self', text: 'How can I assist you today?', avatar: '/girl.png' },
-          { sender: 'other', text: 'I need help with Vue.js.', avatar: '/girl.png' },
-          { sender: 'self', text: 'Sure! What do you need help with?', avatar: '/girl.png' },
-          { sender: 'other', text: 'ok', avatar: '/girl.png' },
+          this.tasks[this.currentTaskIndex].messages.push(
+            {
+              sender: "self",
+              text: this.newMessage.trim(),
+              avatar: "/girl.png",
+            },
+            { sender: "self", text: "Hello!", avatar: "/girl.png" },
+            { sender: "other", text: "Hi there!", avatar: "/girl.png" },
+            {
+              sender: "self",
+              text: "How can I assist you today?",
+              avatar: "/girl.png",
+            },
+            {
+              sender: "other",
+              text: "I need help with Vue.js.",
+              avatar: "/girl.png",
+            },
+            {
+              sender: "self",
+              text: "Sure! What do you need help with?",
+              avatar: "/girl.png",
+            },
+            { sender: "other", text: "ok", avatar: "/girl.png" }
           );
-          this.newMessage = ''; // 清空输入框
+          this.newMessage = ""; // 清空输入框
           this.$nextTick(() => {
             this.adjustTextareaHeight(); // 调整输入框高度
           });
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -149,14 +175,14 @@ export default {
 .left {
   width: 300px; /* 可以根据需要调整宽度 */
   padding: 20px;
-  background-image: url("https://www.weshop.com/bg_tip_aimodel.webp");
-  background-color: var(--FillColor6);
-  border-right: 1px solid var(--BorderColor11);
+  /* background-image: url("https://www.weshop.com/bg_tip_aimodel.webp"); */
+  background-color: #fff;
+  border-right: 1px #e3e3e3 solid;
   display: flex;
   flex-direction: column;
   background-repeat: no-repeat;
   background-size: cover; /* 背景图片覆盖整个容器 */
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); 
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .new-task-button {
@@ -174,9 +200,9 @@ export default {
 .task {
   margin: 10px 0;
   padding: 10px;
-  border: 1px solid #dcdcdc;
+  /* border: 1px solid #dcdcdc; */
   border-radius: 4px;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -184,11 +210,11 @@ export default {
 }
 
 .task:hover {
-  background-color: #e0e0e0; /* 鼠标悬停时的背景色 */
+  background-color: #f5f7fd; /* 鼠标悬停时的背景色 */
 }
 
 .active-task {
-  background-color: #d0d0d0; /* 选中的任务背景色 */
+  background-color: #f5f7fd; /* 选中的任务背景色 */
 }
 
 .task-tag {
@@ -224,7 +250,8 @@ p {
   position: relative;
 }
 
-.message-left, .message-right {
+.message-left,
+.message-right {
   margin: 5px 0;
   padding: 10px;
   border-radius: 5px;
@@ -298,27 +325,27 @@ textarea {
 
 .send-button-disabled {
   background-color: #f0f0f0;
-  color: #ccc; 
-  border: 1px solid #ddd; 
+  color: #ccc;
+  border: 1px solid #ddd;
   cursor: default;
-  margin-left: 10px; 
+  margin-left: 10px;
   height: 50px; /* 确保按钮高度固定 */
   line-height: 30px; /* 调整按钮文本的行高 */
 }
 
 .send-button-disabled:hover {
-  background-color: #f0f0f0; 
-  color: #ccc; 
-  border: 1px solid #ddd; 
-  cursor: default; 
+  background-color: #f0f0f0;
+  color: #ccc;
+  border: 1px solid #ddd;
+  cursor: default;
 }
 
 .send-button-active {
-  background-color: #000; 
-  color: #fff; 
-  border: 1px solid #000; 
-  margin-left: 10px; 
+  background-color: #000;
+  color: #fff;
+  border: 1px solid #000;
+  margin-left: 10px;
   height: 50px;
-  line-height: 30px; 
+  line-height: 30px;
 }
 </style>

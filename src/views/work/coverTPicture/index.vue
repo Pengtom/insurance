@@ -7,15 +7,14 @@
         新建任务
       </el-button>
       <div class="tasks">
-        <div 
-          v-for="task in tasks" 
-          :key="task.id" 
-          class="task" 
-          @click="openDrawer(task.id)"
+        <div
+          v-for="(task, index) in tasks"
+          :key="index"
+          class="task"
+          @click="selectTask(index)"
+          :class="{ 'active-task': index === currentTaskIndex }"
         >
-          <el-tag type="success" class="task-tag">
-            任务 {{ tasks.indexOf(task) + 1 }}
-          </el-tag>
+          <el-tag type="success" class="task-tag">任务 {{ index + 1 }}</el-tag>
         </div>
       </div>
     </div>
@@ -66,28 +65,24 @@
           <el-button type="primary" @click="handleSave(task.id)">
             保存
           </el-button>
-          <el-button @click="closeDrawer(task.id)">
-            取消
-          </el-button>
+          <el-button @click="closeDrawer(task.id)"> 取消 </el-button>
         </div>
       </div>
     </el-drawer>
-    <right :images="images"/>
+    <right :images="images" :flag="true"/>
   </div>
 </template>
 
 <script>
-import Left from "../sidebar/left.vue";
-import Right from "../right.vue";
+import Right from "../right";
 export default {
   data() {
     return {
       context: {
         title: "文生图",
-        content:
-          "把文字变成生动图像",
+        content: "把文字变成生动图像",
       },
-       tasks: [],
+      tasks: [],
       currentTaskId: null, // 当前正在编辑的任务的 ID
       images: [
         "https://ai-image.weshop.com/0a673bdd-571d-4480-9c6c-6cfe3e864f98_512x768.png",
@@ -100,10 +95,9 @@ export default {
     };
   },
   components: {
-    Left,
     Right,
   },
-  methods:{
+  methods: {
     addTask() {
       const newTaskId = Date.now(); // 使用时间戳作为唯一标识符
       this.tasks.push({
@@ -119,27 +113,23 @@ export default {
       });
       this.currentTaskId = newTaskId;
     },
+    selectTask(index) {
+      this.currentTaskIndex = index; // 切换到选中的任务
+    },
     handleSave(taskId) {
-      const task = this.tasks.find(t => t.id === taskId);
+      const task = this.tasks.find((t) => t.id === taskId);
       if (task) {
         task.dialogVisible = false;
         this.currentTaskId = null;
       }
     },
     closeDrawer(taskId) {
-      const task = this.tasks.find(t => t.id === taskId);
+      const task = this.tasks.find((t) => t.id === taskId);
       if (task) {
         task.dialogVisible = false;
       }
     },
-    openDrawer(taskId) {
-      this.currentTaskId = taskId;
-      const task = this.tasks.find(t => t.id === taskId);
-      if (task) {
-        task.dialogVisible = true;
-      }
-    },
-  }
+  },
 };
 </script>
 
@@ -174,12 +164,15 @@ export default {
 .task {
   margin: 10px 0;
   padding: 10px;
-  border: 1px solid #dcdcdc;
+  /* border: 1px solid #dcdcdc; */
   border-radius: 4px;
-  background-color: #f5f5f5;
+  /* background-color: #f5f5f5; */
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.active-task {
+  background-color: #f5f7fd; /* 选中的任务背景色 */
 }
 
 .task-tag {

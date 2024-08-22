@@ -1,14 +1,18 @@
 <template>
   <div class="container" :style="containerStyle">
-      <left :context="context" @data = "handle"/>
-      <right :images="images" :flag="flag"/>
+    <left :context="context" @data="handle" />
+    <right :images="images" :flag="flag" />
   </div>
 </template>
 
 <script>
-import Left from "../sidebar/left.vue";
+import Left from "./left.vue";
 import Right from "../right.vue";
 export default {
+  components: {
+    Left,
+    Right,
+  },
   data() {
     return {
       flag: true,
@@ -37,20 +41,18 @@ export default {
   computed: {
     containerStyle() {
       return {
-        backgroundColor: this.flag ? 'transparent' : 'rgba(0, 0, 0, 0.45)',
+        backgroundColor: this.flag ? "transparent" : "rgba(0, 0, 0, 0.45)",
       };
     },
   },
-  components: {
-    Left,
-    Right,
+  methods: {
+    handle(newdata) {
+      console.log(newdata);
+      
+      this.flag = !newdata;
+    },
   },
-  methods:{
-    handle(newdata){
-      this.flag = !newdata
-    }
-  }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -58,7 +60,6 @@ export default {
   display: flex;
   position: relative;
   height: 94vh; /* 全屏高度 */
-  background-color: rgba(0, 0, 0, .45);
+  background-color: rgba(0, 0, 0, 0.45);
 }
-
 </style>

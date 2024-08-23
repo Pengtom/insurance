@@ -5,13 +5,15 @@
     <div class="header-menu">
       <div class="header-nav">
         <div class="logo">
-          <img
-            :src="
-              menuChild.showflag || flag
-                ? require('@/assets/indexImage/logo.png')
-                : require('@/assets/indexImage/logo1.png')
-            "
-          />
+          <router-link to="/">
+            <img
+              :src="
+                menuChild.showflag || flag
+                  ? require('@/assets/indexImage/logo.png')
+                  : require('@/assets/indexImage/logo1.png')
+              "
+            />
+          </router-link>
         </div>
         <el-menu
           :class="{
@@ -30,17 +32,43 @@
           <router-link to="/index">
             <div class="workButton">我的工作台</div>
           </router-link>
-          <div class="avatarArea">
-            <img
-              loading="lazy"
-              src="/girl.png"
-              width="40"
-              height="40"
-              decoding="async"
-              data-nimg="1"
-              class="avatar"
-            />
-          </div>
+          <el-dropdown trigger="click">
+            <div class="avatarArea">
+              <img
+                loading="lazy"
+                src="/girl.png"
+                width="40"
+                height="40"
+                decoding="async"
+                data-nimg="1"
+                class="avatar"
+              />
+            </div>
+            <el-dropdown-menu slot="dropdown">
+              <div class="dropdown-main">
+                <div class="dropdown-main-header">
+                  <img
+                    loading="lazy"
+                    src="/girl.png"
+                    width="40"
+                    height="40"
+                    decoding="async"
+                    data-nimg="1"
+                    class="avatar"
+                  />
+                  <div class="dropdown-main-text">
+                    ****{{ phone.slice(-4) }}
+                  </div>
+                </div>
+                <div class="parttion"></div>
+                <div class="dropdown-main-content">
+                  <div>我的算力</div>
+                  <div class="parttion"></div>
+                  <div @click="logout">退出登录</div>
+                </div>
+              </div>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
         <el-button
           :class="{
@@ -136,7 +164,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isLogin"]),
+    ...mapGetters(["isLogin", "phone"]),
   },
   methods: {
     showLogin() {
@@ -145,16 +173,31 @@ export default {
         this.get_wx_qrcode();
       });
     },
-    async handleGetCode() {
+    validatePhoneNumber(phoneNumber) {
       const reg = /^[1][3-9][0-9]{9}$/;
-      if (!this.loginForm.phone) {
-        this.$message.error("请输入手机号");
-        return;
+
+      // 检查是否为空
+      if (!phoneNumber) {
+        this.$message({
+          message: "❌ 请输入手机号 ❗",
+          type: "error",
+        });
+        return false;
       }
-      if (!reg.test(this.loginForm.phone) && this.loginForm.phone != "") {
-        this.$message.error("请输入正确的电话号码");
-        return;
+
+      // 检查手机号格式
+      if (!reg.test(phoneNumber)) {
+        this.$message({
+          message: "❌ 请输入正确的电话号码 ❗",
+          type: "error",
+        });
+        return false;
       }
+
+      return true;
+    },
+    async handleGetCode() {
+      if (!this.validatePhoneNumber(this.loginForm.phone)) return;
       this.startCountdown();
       // 发送获取验证码的请求
       await getSmsCode(this.loginForm.phone).then((res) => {
@@ -172,8 +215,13 @@ export default {
       }, 1000);
     },
     login() {
+      if (!this.validatePhoneNumber(this.loginForm.phone)) return;
       if (this.loginForm.code == "") {
-        this.$message.error("验证码不能为空");
+        this.$message({
+          message: "❌ 验证码不能为空 ❗",
+          type: "",
+        });
+        return;
       }
       this.$store.dispatch("SMSLogin", this.loginForm).then(() => {
         this.$router.push({ path: this.redirect || "/index" }).catch(() => {});
@@ -205,6 +253,11 @@ export default {
         }
       }
       this.menuChild.childMenu = data;
+    },
+    async logout() {
+      this.$store.dispatch("LogOut").then(() => {
+        location.href = "/";
+      });
     },
   },
   watch: {
@@ -361,7 +414,42 @@ export default {
   border-color: #333;
   color: #333;
 }
-
+.dropdown-main {
+  width: 240px;
+  border-radius: 10px;
+  padding: 30px 30px 8px;
+  background-color: #fff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+.dropdown-main-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dropdown-main-text {
+  margin-top: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.parttion {
+  height: 1px;
+  width: 180px;
+  background-color: #e3e3e3;
+  margin-bottom: 18px;
+  margin-top: 6px;
+}
+.dropdown-main-content {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
 .header-menu-down {
   height: calc(100vh - 80px);
   background-color: hsla(0, 0%, 100%, 0.6);

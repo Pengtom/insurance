@@ -138,7 +138,10 @@ export default {
         const dataUrl = reader.result;
         const img = new Image();
         img.onerror = () => {
-          this.$message.error('图片文件无法加载，文件可能已损坏');
+          this.$message({
+            message: "❌ 图片文件无法加载，文件可能已损坏 ❗",
+            type: 'error',
+          });
         };
         img.src = dataUrl;
       };
@@ -148,12 +151,18 @@ export default {
       const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/webp'];
       const isAllowedType = allowedTypes.includes(file.file.type);
       if (!isAllowedType) {
-        this.$message.error('不允许上传此类型的文件');
+        this.$message({
+          message: "❌ 不允许上传此类型的文件 ❗",
+          type: 'error',
+        });
         return;
       }
-      const isLt10M = file.file.size / 1024 / 1024 < 10;
-      if (!isLt10M) {
-        this.$message.error('图片大小不能超过 10MB!');
+      const isLt5M = file.file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message({
+          message: "❌ 图片大小不能超过 5MB ❗",
+          type: 'error',
+        });
         return;
       }
       this.iSImageStatus(file.file)
@@ -225,7 +234,10 @@ export default {
       event.preventDefault()
       if (this.currentTask.clickCoordinates) {
         if (this.currentTask.clickCoordinates.length > 20) {
-          this.$message.error("点击次数太多！")
+          this.$message({
+            message: "❌ 点击次数太多 ❗",
+            type: 'error',
+          });
           return;
         }
       } else {
@@ -390,7 +402,7 @@ export default {
       this.radio = radioval
     },
     async img2img() {
-      if (!this.selectModelId) {
+      if (!this.selectModelId && this.radio !== 1) {
         this.$message({
           message: "❌ 请选择或填写AI模特、商拍场景或描述中的至少一项 ❗",
           type: '',

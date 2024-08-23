@@ -444,6 +444,7 @@ p {
   position: sticky;
   bottom: 0;
   width: 100%;
+  height: 60px;
   text-align: center;
   padding: 10px;
   z-index: 1;

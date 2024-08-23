@@ -8,6 +8,7 @@ const user = {
     id: '',
     name: '',
     avatar: '',
+    phone: '',
     isLogin: getIsLogin(),
     roles: [],
     permissions: []
@@ -25,6 +26,9 @@ const user = {
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
+    },
+    SET_PHONE(state, phone){
+      state.phone = phone
     },
     SET_ISLOGIN:(state,islogin) =>{
       state.isLogin = islogin
@@ -91,6 +95,7 @@ const user = {
         getInfo().then(res => {
           const user = res.user
           const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/images/profile.jpg") : user.avatar;
+          const phone = (user.phonenumber == "" || user.phonenumber == null) ? '' : user.phonenumber;
           if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', res.roles)
             commit('SET_PERMISSIONS', res.permissions)
@@ -100,6 +105,7 @@ const user = {
           commit('SET_ID', user.userId)
           commit('SET_NAME', user.userName)
           commit('SET_AVATAR', avatar)
+          commit('SET_PHONE', phone)
           resolve(res)
         }).catch(error => {
           reject(error)

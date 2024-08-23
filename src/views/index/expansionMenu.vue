@@ -15,7 +15,7 @@
               :key="subIndex"
               class="sub-menu"
             >
-              <router-link :to="subMenu.path" class="sub-menu-title">{{
+              <router-link to="/start/photograph/test" class="sub-menu-title">{{
                 subMenu.meta.title
               }}</router-link>
               <div v-if="subMenu.children" class="sub-sub-menu">

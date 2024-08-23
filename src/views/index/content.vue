@@ -1,6 +1,15 @@
 <template>
   <div>
     <div class="main-content">
+      <div style="position: absolute !important; width: 100%; height: 100%">
+        <img
+          class="image-bg"
+          src="@/assets/indexImage/首页-未登录-image63.jpg"
+          width="100%"
+          height="100%"
+        />
+      </div>
+      <div style="width: 100%; height: 80px"></div>
       <div class="content-wrapper">
         <h1 class="content-wrapper">
           <p class="primary-text">专注电商需求的AI商拍工具</p>
@@ -41,6 +50,66 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="global-trust">
+        <div class="trust-title">来自全球30万+用户的信赖</div>
+        <div class="trust-images">
+          <img
+            src="@/assets/indexImage/首页-未登录-image65.png"
+            width="94.39999999999999"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image66.png"
+            width="51.2"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image67.png"
+            width="100.80000000000001"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image68.png"
+            width="84"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image69.png"
+            width="76"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image70.png"
+            width="60"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image71.png"
+            width="80"
+            height="24"
+            class="trust-image"
+          />
+          <img
+            src="@/assets/indexImage/首页-未登录-image72.png"
+            width="72"
+            height="24"
+            class="trust-image"
+          />
+        </div>
+        <img
+          loading="lazy"
+          src="https://www.weshop.com/ic_home_more_arrow.svg"
+          width="30"
+          height="30"
+          style="margin-top: 15px; cursor: pointer; margin-bottom: 25px"
+        />
       </div>
     </div>
     <div class="container">
@@ -111,9 +180,9 @@
               <p>个性化分发与效果分析</p>
             </div>
           </div>
-          <a class="cta-link">
+          <router-link to="/work/imgtoimg/model" class="cta-link">
             <div class="cta-text">免费试用</div>
-          </a>
+          </router-link>
         </div>
       </div>
       <div class="spacer-1 spacer-2">
@@ -642,19 +711,22 @@ export default {
 <style scoped>
 .main-content {
   position: relative;
-  text-align: center;
-  padding: 100px 20px;
-  background: url("../../assets/indexImage/首页-未登录-image63.jpg") no-repeat
-    center center/cover;
-  opacity: 0.9;
   height: 100vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  color: #fff;
 }
-
+.image-bg {
+  height: 100%;
+  width: 100%;
+  vertical-align: middle;
+  position: absolute;
+  left: 0;
+  top: 0;
+  object-fit: cover;
+}
 .content-wrapper {
   display: flex;
   flex-direction: column;
@@ -662,6 +734,7 @@ export default {
   z-index: 3;
   margin: 0;
   padding: 10px;
+  color: #fff;
 }
 
 .primary-text {
@@ -755,6 +828,35 @@ export default {
   font-weight: 500;
 }
 
+.global-trust {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+.trust-title {
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.trust-images {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: auto;
+  gap: 48px;
+  margin-top: 18px;
+  justify-content: center;
+  height: 24px;
+}
+.trust-image {
+  display: block;
+  flex-shrink: 0;
+}
 .container {
   display: flex;
   flex-direction: column;

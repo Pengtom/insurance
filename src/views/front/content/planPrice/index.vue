@@ -29,7 +29,13 @@
           <span>10算力点 ≈ 高速生成1张图</span>
         </div>
       </div>
-      <div class="spacer"></div>
+      <div class="horizontal-spacer">
+        <div>
+          <div>
+            <el-slider v-model="value2" :max="200" :show-stops="false"></el-slider>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="plans-container" id="plan">
       <h1 class="plans-title">
@@ -109,7 +115,9 @@
                   <span>AI算力点2000（约可高速生成200张图</span>
                 </div>
               </div>
-              <div class="plan-purchase" @click="dialogVisible = true">购买（立即生效）</div>
+              <div class="plan-purchase" @click="openDialog(false)">
+                购买（立即生效）
+              </div>
             </div>
           </div>
         </div>
@@ -146,7 +154,7 @@
                   <span>AI算力点20000（约可高速生成2000张图</span>
                 </div>
               </div>
-              <div class="plan-purchase" @click="dialogVisible = showFlag = true">
+              <div class="plan-purchase" @click="openDialog(true)">
                 <span>购买（立即生效）</span>
                 <!-- <div v-if="plan.popular" class="plan-popular">热门</div> -->
               </div>
@@ -155,7 +163,12 @@
         </div>
       </div>
     </div>
-    <el-dialog :visible.sync="dialogVisible" width="auto" :before-close="closeDialog" center>
+    <el-dialog
+      :visible.sync="dialogVisible"
+      width="auto"
+      :before-close="closeDialog"
+      center
+    >
       <div class="power-package">
         <div class="power-package-title">算力包</div>
         <div class="payment-section">
@@ -165,7 +178,11 @@
               <p class="amount">¥298</p>
             </div>
             <div class="payment-methods">
-              <div class="payment-method">
+              <div
+                class="payment-method"
+                @click="selectPay('zfb')"
+                :class="{ selected: selectedPayment === 'zfb' }"
+              >
                 <img
                   src="https://www.weshop.com/alipay.svg"
                   alt="Alipay"
@@ -175,7 +192,11 @@
                 />
                 支付宝
               </div>
-              <div class="payment-method">
+              <div
+                class="payment-method"
+                @click="selectPay('wx')"
+                :class="{ selected: selectedPayment === 'wx' }"
+              >
                 <img
                   src="https://www.weshop.com/wechat.svg"
                   alt="WeChat Pay"
@@ -186,7 +207,9 @@
                 微信支付
               </div>
             </div>
-            <div class="payment-separator"></div>
+            <div class="payment-separator">
+              <img :src="wxImage" width="240" height="240" />
+            </div>
             <div class="payment-terms">
               <div class="terms-info">
                 支付完成后默认您同意
@@ -212,22 +235,61 @@
         </div>
       </div>
     </el-dialog>
+    <div>
+      <div
+        class="wrapper"
+        style="
+          --arrow-x: 5px;
+          --arrow-y: -2px;
+          inset: 117px auto auto 442px;
+          box-sizing: border-box;
+          z-index: 2050;
+          pointer-events: none;
+        "
+      >
+        <div class="box">
+          <div class="content-wrapper">
+            <div class="pricing-container">
+              <div class="pricing-option">连续包月</div>
+              <div class="pricing-option">单月购买</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { pay } from "@/api/zhiqi/wxPay";
 export default {
   data() {
     return {
       dialogVisible: false,
-      showFlag : false
+      showFlag: false,
+      wxImage: "",
+      selectedPayment: "wx",
+      value2: 105
     };
   },
-  methods:{
-    closeDialog(){
-      this.showFlag = this.dialogVisible =false
-    }
-  }
+  methods: {
+    async openDialog(subscriptions) {
+      if (subscriptions) {
+        this.showFlag = true;
+      }
+      const res = await pay({ packagesId: 2 });
+      console.log(res);
+      this.wxImage = res.msg;
+
+      this.dialogVisible = true;
+    },
+    closeDialog() {
+      this.showFlag = this.dialogVisible = false;
+    },
+    selectPay(method) {
+      this.selectedPayment = method;
+    },
+  },
 };
 </script>
 
@@ -513,6 +575,9 @@ export default {
   cursor: pointer;
   margin-right: 8px;
 }
+.payment-method.selected {
+  border-color: #7530fe; /* 选中时的边框颜色 */
+}
 .payment-icon {
   margin-right: 12px;
 }
@@ -576,5 +641,32 @@ export default {
   font-size: 12px;
   line-height: 17px;
   margin: 0;
+}
+.wrapper {
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 14px;
+  line-height: 1.5714285714285714;
+  list-style: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.box {
+  position: relative;
+}
+.content-wrapper {
+  background-color: #ffffff;
+  background-clip: padding-box;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  padding: 12px;
+}
+.pricing-container {
+  color: rgba(0, 0, 0, 0.88);
+  padding: 0;
 }
 </style>

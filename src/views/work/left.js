@@ -17,6 +17,8 @@ export default {
       selectModelId: '', //模特id
       selectFlag: false,
       quantity: 1,
+      prompt: "",
+      negativePrompt: ""
     };
   },
   computed: {
@@ -45,15 +47,14 @@ export default {
       })
     },
     async addTask() {
-      const newTaskId = Date.now() % 100000000 .toString(); // 使用时间戳作为唯一标识符
+      const newTaskId = Date.now() % 100000000
       const newTask = {
         id: newTaskId,
         imagesrc: "https://www.weshop.com/mask.svg",
-        dialogVisible: false,
         uploadedImage: null,
         fileList: [],
         showOptions: false,
-        active: true
+        // active: true
       };
       const res = await save({ type: 1, name: "任务-" + newTaskId })
       newTask.id = res.msg;
@@ -61,11 +62,9 @@ export default {
       this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
-
     toggleOptions() {
       this.currentTask.showOptions = !this.currentTask.showOptions;
     },
-
     async deleteTask(taskId) {
       await deleteTaskById(taskId)
       this.tasks = this.tasks.filter(item => item.id !== taskId)
@@ -215,12 +214,32 @@ export default {
       if (this.currentTask.id !== taskId) {
         this.currentTaskId = taskId;
         this.isDrawerVisible = true;
-        if (this.currentTask.maskImage) {
+        if(this.currentTask.fileName){
+          return
+        }else if (this.currentTask.maskImage) {
+          const file = await getFileFromUrl(this.currentTask.uploadedImage, Date.now() + ".png")
+          this.uploadingTaskId = this.currentTaskId;
           this.$set(this.currentTask, 'loading', true);
-          const res = await this.applyMask(this.currentTask.maskImage)
-          console.log(res, "=================");
+          const resizedImageBlob = await this.resizeImage(file, 1024);
+          console.log(resizedImageBlob);
 
-          this.$set(this.currentTask, 'loading', false);
+          const imageByteArray = await blobToByteArray(resizedImageBlob);
+
+          const form = new FormData();
+          form.append('image', new Blob([imageByteArray]), "image.png");
+          const task = this.currentTask;
+          await fetch('/apix/imagev2', {
+            method: "POST",
+            body: form
+          }).then((response) => response.json())
+            .then(async (data) => {
+              if (task) {
+                await this.applyMask(this.currentTask.maskImage)
+                this.$set(task, 'fileName', data.message);
+              }
+            }).catch(error => {
+              console.log(error);
+            })
         }
       }
     },
@@ -342,40 +361,6 @@ export default {
         image.onload = onImageLoad;
         mask.onload = onImageLoad;
       });
-    }
-    ,
-    async openDialog() {
-      if (this.currentTask.fileName) {
-        this.dialogVisible = true
-        return
-      }
-      const file = await getFileFromUrl(this.currentTask.uploadedImage, Date.now() + ".png")
-      this.uploadingTaskId = this.currentTaskId;
-      this.$set(this.currentTask, 'loading', true);
-      try {
-        const resizedImageBlob = await this.resizeImage(file, 1024);
-        console.log(resizedImageBlob);
-
-        const imageByteArray = await blobToByteArray(resizedImageBlob);
-
-        const form = new FormData();
-        form.append('image', new Blob([imageByteArray]), "image.png");
-        const task = this.currentTask;
-        fetch('/apix/imagev2', {
-          method: "POST",
-          body: form
-        }).then((response) => response.json())
-          .then((data) => {
-            if (task) {
-              this.$set(task, 'fileName', data.message);
-              this.dialogVisible = true
-            }
-          }).catch(error => {
-            console.log(error);
-          })
-      } finally {
-        this.uploadingTaskId = null;
-      }
     },
     async dialogclose() {
       const fileName = Date.now()
@@ -418,6 +403,11 @@ export default {
         lastMask: this.currentTask.maskImage,
         quantity: this.quantity
       }
+      if (this.radio === 1) {
+        Img2imgVo.prompt = this.prompt
+        Img2imgVo.negativePrompt = this.negativePrompt
+      }
+
       console.log(Img2imgVo);
 
       // await img2img(Img2imgVo)
@@ -427,6 +417,12 @@ export default {
     },
     selectNum(num) {
       this.quantity = num
+    },
+    correctval(correct) {
+      this.prompt = correct
+    },
+    reverseVal(reverse) {
+      this.negativePrompt = reverse
     }
   },
   watch: {

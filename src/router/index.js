@@ -42,14 +42,21 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '',
-    component: () => import('@/views/index'),
+    path: '/',
+    component: () => import('@/views/front/index'),
     hidden: true,
-    redirect:'/',
     children:[
       {
-        path:'/',
-        component:()=>import('@/views/index/content')
+        path:'',
+        component:()=>import('@/views/front/content/index/content.vue')
+      },
+      {
+        path:'/order',
+        component:()=>import('@/views/front/content/planPrice')
+      },
+      {
+        path:'/order1',
+        component:()=>import('@/views/front/content/order')
       }
     ]
   },

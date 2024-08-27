@@ -1,0 +1,580 @@
+<template>
+  <div>
+    <div class="ai-computing-power">
+      <p class="title">我的算力</p>
+      <div class="spacer">
+        <img
+          src="https://www.weshop.com/cpu-charge.svg"
+          width="44"
+          height="44"
+        />
+        <span style="color: #7530fe; margin-right: 8px">105</span>
+      </div>
+      <div class="content">
+        <p>
+          "AI算力"（AI
+          computingpower）通用于进行人工智能（AI）任务和应用的计算能力。
+        </p>
+        <p>
+          AI算力点赋予用户在WeShop唯象工具中进行生图、渲染、下载以及参与社区等操作的能力。
+        </p>
+      </div>
+      <div class="power-point-info">
+        <div class="power-point-details">
+          <img
+            src="https://www.weshop.com/cpu-charge.svg"
+            width="20"
+            height="20"
+          />
+          <span>10算力点 ≈ 高速生成1张图</span>
+        </div>
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="plans-container" id="plan">
+      <h1 class="plans-title">
+        <span class="plans-title-text"
+          >感谢您的支持，请选择适合您的专业版计划</span
+        >
+        <span>
+          <img
+            loading="lazy"
+            width="50"
+            height="26.5"
+            decoding="async"
+            class="plans-title-icon"
+            src="https://www.weshop.com/ic_pro_tag.svg"
+            style="color: transparent"
+          />
+        </span>
+      </h1>
+      <p class="plans-notice">以下专属权益供专业版用户使用</p>
+      <div class="plans-policy">
+        <div>
+          <span>️️⚡️高速GPU算力池</span>
+        </div>
+        <div class="policy-divider"></div>
+      </div>
+      <div class="plans-list">
+        <div class="plans-nav">
+          <!-- <div
+            v-for="(item, index) in navItems"
+            :key="index"
+            :class="['nav-item', { 'nav-item-active': item.active }]"
+          >
+            {{ item.label }}
+          </div> -->
+        </div>
+        <div class="monthly-plan">
+          <div class="plan-header">
+            <img
+              alt="monthly"
+              loading="lazy"
+              width="18"
+              height="18"
+              decoding="async"
+              src="https://www.weshop.com/ic_monthly_plan.svg"
+              style="color: transparent"
+            />
+            <p class="plan-title">连续包月</p>
+            <img
+              alt="dropDown"
+              loading="lazy"
+              width="10"
+              height="10"
+              decoding="async"
+              class="plan-dropdown-icon"
+              src="https://www.weshop.com/ic_subscription_down.svg"
+              style="color: transparent"
+            />
+          </div>
+          <div class="plan-content">
+            <div class="plan-details" style="border: none">
+              <div class="plan-price">
+                <p class="price-amount">¥29.8</p>
+                <span> /</span><span>月</span>
+              </div>
+              <p class="plan-description">购买后，您将获得</p>
+              <div class="plan-rights">
+                <div class="plan-right">
+                  <img
+                    alt="index"
+                    loading="lazy"
+                    width="10"
+                    height="20"
+                    decoding="async"
+                    src="	https://www.weshop.com/ic_content_solid_dot.svg"
+                    style="color: transparent"
+                  />
+                  <span>AI算力点2000（约可高速生成200张图</span>
+                </div>
+              </div>
+              <div class="plan-purchase" @click="dialogVisible = true">购买（立即生效）</div>
+            </div>
+          </div>
+        </div>
+        <div class="yearly-plan">
+          <div class="plan-header">
+            <img
+              alt="yearly"
+              loading="lazy"
+              width="18"
+              height="18"
+              decoding="async"
+              src="https://www.weshop.com/ic_yearly_plan.svg"
+              style="color: transparent"
+            />
+            <div class="plan-title">算力包</div>
+          </div>
+          <div class="plan-content">
+            <div class="plan-details plan-mobile">
+              <div class="plan-price">
+                <p class="price-amount">¥298</p>
+              </div>
+              <p class="plan-description">购买后，您将获得</p>
+              <div class="plan-rights">
+                <div class="plan-right">
+                  <img
+                    alt="index"
+                    loading="lazy"
+                    width="10"
+                    height="20"
+                    decoding="async"
+                    src="	https://www.weshop.com/ic_content_solid_dot.svg"
+                    style="color: transparent"
+                  />
+                  <span>AI算力点20000（约可高速生成2000张图</span>
+                </div>
+              </div>
+              <div class="plan-purchase" @click="dialogVisible = showFlag = true">
+                <span>购买（立即生效）</span>
+                <!-- <div v-if="plan.popular" class="plan-popular">热门</div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <el-dialog :visible.sync="dialogVisible" width="auto" :before-close="closeDialog" center>
+      <div class="power-package">
+        <div class="power-package-title">算力包</div>
+        <div class="payment-section">
+          <div class="payment-details">
+            <div class="payment-amount">
+              扫码支付：
+              <p class="amount">¥298</p>
+            </div>
+            <div class="payment-methods">
+              <div class="payment-method">
+                <img
+                  src="https://www.weshop.com/alipay.svg"
+                  alt="Alipay"
+                  class="payment-icon"
+                  width="22"
+                  height="22"
+                />
+                支付宝
+              </div>
+              <div class="payment-method">
+                <img
+                  src="https://www.weshop.com/wechat.svg"
+                  alt="WeChat Pay"
+                  class="payment-icon"
+                  width="22"
+                  height="22"
+                />
+                微信支付
+              </div>
+            </div>
+            <div class="payment-separator"></div>
+            <div class="payment-terms">
+              <div class="terms-info">
+                支付完成后默认您同意
+                <a href="" class="terms-link">
+                  <p class="terms-text">相关协议条例</p>
+                </a>
+              </div>
+              <div class="refund-policy">虚拟商品, 不支持退款</div>
+            </div>
+          </div>
+          <div class="package-info" v-if="showFlag">
+            <div class="package-details">
+              <div class="pricing-info">
+                <p class="price-amount">¥298</p>
+                <p class="points-amount">20000算力点</p>
+              </div>
+              <div class="pricing-info">
+                <p class="validity-period">有效期1年</p>
+                <p class="validity-period">约可高速生成2000张图</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      dialogVisible: false,
+      showFlag : false
+    };
+  },
+  methods:{
+    closeDialog(){
+      this.showFlag = this.dialogVisible =false
+    }
+  }
+};
+</script>
+
+<style scoped>
+.ai-computing-power {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 200px 20px 110px;
+  color: #333;
+  background: linear-gradient(180deg, #fff, #f5f7fd);
+}
+.title {
+  font-size: 40px;
+  font-weight: 500;
+  margin: 0;
+}
+.spacer {
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-weight: 400;
+  line-height: 48px;
+}
+.content {
+  margin-top: 30px;
+  max-width: 920px;
+  width: 100%;
+  text-align: center;
+  color: #97a0b4;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.content p {
+  margin: 0;
+}
+.power-point-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.power-point-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  color: #7530fe;
+  font-size: 14px;
+  line-height: 20px;
+}
+.plans-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 110px 20px;
+}
+.plans-title {
+  font-size: 40px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0;
+}
+.plans-title-text {
+  font-size: 50px;
+  font-weight: 500;
+}
+.plans-title-icon {
+  margin-left: 4px;
+  vertical-align: text-top;
+}
+.plans-notice {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+  color: #333;
+}
+.plans-policy {
+  margin-top: 30px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1280px;
+  color: #333;
+}
+.policy-divider {
+  height: 17px;
+  border-right: 1px solid #97a0b4;
+  opacity: 0.3;
+}
+.plans-list {
+  width: 100%;
+  margin-top: 50px;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  min-height: 433px;
+}
+.monthly-plan {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #f5f7fd;
+  box-shadow: 0 0 20px 0 rgba(219, 214, 250, 0.26);
+}
+.plan-header {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 24px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(270deg, #7530fe, #000);
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+}
+.plan-title {
+  margin: 0;
+  padding: 0;
+  margin-left: 8px;
+}
+.plan-dropdown-icon {
+  cursor: pointer;
+  margin-left: 4px;
+}
+.plan-content {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  color: #403d3c;
+}
+.plan-details {
+  width: 292px;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 30px;
+  border-right: 1px solid #edeaea;
+  position: relative;
+}
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  color: #403d3c;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+}
+.price-amount {
+  margin: 0;
+  margin-right: 8px;
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 48px;
+}
+.plan-description {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 17px;
+  margin: 0;
+  padding: 0;
+}
+.plan-rights {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  color: #333;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.plan-right {
+  display: flex;
+  gap: 8px;
+}
+
+.plan-purchase {
+  height: 50px;
+  position: absolute;
+  bottom: 26px;
+  left: 26px;
+  right: 26px;
+  border-radius: 10px;
+  color: #fff;
+  background-color: #7530fe;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.yearly-plan {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #f5f7fd;
+  box-shadow: 0 0 20px 0 rgba(219, 214, 250, 0.26);
+}
+
+.el-dialog__wrapper {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+::v-deep .el-dialog__wrapper .el-dialog {
+  border-radius: 20px;
+}
+::v-deep .el-dialog__header {
+  padding: 0;
+}
+::v-deep .el-dialog__headerbtn {
+  z-index: 10;
+}
+::v-deep .el-dialog__body {
+  padding: 0;
+  display: inline-flex;
+}
+.power-package {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  color: #333;
+  background-color: #fff;
+  border-radius: 20px;
+}
+.power-package-title {
+  font-size: 24px;
+  line-height: 28px;
+}
+.payment-section {
+  display: flex;
+  margin-top: 30px;
+}
+.payment-details {
+  width: 360px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f5f7fd;
+  padding: 24px 0;
+  border-radius: 10px;
+}
+.payment-amount {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 14px;
+  line-height: 20px;
+  justify-content: center;
+}
+.amount {
+  font-size: 32px;
+  line-height: 40px;
+  margin: 0;
+  margin-top: 12px;
+}
+.payment-methods {
+  display: flex;
+}
+.payment-method {
+  display: flex;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  width: 116px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e3e3e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: 8px;
+}
+.payment-icon {
+  margin-right: 12px;
+}
+.payment-separator {
+  width: 240px;
+  height: 240px;
+  margin-top: 12px;
+}
+.payment-terms {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.terms-info {
+  margin-top: 12px;
+  color: #97a0b4;
+  display: flex;
+  font-size: 12px;
+  line-height: 17px;
+}
+.terms-text {
+  text-decoration: underline;
+  color: #97a0b4;
+  margin: 0;
+}
+.refund-policy {
+  color: #97a0b4;
+  margin-top: 24px;
+  font-size: 12px;
+  line-height: 17px;
+}
+.package-info {
+  margin-left: 24px;
+  width: 358px;
+}
+.package-details {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #f5f7fd;
+  margin-bottom: 16px;
+  cursor: pointer;
+  border: 1px solid #f5f7fd;
+}
+.pricing-info {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.price-amount {
+  font-size: 32px;
+  line-height: 40px;
+  margin: 0;
+}
+.points-amount {
+  font-size: 26px;
+  line-height: 36px;
+  margin: 0;
+}
+.validity-period {
+  font-size: 12px;
+  line-height: 17px;
+  margin: 0;
+}
+</style>

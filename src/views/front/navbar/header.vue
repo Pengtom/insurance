@@ -1,6 +1,10 @@
 <template>
   <header
-    :class="{ header: true, 'header-active': menuChild.showflag || flag }"
+    :class="{
+      header: true,
+      'header-active': menuChild.showflag || flag,
+      'header-sticky': isSticky,
+    }"
   >
     <div class="header-menu">
       <div class="header-nav">
@@ -8,7 +12,7 @@
           <router-link to="/">
             <img
               :src="
-                menuChild.showflag || flag
+                menuChild.showflag || flag || headerClassflag
                   ? require('@/assets/indexImage/logo.png')
                   : require('@/assets/indexImage/logo1.png')
               "
@@ -17,7 +21,7 @@
         </div>
         <el-menu
           :class="{
-            'active-menu': menuChild.showflag || flag,
+            'active-menu': menuChild.showflag || flag || headerClassflag,
           }"
         >
           <menu-item
@@ -62,7 +66,12 @@
                 </div>
                 <div class="parttion"></div>
                 <div class="dropdown-main-content">
-                  <div>我的算力</div>
+                  <div class="dropdown-select">
+                    <router-link to="/order"> 我的算力 </router-link>
+                  </div>
+                  <div class="dropdown-select">
+                    <router-link to="/order1"> 我的订单 </router-link>
+                  </div>
                   <div class="parttion"></div>
                   <div @click="logout">退出登录</div>
                 </div>
@@ -73,7 +82,7 @@
         <el-button
           :class="{
             'login-button': true,
-            'active-button': menuChild.showflag || flag,
+            'active-button': menuChild.showflag || flag || headerClassflag,
           }"
           @click="showLogin"
           v-if="!isLogin"
@@ -165,6 +174,13 @@ export default {
   },
   computed: {
     ...mapGetters(["isLogin", "phone"]),
+    headerClassflag() {
+      return this.$route.path === "/" ? false : true;
+    },
+    isSticky() {
+      const stickyPaths = ["/order", "/"];
+      return !stickyPaths.includes(this.$route.path);
+    },
   },
   methods: {
     showLogin() {
@@ -263,6 +279,7 @@ export default {
   watch: {
     $route: {
       handler: function (route) {
+        this.menuChild.showflag = false;
         this.redirect = route.query && route.query.redirect;
       },
       immediate: true,
@@ -309,7 +326,9 @@ export default {
   z-index: 999;
   flex-direction: column;
 }
-
+.header-sticky {
+  position: sticky;
+}
 .header-active .header-nav {
   background-color: #fff;
 }
@@ -448,6 +467,9 @@ export default {
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
+  margin-bottom: 12px;
+}
+.dropdown-select {
   margin-bottom: 12px;
 }
 .header-menu-down {

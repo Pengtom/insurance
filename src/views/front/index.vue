@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow:hidden;">
+  <div>
     <headerVue :menuItems="menuItems" :flag="flag" />
     <!-- <contentVue/> -->
     <app-main/>
@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import headerVue from "./header.vue";
+import headerVue from "./navbar/header.vue";
 import { getDefaultRouters } from "@/api/menu";
-import footerVue from "./footer.vue";
-import { AppMain } from '@/layout/components';
+import footerVue from "./footer/footer.vue";
+import { AppMain } from "@/layout/components";
 
 
 export default {
@@ -51,6 +51,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

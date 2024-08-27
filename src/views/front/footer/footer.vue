@@ -30,17 +30,17 @@
           <div class="extra-item-group-one">关注我们</div>
           <div class="extra-item-group-two">
             <img
-              src="../../assets/indexImage/首页-未登录-image74.png"
+              :src="require('@/assets/indexImage/首页-未登录-image74.png')"
               width="24"
               height="24"
             />
             <img
-              src="../../assets/indexImage/首页-未登录-image75.png"
+              :src="require('@/assets/indexImage/首页-未登录-image75.png')"
               width="24"
               height="24"
             />
             <img
-              src="../../assets/indexImage/首页-未登录-image76.png"
+              :src="require('@/assets/indexImage/首页-未登录-image76.png')"
               width="24"
               height="24"
             />
@@ -64,7 +64,7 @@
               width="16"
               height="16"
               loading="lazy"
-              src="../../assets/indexImage/首页-未登录-image77.png"
+              :src="require('@/assets/indexImage/首页-未登录-image77.png')"
               style="margin-left: 4px"
             />
             <p>粤公网安备 xxxxxxxxxxxxxxxx号</p>

@@ -4,7 +4,7 @@
       <div style="position: absolute !important; width: 100%; height: 100%">
         <img
           class="image-bg"
-          src="@/assets/indexImage/首页-未登录-image63.jpg"
+          :src="require('@/assets/indexImage/首页-未登录-image63.jpg')"
           width="100%"
           height="100%"
         />
@@ -55,49 +55,49 @@
         <div class="trust-title">来自全球30万+用户的信赖</div>
         <div class="trust-images">
           <img
-            src="@/assets/indexImage/首页-未登录-image65.png"
+            :src="require('@/assets/indexImage/首页-未登录-image65.png')"
             width="94.39999999999999"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image66.png"
+            :src="require('@/assets/indexImage/首页-未登录-image66.png')"
             width="51.2"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image67.png"
+            :src="require('@/assets/indexImage/首页-未登录-image67.png')"
             width="100.80000000000001"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image68.png"
+            :src="require('@/assets/indexImage/首页-未登录-image68.png')"
             width="84"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image69.png"
+            :src="require('@/assets/indexImage/首页-未登录-image69.png')"
             width="76"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image70.png"
+            :src="require('@/assets/indexImage/首页-未登录-image70.png')"
             width="60"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image71.png"
+            :src="require('@/assets/indexImage/首页-未登录-image71.png')"
             width="80"
             height="24"
             class="trust-image"
           />
           <img
-            src="@/assets/indexImage/首页-未登录-image72.png"
+            :src="require('@/assets/indexImage/首页-未登录-image72.png')"
             width="72"
             height="24"
             class="trust-image"
@@ -120,7 +120,9 @@
             <img
               width="580"
               height="420"
-              src="../../assets/indexImage/首页-未登录-image62.png"
+              :src="
+                require('@/assets/indexImage/首页-未登录-image62.png')
+              "
               alt="Content Image 1"
               class="main-image"
             />
@@ -194,14 +196,18 @@
                 width="580"
                 height="420"
                 loading="lazy"
-                src="../../assets/indexImage/首页-未登录-image60.png"
+                :src="
+                  require('@/assets/indexImage/首页-未登录-image60.png')
+                "
               />
               <img
                 class="image2"
                 width="580"
                 height="420"
                 loading="lazy"
-                src="../../assets/indexImage/首页-未登录-image60.png"
+                :src="
+                  require('@/assets/indexImage/首页-未登录-image60.png')
+                "
               />
             </div>
             <div class="featured-images">
@@ -218,14 +224,18 @@
                   width="580"
                   height="360"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image53.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image53.png')
+                  "
                 />
                 <img
                   class="image2"
                   width="580"
                   height="360"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image53.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image53.png')
+                  "
                 />
               </div>
             </div>
@@ -243,14 +253,18 @@
                   width="130"
                   height="170"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image61.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image61.png')
+                  "
                 />
                 <img
                   class="image2"
                   width="130"
                   height="170"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image61.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image61.png')
+                  "
                 />
               </div>
             </div>
@@ -261,7 +275,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image59.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image59.png')
+                  "
                 />
               </div>
               <div class="icon-item">
@@ -270,7 +286,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image58.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image58.png')
+                  "
                 />
               </div>
               <div class="icon-item">
@@ -279,7 +297,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image57.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image57.png')
+                  "
                 />
               </div>
               <div class="icon-item">
@@ -288,7 +308,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image56.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image56.png')
+                  "
                 />
               </div>
             </div>
@@ -379,14 +401,18 @@
                   width="580"
                   height="360"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image54.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image54.png')
+                  "
                 />
                 <img
                   class="image2"
                   width="580"
                   height="360"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image54.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image54.png')
+                  "
                 />
               </div>
             </div>
@@ -404,14 +430,18 @@
                   width="130"
                   height="170"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image55.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image55.png')
+                  "
                 />
                 <img
                   class="image2"
                   width="130"
                   height="170"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image55.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image55.png')
+                  "
                 />
               </div>
             </div>
@@ -422,7 +452,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image52.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image52.png')
+                  "
                 />
               </div>
               <div class="icon-item">
@@ -431,7 +463,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image51.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image51.png')
+                  "
                 />
               </div>
               <div class="icon-item">
@@ -440,7 +474,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image50.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image50.png')
+                  "
                 />
               </div>
               <div class="icon-item">
@@ -449,7 +485,9 @@
                   width="68"
                   height="68"
                   loading="lazy"
-                  src="../../assets/indexImage/首页-未登录-image49.png"
+                  :src="
+                    require('@/assets/indexImage/首页-未登录-image49.png')
+                  "
                 />
               </div>
             </div>
@@ -522,7 +560,9 @@
               height="220"
               loading="lazy"
               class="custom-main-img"
-              src="../../assets/indexImage/首页-未登录-image48.png"
+              :src="
+                require('@/assets/indexImage/首页-未登录-image48.png')
+              "
             />
             <div class="custom-text-overlay">
               去背景
@@ -543,7 +583,9 @@
               height="220"
               loading="lazy"
               class="custom-main-img"
-              src="../../assets/indexImage/首页-未登录-image47.png"
+              :src="
+                require('@/assets/indexImage/首页-未登录-image47.png')
+              "
             />
             <div class="custom-text-overlay">
               高清增强
@@ -564,7 +606,9 @@
               height="220"
               loading="lazy"
               class="custom-main-img"
-              src="../../assets/indexImage/首页-未登录-image46.png"
+              :src="
+                require('@/assets/indexImage/首页-未登录-image46.png')
+              "
             />
             <div class="custom-text-overlay">
               智能打光
@@ -585,7 +629,9 @@
               height="220"
               loading="lazy"
               class="custom-main-img"
-              src="../../assets/indexImage/首页-未登录-image45.png"
+              :src="
+                require('@/assets/indexImage/首页-未登录-image45.png')
+              "
             />
             <div class="custom-text-overlay">
               图生图
@@ -606,7 +652,9 @@
               height="220"
               loading="lazy"
               class="custom-main-img"
-              src="../../assets/indexImage/首页-未登录-image44.png"
+              :src="
+                require('@/assets/indexImage/首页-未登录-image44.png')
+              "
             />
             <div class="custom-text-overlay">
               文生图
@@ -637,7 +685,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="../../assets/indexImage/首页-未登录-image.png"
+                      src="require('@/assets/indexImage/首页-未登录-image.png"
                     />
                     精选
                   </div>
@@ -652,7 +700,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="../../assets/indexImage/首页-未登录-image2.png"
+                      src="require('@/assets/indexImage/首页-未登录-image2.png"
                     />
                     服饰
                   </div>
@@ -667,7 +715,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="../../assets/indexImage/首页-未登录-image3.png"
+                      src="require('@/assets/indexImage/首页-未登录-image3.png"
                     />
                     美妆个护
                   </div>
@@ -682,7 +730,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="../../assets/indexImage/首页-未登录-image4.png"
+                      src="require('@/assets/indexImage/首页-未登录-image4.png"
                     />
                     家具
                   </div>

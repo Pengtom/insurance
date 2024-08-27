@@ -6,7 +6,7 @@
         <el-radio-button :label="1">自定义</el-radio-button>
       </el-radio-group>
     </div>
-    <div style="padding: 0 10px; overflow-y: auto">
+    <div style="padding: 0 10px">
       <div class="container" v-if="radio === 0">
         <!-- AI 模特部分 -->
         <div class="ai-models">
@@ -60,11 +60,12 @@
           <div class="input-section">
             <label>场景描述</label>
             <el-input
+              v-model="correct"
               type="textarea"
               placeholder="TIPS:场景描述请写场景以及位置等信息
 例如：一杯牛奶放在餐桌上，清晨，温馨"
               :rows="16"
-              maxlength="1500"
+              :maxlength="1500"
               show-word-limit
             />
           </div>
@@ -73,6 +74,7 @@
           <div class="input-section">
             <label>不希望出现的内容</label>
             <el-input
+              v-model="reverse"
               type="textarea"
               placeholder="请输入不希望出现的内容"
               :rows="16"
@@ -107,6 +109,8 @@ export default {
       ],
       modelsIndex: "",
       radio: 0,
+      correct: "",
+      reverse: "",
     };
   },
   mounted() {
@@ -128,6 +132,12 @@ export default {
   watch: {
     radio(newval) {
       this.$emit("radioval", newval);
+    },
+    correct(newVal) {
+      this.$emit("correctval", newVal);
+    },
+    reverse(newVal) {
+      this.$emit("reverseVal", newVal);
     },
   },
 };
@@ -225,6 +235,7 @@ export default {
   align-items: stretch; /* 保持两边高度一致 */
   gap: 20px; /* 两边之间的间距 */
   margin-top: 5%;
+  height: 350px;
 }
 
 .left-section,
@@ -233,10 +244,9 @@ export default {
 }
 
 .input-section {
-  background-color: #f9f9f9;
+  background: rgba(4, 17, 51, 0.05);
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   height: 100%; /* 确保内部元素撑开整个容器的高度 */
 }
 
@@ -244,5 +254,22 @@ label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
+}
+::v-deep .el-input--medium {
+  height: 300px;
+}
+::v-deep .el-textarea__inner {
+  height: 270px;
+  background: transparent;
+  border: none;
+  resize: none;
+}
+::v-deep .el-input__count {
+  background: transparent;
+  border: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  border-top: 1px solid #d9d9d9;
 }
 </style>

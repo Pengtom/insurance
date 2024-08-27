@@ -22,7 +22,7 @@
               width="50"
               height="50"
               decoding="async"
-              :src="task.uploadedImage || task.imagesrc"
+              src="task.uploadedImage || task.imagesrc"
             />
             <div class="task-details">
               <span class="task-tag">任务-{{ task.id % 10000000 }}</span>
@@ -48,9 +48,6 @@
         </div>
       </div>
     </div>
-    <canvas id="imageCanvas"></canvas>
-    <canvas id="maskCanvas"></canvas>
-    <canvas id="resultCanvas"></canvas>
     <!-- 抽屉组件 -->
     <el-drawer
       :visible.sync="isDrawerVisible"
@@ -62,54 +59,103 @@
       @close="handleDrawerClose"
     >
       <transition name="fade-in-out" mode="out-in">
-        <div
-          v-if="currentTaskId !== null"
-          key="currentTaskId"
-          class="dialog-content"
-        >
-          <div class="upload-section" v-if="!currentTask.uploadedImage">
-            <el-upload
-              class="upload-demo"
-              :limit="1"
-              drag
-              action="#"
-              v-loading="uploadingTaskId !== null"
-              :http-request="handleUpload"
-              :file-list="currentTask.fileList"
-            >
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">点击上传或将图片拖入此区域</div>
-              <div class="el-upload__tip" slot="tip">
-                文件不超过20mb，不支持gif/avif格式
-              </div>
-            </el-upload>
+        <div class="drawer-content">
+          <div class="drawer-header">
+            <div>
+              <div class="model-label">模型</div>
+              <el-select
+                v-model="currentTask.checkpoint"
+                placeholder="CHECKPOINT"
+              >
+                <el-option label="ChilloutMix" value="ChilloutMix"></el-option>
+              </el-select>
+            </div>
+            <div>
+              <div class="model-label">VAE模型</div>
+              <el-select v-model="currentTask.vae" placeholder="VAE">
+                <el-option label="自动" value="auto"></el-option>
+              </el-select>
+            </div>
+            <div>
+              <div class="model-label">终止次数</div>
+              <el-select v-model="currentTask.clipSkip" placeholder="Clip Skip">
+                <el-option label="1" value="1"></el-option>
+              </el-select>
+            </div>
           </div>
-          <template v-else>
-            <div class="image-preview">
-              <img
-                :src="currentTask.uploadedImage"
-                alt="Uploaded Image"
-                class="uploaded-image"
-                ref="uploadedImage"
+          <div class="drawer-body">
+            <div class="drawer-column">
+              <h3>请输入正向咒语</h3>
+              <el-input
+                type="textarea"
+                v-model="currentTask.prompt"
+                :rows="16"
+                :maxlength="1500"
+                placeholder="Write your prompt"
+                show-word-limit
               />
-              <p>原图</p>
             </div>
-            <div class="image-preview image-preview2">
-              <img :src="currentTask.maskImageSrc" class="uploaded-image" />
-              <p v-if="currentTask.loading">选区图</p>
-              <p v-if="!currentTask.loading">
-                <a
-                  @click="dialogVisible = true"
-                  style="color: #7530fe; text-decoration: underline"
-                  >编辑选区</a
-                >
-              </p>
+            <div class="drawer-column">
+              <h3>请输入反向咒语</h3>
+              <el-input
+                type="textarea"
+                :rows="16"
+                :maxlength="1500"
+                placeholder="Write your Negative prompt"
+                show-word-limit
+              />
             </div>
-          </template>
+          </div>
         </div>
-        ·
       </transition>
-      <custom @radioval="radioval" @correctval="correctval" @reverseVal="reverseVal" @modelId="modelId" />
+      <div style="padding: 0 3% 5% 2%">
+        <div class="slider-container">
+          <label class="slider-label"> lora模型 </label>
+          <div class="loras">
+            <div v-for="(lora, index) in loras" :key="index" class="lora-item">
+              <div class="counter-controls">
+                <div class="counter-button" @click="decrement(lora)">-</div>
+                <div>权重{{ lora.weight }}</div>
+                <div class="counter-button" @click="increment(lora)">+</div>
+              </div>
+              <img
+                :src="lora.modelImage"
+                width="90"
+                height="90"
+                class="lora-image"
+                :class="{ outline: loraIndex === lora.id }"
+                @click="handleClick(lora.id)"
+              />
+              <span class="model-name">{{ lora.modelName }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="slider-container">
+          <label for="iteration-slider" class="slider-label"> 迭代步数 </label>
+          <el-slider
+            id="iteration-slider"
+            v-model="value1"
+            :step="10"
+            :min="0"
+            :max="100"
+          >
+          </el-slider>
+          <div class="slider-value">当前步数: {{ value1 }}</div>
+        </div>
+        <div class="size-generator">
+          <label for="iteration-slider" class="slider-label"> 选择尺寸 </label>
+          <div class="size-selection">
+            <div
+              v-for="(size, index) in sizes"
+              :key="size.value"
+              class="size-option"
+              :class="{ outline: selectedSize === index }"
+            >
+              <div @click="selectSize(index)" class="size-preview">{{ size.label }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
@@ -118,7 +164,7 @@
           >
         </div>
         <div class="button-container">
-          <el-button class="execute-button" @click="img2img">执行</el-button>
+          <el-button class="execute-button" @click="txt2img">执行</el-button>
           <div class="settings-container">
             <div class="settings-image" @click="openSelectFlag">
               <img
@@ -169,53 +215,18 @@
         </div>
       </div>
     </el-drawer>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="50%"
-      :modal="false"
-      flex
-      :before-close="dialogclose"
-    >
-      <img
-        :src="currentTask.uploadedImage"
-        alt="Uploaded Image"
-        ref="uploadedImage"
-        style="cursor: Pointer; object-fit: contain"
-        @click="getImageClickCoordinates"
-        @contextmenu.prevent="getImageClickCoordinates"
-        width="350"
-        height="350"
-      />
-      <img
-        width="350"
-        height="350"
-        :src="currentTask.maskImageSrc"
-        class="overlay-image"
-      />
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogclose">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import left from "../left";
-import custom from "./custom.vue";
+import left from "./left";
 export default {
   ...left,
-  components: {
-    custom,
-  },
+  components: {},
 };
 </script>
 
 <style scoped>
-canvas {
-  display: none;
-}
 .left-container {
   width: 20%;
   height: 100%;
@@ -367,65 +378,60 @@ p {
   scrollbar-width: none;
 }
 
-.dialog-content {
+.drawer-content {
+  padding: 20px 20px 0 20px;
+}
+
+.drawer-header {
   display: flex;
   justify-content: space-between;
-  padding: 0px 30px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
-
-.upload-section {
-  width: 300px;
-  height: 300px;
-  padding-right: 20px;
+.model-label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
 }
-
-::v-deep .el-upload-dragger {
-  width: 300px;
-  height: 300px;
-}
-
-::v-deep .el-icon-upload {
-  margin-top: 33%;
-}
-
-.image-preview {
-  width: 50%;
+.drawer-body {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 30px;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+  margin-top: 5%;
+  margin-bottom: 20px;
+  height: 350px;
 }
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 10;
-}
-
-.uploaded-image {
-  background-color: #f5f7fd;
-  width: 100%;
-  height: 100%;
+.drawer-column {
+  width: 48%;
+  background: rgba(4, 17, 51, 0.05);
+  padding: 10px;
   border-radius: 8px;
-  object-fit: contain;
+  height: 100%;
 }
 
-.canvas-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none; /* Allow clicks to pass through canvas to the image */
+.drawer-column h3 {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 10px;
 }
-
+::v-deep .el-textarea {
+  height: 300px;
+}
+::v-deep .el-textarea__inner {
+  height: 250px;
+  background: transparent;
+  border: none;
+  resize: none;
+}
+::v-deep .el-input__count {
+  background: transparent;
+  border: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  border-top: 1px solid #d9d9d9;
+}
 /* 过渡效果 */
 .fade-in-out-enter-active,
 .fade-in-out-leave-active {
@@ -436,6 +442,99 @@ p {
 .fade-in-out-leave-to {
   opacity: 0;
 }
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2%;
+}
+.loras {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 20px;
+}
+.lora-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  color: #7d7675;
+  padding: 0;
+  margin-top: 10%;
+}
+.counter-controls {
+  display: flex;
+  position: absolute;
+  width: 90%;
+  color: #fff;
+  justify-content: space-evenly;
+  top: 70px;
+  font-size: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.counter-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 16px;
+  width: 15px;
+  height: 15px;
+}
+.lora-image {
+  border-radius: 15px;
+  object-fit: cover;
+}
+.outline {
+  outline: 2px solid #7530fe;
+}
+.slider-label {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  color: #403d3c;
+  margin-bottom: 5px;
+}
+
+.el-slider {
+  margin-left: 2%;
+  margin-bottom: 10px; /* 滑块和下方文本之间的间距 */
+}
+.slider-value {
+  font-size: 14px;
+  color: #555;
+}
+.size-selection {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 3%;
+}
+.size-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+.size-preview {
+  width: 80%;
+  height: 60px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #7530fe;
+}
+
 
 .fixed-bottom {
   background-color: #fff;
@@ -449,7 +548,7 @@ p {
   height: 60px;
   text-align: center;
   padding: 10px;
-  z-index: 1;
+  z-index: 1002;
 }
 .info-text {
   font-size: 14px;

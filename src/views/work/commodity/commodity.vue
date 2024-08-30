@@ -2,7 +2,7 @@
   <div class="left-container">
     <div class="left">
       <div class="sticky-header">
-        <div style="font-size: 18px; line-height: 25px;margin-left: 10px;">
+        <div style="font-size: 18px; line-height: 25px; margin-left: 10px">
           {{ context.title }}
         </div>
         <p style="font-size: 14px; line-height: 20px; color: #97a0b4">
@@ -77,7 +77,7 @@
               :limit="1"
               drag
               action="#"
-              v-loading="uploadingTaskId !== null"
+              v-loading="currentTask.uploading !== null"
               :http-request="handleUpload"
               :file-list="currentTask.fileList"
             >
@@ -111,13 +111,12 @@
             </div>
           </template>
         </div>
-        ·
       </transition>
       <custom
-        @radioval="radioval"
+        @openSwitch="openSwitch"
         @correctval="correctval"
         @reverseVal="reverseVal"
-        @modelId="modelId"
+        @sceneId="sceneId"
       />
       <div class="fixed-bottom">
         <div class="info-text">
@@ -136,7 +135,7 @@
                 src="https://www.weshop.com/ic_agent_setting.svg"
               />
             </div>
-            <div class="modal-container" v-if="selectFlag">
+            <div class="modal-container" v-if="currentTask.selectFlag">
               <img
                 width="44"
                 height="44"
@@ -203,7 +202,6 @@
         class="overlay-image"
       />
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogclose">确 定</el-button>
       </span>
     </el-dialog>
@@ -211,12 +209,99 @@
 </template>
 
 <script>
-import left from "../left";
+import mixins from "../mixins/left";
 import custom from "./custom.vue";
+import { queryListTask, save } from "@/api/zhiqi/task";
+import { img2img } from "@/api/zhiqi/sd";
 export default {
-  ...left,
+  mixins: [mixins],
   components: {
     custom,
+  },
+  data() {
+    return {
+      type: 0,
+      selectSceneId: "",
+      prompt: "",
+      negativePrompt: "",
+    };
+  },
+  methods: {
+    async init() {
+      const params = { type: "2", name: "" };
+      const res = await queryListTask(params);
+      this.tasks = res.data;
+      this.tasks.forEach((item) => {
+        if (item.primaryImage) {
+          item.uploadedImage = item.primaryImage;
+        } else {
+          item.imagesrc = "https://www.weshop.com/mask.svg";
+        }
+        if (item.maskImage) {
+          this.$set(item, "maskImageSrc", item.maskImage);
+        }
+        this.$set(item, "showOptions", false);
+        this.$set(item, "uploading", null);
+      });
+    },
+    async addTask() {
+      const newTaskId = Date.now() % 100000000;
+      const newTask = {
+        id: newTaskId,
+        imagesrc: "https://www.weshop.com/mask.svg",
+        uploadedImage: null,
+        fileList: [],
+        showOptions: false,
+        // active: true
+      };
+      const res = await save({ type: 2, name: "任务-" + newTaskId });
+      newTask.id = res.msg;
+      this.tasks.unshift(newTask);
+      this.currentTaskId = newTask.id;
+      this.isDrawerVisible = true;
+    },
+    sceneId(sceneId) {
+      this.selectSceneId = sceneId;
+    },
+    openSwitch(openvalue) {
+      console.log("121", openvalue);
+
+      this.type = openvalue;
+    },
+    correctval(correct) {
+      this.prompt = correct;
+    },
+    reverseVal(reverse) {
+      this.negativePrompt = reverse;
+    },
+    selectNum(num) {
+      this.quantity = num;
+    },
+    async img2img() {
+      if (!this.selectSceneId && this.type !== 1) {
+        this.$message({
+          message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
+          type: "",
+        });
+        return;
+      }
+      const Img2imgVo = {
+        projectId: this.currentTask.id,
+        type: this.type,
+        selectModelId: this.selectModelId,
+        selectPmodelId: this.selectSceneId,
+        quantity: this.quantity,
+      };
+      if (this.type === 1) {
+        Img2imgVo.prompt = this.prompt;
+        Img2imgVo.negativePrompt = this.negativePrompt;
+      }
+
+      console.log(Img2imgVo);
+      this.isDrawerVisible = false;
+      this.$emit("success",true)
+      // await img2img(Img2imgVo);
+    },
   },
 };
 </script>

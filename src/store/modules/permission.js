@@ -49,24 +49,47 @@ const permission = {
         })
       })
     },
+    // GenerateDefaultRoutes({ commit }) {
+    //   return new Promise(resolve => {
+    //     // 向后端请求路由数据
+    //     getDefaultRouters().then(res => {
+    //       const sdata = JSON.parse(JSON.stringify(res.data))
+    //       const rdata = JSON.parse(JSON.stringify(res.data))
+    //       const sidebarRoutes = filterAsyncRouter(sdata)
+    //       const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+    //       const asyncRoutes = filterDynamicRoutes(dynamicRoutes);
+    //       rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
+    //       router.addRoutes(asyncRoutes);
+    //       commit('SET_ROUTES', rewriteRoutes)
+    //       commit('SET_SIDEBAR_ROUTERS', constantRoutes.concat(sidebarRoutes))
+    //       commit('SET_DEFAULT_ROUTES', sidebarRoutes)
+    //       commit('SET_TOPBAR_ROUTES', sidebarRoutes)
+    //       resolve(rewriteRoutes)
+    //     })
+    //   })
+    // }
     GenerateDefaultRoutes({ commit }) {
       return new Promise(resolve => {
         // 向后端请求路由数据
         getDefaultRouters().then(res => {
-          const sdata = JSON.parse(JSON.stringify(res.data))
-          const rdata = JSON.parse(JSON.stringify(res.data))
-          const sidebarRoutes = filterAsyncRouter(sdata)
-          const rewriteRoutes = filterAsyncRouter(rdata, false, true)
-          const asyncRoutes = filterDynamicRoutes(dynamicRoutes);
-          rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
-          router.addRoutes(asyncRoutes);
-          commit('SET_ROUTES', rewriteRoutes)
-          commit('SET_SIDEBAR_ROUTERS', constantRoutes.concat(sidebarRoutes))
-          commit('SET_DEFAULT_ROUTES', sidebarRoutes)
-          commit('SET_TOPBAR_ROUTES', sidebarRoutes)
-          resolve(rewriteRoutes)
-        })
-      })
+          const sdata = JSON.parse(JSON.stringify(res.data));
+          const sidebarRoutes = filterAsyncRouter(sdata);
+          
+          // 将获取到的路由添加到 `/` 路由的 children 中
+          // const rootRoute = {
+          //   path: '/',
+          //   component: () => import('@/views/front/index'),
+          //   hidden: true,
+          //   children: sidebarRoutes
+          // };
+  
+          // 动态添加路由表
+          router.addRoutes(sidebarRoutes);
+
+  
+          resolve(sidebarRoutes);
+        });
+      });
     }
   }
 }

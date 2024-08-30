@@ -72,7 +72,7 @@ export default {
       if (this.tasks.length === 0) {
         this.isDrawerVisible = false
       }
-      this.showOptions = false;
+      this.isDrawerVisible = false
     },
     resizeImage(file, targetHeight) {
       return new Promise((resolve, reject) => {
@@ -386,32 +386,40 @@ export default {
     radioval(radioval) {
       this.radio = radioval
     },
-    async img2img() {
-      if (!this.selectModelId && this.radio !== 1) {
-        this.$message({
-          message: "❌ 请选择或填写AI模特、商拍场景或描述中的至少一项 ❗",
-          type: '',
-        })
-        return
-      }
-      const Img2imgVo = {
-        projectId: this.currentTask.id,
-        type: this.radio,
-        selectModelId: this.selectModelId,
-        selectPmodelId: "1707581895913837020",
-        lastImage: this.currentTask.uploadedImage,
-        lastMask: this.currentTask.maskImage,
-        quantity: this.quantity
-      }
-      if (this.radio === 1) {
-        Img2imgVo.prompt = this.prompt
-        Img2imgVo.negativePrompt = this.negativePrompt
-      }
+    // async img2img() {
+    //   if (!this.selectModelId && this.radio !== 1) {
+    //     this.$message({
+    //       message: "❌ 请选择或填写AI模特、商拍场景或描述中的至少一项 ❗",
+    //       type: '',
+    //     })
+    //     return
+    //   }
+    //   const file = dataURLtoBlob(this.currentTask.maskImageSrc)
+    //   console.log(file,"===",this.currentTask.maskImageSrc);
+      
+    //   const formdata = new FormData()
+    //   formdata.append("file", file)
+    //   formdata.append("type", "1")
+    //   const res = await upload(formdata)
+    //   const Img2imgVo = {
+    //     projectId: this.currentTask.id,
+    //     type: this.radio,
+    //     selectModelId: this.selectModelId,
+    //     selectPmodelId: "1707581895913837020",
+    //     lastImage: this.currentTask.uploadedImage,
+    //     lastMask: this.currentTask.maskImage,
+    //     quantity: this.quantity,
+    //     maskImagesrc: res.url
+    //   }
+    //   if (this.radio === 1) {
+    //     Img2imgVo.prompt = this.prompt
+    //     Img2imgVo.negativePrompt = this.negativePrompt
+    //   }
 
-      console.log(Img2imgVo);
+    //   console.log(Img2imgVo);
 
-      // await img2img(Img2imgVo)
-    },
+    //   await img2img(Img2imgVo)
+    // },
     openSelectFlag() {
       this.selectFlag = !this.selectFlag
     },

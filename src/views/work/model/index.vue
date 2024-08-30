@@ -1,21 +1,27 @@
 <template>
   <div class="container" :style="containerStyle">
-    <left :context="context" @data="handle" />
-    <right :images="images" :flag="flag" />
+    <left :context="context" @data="handleOpen" />
+    <right
+      :images="images"
+      :flag="flag"
+      :hasMore="hasMore"
+      @load-more="loadMoreImages"
+    />
   </div>
 </template>
 
 <script>
 import Left from "./left.vue";
 import Right from "../right.vue";
+import work from '../mixins/work'
 export default {
   components: {
     Left,
     Right,
   },
+  mixins:[work],
   data() {
     return {
-      flag: true,
       context: {
         title: "AI模特",
         content:
@@ -45,13 +51,6 @@ export default {
       };
     },
   },
-  methods: {
-    handle(newdata) {
-      console.log(newdata);
-      
-      this.flag = !newdata;
-    },
-  },
 };
 </script>
 
@@ -59,7 +58,7 @@ export default {
 .container {
   display: flex;
   position: relative;
-  height: 94vh; /* 全屏高度 */
+  height: 100vh; /* 全屏高度 */
   background-color: rgba(0, 0, 0, 0.45);
 }
 </style>

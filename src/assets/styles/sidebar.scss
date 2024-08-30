@@ -69,6 +69,8 @@
       border: none;
       height: 100%;
       width: 100% !important;
+      overflow: scroll;
+      scrollbar-width: none;
     }
 
     .el-menu-item, .el-submenu__title {

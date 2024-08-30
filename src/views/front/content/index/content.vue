@@ -685,7 +685,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="require('@/assets/indexImage/首页-未登录-image.png"
+                      :src="require('@/assets/indexImage/首页-未登录-image.png')"
                     />
                     精选
                   </div>
@@ -700,7 +700,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="require('@/assets/indexImage/首页-未登录-image2.png"
+                      :src="require('@/assets/indexImage/首页-未登录-image2.png')"
                     />
                     服饰
                   </div>
@@ -715,7 +715,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="require('@/assets/indexImage/首页-未登录-image3.png"
+                      :src="require('@/assets/indexImage/首页-未登录-image3.png')"
                     />
                     美妆个护
                   </div>
@@ -730,7 +730,7 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      src="require('@/assets/indexImage/首页-未登录-image4.png"
+                      :src="require('@/assets/indexImage/首页-未登录-image4.png')"
                     />
                     家具
                   </div>

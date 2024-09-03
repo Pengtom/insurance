@@ -77,7 +77,7 @@
               :limit="1"
               drag
               action="#"
-              v-loading="uploadingTaskId !== null"
+              v-loading="currentTask.uploading !== null"
               :http-request="handleUpload"
               :file-list="currentTask.fileList"
             >
@@ -114,11 +114,12 @@
         ·
       </transition>
       <custom
-        @radioval="radioval"
+        
+      />
+      <!-- @radioval="radioval"
         @correctval="correctval"
         @reverseVal="reverseVal"
-        @modelId="modelId"
-      />
+        @modelId="modelId" -->
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
@@ -136,7 +137,7 @@
                 src="https://www.weshop.com/ic_agent_setting.svg"
               />
             </div>
-            <div class="modal-container" v-if="selectFlag">
+            <div class="modal-container" v-if="currentTask.selectFlag">
               <img
                 width="44"
                 height="44"

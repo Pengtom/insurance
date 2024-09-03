@@ -30,8 +30,8 @@ export default {
             // this.tasks = this.tasks.filter(item => item.id !== taskId)
             this.init()
             // if (this.tasks.length === 0) {
-                this.isDrawerVisible = false
-                this.$emit('success', { isSuccess: false})
+            this.isDrawerVisible = false
+            this.$emit('success', { isSuccess: false })
             // }
         },
         async openDrawer(taskId) {
@@ -116,6 +116,8 @@ export default {
                 return;
             }
             const imageStatus = await this.iSImageStatus(file.file);
+            console.log(imageStatus,"222");
+
             if (!imageStatus.isValid) {
                 return;
             }
@@ -237,6 +239,7 @@ export default {
                             });
                             resolve({ isValid: false });
                         }
+                        resolve({ isValid: true })
                     }
                     img.onerror = () => {
                         this.$message({

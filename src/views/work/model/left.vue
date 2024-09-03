@@ -2,7 +2,7 @@
   <div class="left-container">
     <div class="left">
       <div class="sticky-header">
-        <div style="font-size: 18px; line-height: 25px;margin-left: 10px;">
+        <div style="font-size: 18px; line-height: 25px; margin-left: 10px">
           {{ context.title }}
         </div>
         <p style="font-size: 14px; line-height: 20px; color: #97a0b4">
@@ -114,12 +114,12 @@
         ·
       </transition>
       <custom
-        
-      />
-      <!-- @radioval="radioval"
+        @radioval="radioval"
+        @modelId="modelId"
+        @sceneId="sceneId"
         @correctval="correctval"
         @reverseVal="reverseVal"
-        @modelId="modelId" -->
+      />
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
@@ -224,7 +224,8 @@ export default {
   },
   data() {
     return {
-      type: 0,
+      radio: 0,
+      selectModelId: "",
       selectSceneId: "",
       prompt: "",
       negativePrompt: "",
@@ -257,7 +258,7 @@ export default {
         uploadedImage: null,
         fileList: [],
         showOptions: false,
-        uploading: null
+        uploading: null,
         // active: true
       };
       const res = await save({ type: 1, name: "任务-" + newTaskId });
@@ -266,13 +267,14 @@ export default {
       this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
+    radioval(radioval) {
+      this.radio = radioval;
+    },
+    modelId(selectModelId) {
+      this.selectModelId = selectModelId;
+    },
     sceneId(sceneId) {
       this.selectSceneId = sceneId;
-    },
-    openSwitch(openvalue) {
-      console.log("121", openvalue);
-
-      this.type = openvalue;
     },
     correctval(correct) {
       this.prompt = correct;
@@ -284,7 +286,13 @@ export default {
       this.quantity = num;
     },
     async img2img() {
-      if (!this.selectSceneId && this.type !== 1) {
+      console.log(this.selectModelId +"222",this.selectSceneId,this.radio);
+      
+      console.log((this.selectSceneId || this.selectModelId)&& this.radio !== 1);
+      console.log(!this.selectSceneId);
+      console.log(!this.selectModelId);
+       console.log(this.radio !== 1);
+      if ((!this.selectSceneId && !this.selectModelId) && this.radio !== 1) {
         this.$message({
           message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
           type: "",
@@ -293,11 +301,11 @@ export default {
       }
       const Img2imgVo = {
         projectId: this.currentTask.id,
-        type: this.type,
+        radio: this.radio,
         selectPmodelId: this.selectSceneId,
         quantity: this.quantity,
       };
-      if (this.type === 1) {
+      if (this.radio === 1) {
         Img2imgVo.prompt = this.prompt;
         Img2imgVo.negativePrompt = this.negativePrompt;
       }
@@ -312,7 +320,7 @@ export default {
         isSuccess: true,
       });
     },
-  }
+  },
 };
 </script>
 

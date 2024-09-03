@@ -49,6 +49,8 @@
                 width="90"
                 height="90"
                 class="scene-image"
+                :class="{ outline: sceneIndex === scene.id }"
+                @click="handleSenceClick(scene.id)"
               />
               <span>{{ scene.modelName }}</span>
             </div>
@@ -96,11 +98,13 @@ export default {
       models: [],
       scenes: [
         {
+          id:1,
           modelName: "场景1",
           modelImage:
             "https://ai-image.weshop.com/403df960-8ac8-47c1-bdff-3e90681d855f_1024x1024.png_256x256.jpeg",
         },
         {
+          id:2,
           modelName: "场景2",
           modelImage:
             "https://ai-image.weshop.com/2bc446c7-3283-41cb-b5e2-6b2fbae36680.png_256x256.jpeg",
@@ -108,6 +112,7 @@ export default {
         // 添加更多场景
       ],
       modelsIndex: "",
+      sceneIndex: "",
       radio: 0,
       correct: "",
       reverse: "",
@@ -126,6 +131,14 @@ export default {
       } else {
         this.modelsIndex = id;
         this.$emit("modelId", this.modelsIndex);
+      }
+    },
+    handleSenceClick(id) {
+      if (this.sceneIndex === id) {
+        this.sceneIndex = null;
+      } else {
+        this.sceneIndex = id;
+        this.$emit("sceneId", this.sceneIndex);
       }
     },
   },
@@ -244,7 +257,7 @@ export default {
 }
 
 .input-section {
-  background: rgba(4, 17, 51, 0.05);
+  background: #f5f7fd;
   padding: 10px;
   border-radius: 8px;
   height: 100%; /* 确保内部元素撑开整个容器的高度 */

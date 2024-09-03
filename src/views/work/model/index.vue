@@ -1,10 +1,12 @@
 <template>
-  <div class="container" :style="containerStyle">
+  <div class="container" :style="containerStyle" @success="handleOpenSuccess">
     <left :context="context" @data="handleOpen" />
     <right
       :images="images"
       :flag="flag"
+      :isSuccess="isSuccess"
       :hasMore="hasMore"
+      :currentTask="currentTask"
       @load-more="loadMoreImages"
     />
   </div>
@@ -13,13 +15,13 @@
 <script>
 import Left from "./left.vue";
 import Right from "../right.vue";
-import work from '../mixins/work'
+import work from "../mixins/work";
 export default {
   components: {
     Left,
     Right,
   },
-  mixins:[work],
+  mixins: [work],
   data() {
     return {
       context: {

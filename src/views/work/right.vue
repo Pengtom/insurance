@@ -42,17 +42,6 @@ export default {
   components: {
     success,
   },
-  updated() {
-    if (!this.isSuccess) {
-      this.$nextTick(() => {
-        this.initLazyLoad();
-        this.waterfallHandler();
-        document
-          .querySelector(".content-wrapper")
-          .addEventListener("scroll", this.checkIfNeedMore);
-      });
-    }
-  },
   data() {
     return {
       imgWidth: 240,
@@ -65,6 +54,17 @@ export default {
     document
       .querySelector(".content-wrapper")
       .addEventListener("scroll", this.checkIfNeedMore);
+  },
+  updated() {
+    if (!this.isSuccess) {
+      this.$nextTick(() => {
+        this.initLazyLoad();
+        this.waterfallHandler();
+        document
+          .querySelector(".content-wrapper")
+          .addEventListener("scroll", this.checkIfNeedMore);
+      });
+    }
   },
   methods: {
     waterfallHandler() {

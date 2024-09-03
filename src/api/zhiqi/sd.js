@@ -7,3 +7,10 @@ export function img2img(data){
         data
     })
 }
+export function handleTaskCompleted(){
+    return request({
+        url:'/users/sd/Img2img',
+        method:'post',
+        data
+    })
+}

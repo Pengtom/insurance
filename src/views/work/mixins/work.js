@@ -4,7 +4,8 @@ export default {
             flag: true,
             images: [],
             hasMore: true,
-            isSuccess: false
+            isSuccess: false,
+            currentTask:{}
         }
     },
     methods: {
@@ -12,7 +13,8 @@ export default {
             this.flag = !newdata;
         },
         handleOpenSuccess(newdata) {
-            this.isSuccess = newdata;
+            this.currentTask = newdata
+            this.isSuccess = newdata.isSuccess;
         },
         loadMoreImages() {
             if (this.hasMore) {

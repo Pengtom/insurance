@@ -10,6 +10,7 @@
       :flag="flag"
       :isSuccess="isSuccess"
       :hasMore="hasMore"
+      :currentTask="currentTask"
       @load-more="loadMoreImages"
     />
   </div>

@@ -32,7 +32,11 @@
       <div class="horizontal-spacer">
         <div>
           <div>
-            <el-slider v-model="value2" :max="200" :show-stops="false"></el-slider>
+            <el-slider
+              v-model="value2"
+              :max="200"
+              :show-stops="false"
+            ></el-slider>
           </div>
         </div>
       </div>
@@ -115,7 +119,7 @@
                   <span>AI算力点2000（约可高速生成200张图</span>
                 </div>
               </div>
-              <div class="plan-purchase" @click="openDialog(false)">
+              <div class="plan-purchase" @click="openDialog(2)">
                 购买（立即生效）
               </div>
             </div>
@@ -135,9 +139,13 @@
             <div class="plan-title">算力包</div>
           </div>
           <div class="plan-content">
-            <div class="plan-details plan-mobile">
+            <div
+              class="plan-details plan-mobile"
+              v-for="item in yearPackage"
+              :key="item.id"
+            >
               <div class="plan-price">
-                <p class="price-amount">¥298</p>
+                <p class="price-amount">¥{{ item.price }}</p>
               </div>
               <p class="plan-description">购买后，您将获得</p>
               <div class="plan-rights">
@@ -154,7 +162,7 @@
                   <span>AI算力点20000（约可高速生成2000张图</span>
                 </div>
               </div>
-              <div class="plan-purchase" @click="openDialog(true)">
+              <div class="plan-purchase" @click="openDialog(item.id)">
                 <span>购买（立即生效）</span>
                 <!-- <div v-if="plan.popular" class="plan-popular">热门</div> -->
               </div>
@@ -175,7 +183,7 @@
           <div class="payment-details">
             <div class="payment-amount">
               扫码支付：
-              <p class="amount">¥298</p>
+              <p class="amount">¥{{ selectPackage.price }}</p>
             </div>
             <div class="payment-methods">
               <div
@@ -220,7 +228,7 @@
               <div class="refund-policy">虚拟商品, 不支持退款</div>
             </div>
           </div>
-          <div class="package-info" v-if="showFlag">
+          <!-- <div class="package-info" v-if="showFlag">
             <div class="package-details">
               <div class="pricing-info">
                 <p class="price-amount">¥298</p>
@@ -231,7 +239,7 @@
                 <p class="validity-period">约可高速生成2000张图</p>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </el-dialog>
@@ -262,29 +270,34 @@
 
 <script>
 import { pay } from "@/api/zhiqi/wxPay";
+import { queryYearPackages, queryPackageById } from "@/api/zhiqi/package";
 export default {
   data() {
     return {
       dialogVisible: false,
-      showFlag: false,
       wxImage: "",
       selectedPayment: "wx",
-      value2: 105
+      value2: 105,
+      yearPackage: [],
+      selectPackage: {},
     };
   },
+  async mounted() {
+    const res = await queryYearPackages("年包");
+    this.yearPackage = res.rows;
+    console.log(res.rows);
+  },
   methods: {
-    async openDialog(subscriptions) {
-      if (subscriptions) {
-        this.showFlag = true;
-      }
-      const res = await pay({ packagesId: 2 });
-      console.log(res);
+    async openDialog(packageId) {
+      const resq = await queryPackageById(packageId);
+      this.selectPackage = resq.data;
+      const res = await pay({ packagesId: packageId });
       this.wxImage = res.msg;
 
       this.dialogVisible = true;
     },
     closeDialog() {
-      this.showFlag = this.dialogVisible = false;
+      this.dialogVisible = false;
     },
     selectPay(method) {
       this.selectedPayment = method;

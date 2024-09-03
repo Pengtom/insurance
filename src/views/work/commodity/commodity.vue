@@ -33,7 +33,7 @@
               <div class="task-status">未启动</div>
             </div>
           </div>
-          <div class="task-options" @click="toggleOptions">
+          <div class="task-options" @click.stop="toggleOptions">
             <img
               class="more-options-icon"
               loading="lazy"
@@ -248,10 +248,12 @@ export default {
       const newTaskId = Date.now() % 100000000;
       const newTask = {
         id: newTaskId,
+        name: "任务-" + newTaskId,
         imagesrc: "https://www.weshop.com/mask.svg",
         uploadedImage: null,
         fileList: [],
         showOptions: false,
+        uploading: null
         // active: true
       };
       const res = await save({ type: 2, name: "任务-" + newTaskId });
@@ -288,7 +290,6 @@ export default {
       const Img2imgVo = {
         projectId: this.currentTask.id,
         type: this.type,
-        selectModelId: this.selectModelId,
         selectPmodelId: this.selectSceneId,
         quantity: this.quantity,
       };
@@ -298,9 +299,14 @@ export default {
       }
 
       console.log(Img2imgVo);
+      await img2img(Img2imgVo);
       this.isDrawerVisible = false;
-      this.$emit("success",true)
-      // await img2img(Img2imgVo);
+      this.$emit("success", {
+        id: this.currentTask.id,
+        image: this.currentTask.uploadedImage,
+        name: this.currentTask.name,
+        isSuccess: true,
+      });
     },
   },
 };
@@ -473,7 +479,9 @@ p {
   height: 300px;
   padding-right: 20px;
 }
-
+::v-deep .upload-demo .el-upload-list {
+  display: none !important;
+}
 ::v-deep .el-upload-dragger {
   width: 300px;
   height: 300px;

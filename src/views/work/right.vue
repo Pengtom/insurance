@@ -1,6 +1,6 @@
 <template>
-  <div class="right-container">
-    <div class="inner-wrapper">
+  <div class="right-container" v-show="flag">
+    <div class="inner-wrapper" v-if="!isSuccess">
       <div class="content-wrapper">
         <div class="section">
           <div class="sub-section">
@@ -25,14 +25,22 @@
         <div v-if="!hasMore" class="no-more-data">没有更多数据了</div>
       </div>
     </div>
+    <success v-if="isSuccess" :currentTask="currentTask"/>
   </div>
 </template>
 
 <script>
+import success from './success.vue'
 export default {
   props: {
     images: Array,
     hasMore: Boolean,
+    isSuccess:Boolean,
+    flag:Boolean,
+    currentTask:Object
+  },
+  components:{
+    success
   },
   data() {
     return {
@@ -49,6 +57,9 @@ export default {
   },
   methods: {
     waterfallHandler() {
+      if(!this.images){
+        return
+      }
       this.$nextTick(() => {
         // 计算图片宽度和间隙
         const imgWidth = this.imgWidth + this.imgMargin;
@@ -189,6 +200,7 @@ export default {
 
 .img-content {
   width: 100%;
+  height: 1000px;
   margin-top: 15px;
   position: relative;
 }

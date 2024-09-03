@@ -96,8 +96,7 @@
     </div>
     <el-dialog
       :visible.sync="loginDialogVisible"
-      width="40%"
-      :modal-append-to-body="false"
+      :modal="false"
       class="login-dialog"
       @keyup.enter.native="login"
       @close="loginDialogVisible = false"
@@ -242,6 +241,7 @@ export default {
       this.$store.dispatch("SMSLogin", this.loginForm).then(() => {
         this.$router.push({ path: this.redirect || "/index" }).catch(() => {});
       });
+      this.loginDialogVisible = false
       console.log(111);
     },
     get_wx_qrcode() {
@@ -482,7 +482,8 @@ export default {
   overflow: hidden;
 }
 .login-dialog {
-  padding: 0;
+  padding: 80px 0;
+  backdrop-filter: blur(15px);
 }
 .login-container {
   display: flex;

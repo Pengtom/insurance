@@ -4,7 +4,7 @@
       <div class="task-header">
         <div class="task-header-inner">
           <img
-            src="https://ai-image.weshop.com/810e0924-b022-491b-9086-7739ea67709f_1024x1024.png_150x150.jpeg"
+            :src= currentTask.image
             alt=""
             width="54"
             height="54"
@@ -12,7 +12,7 @@
           />
           <div class="task-info-wrapper">
             <div class="task-title">
-              <div>任务-33868118</div>
+              <div>{{ currentTask.name }}</div>
             </div>
           </div>
         </div>
@@ -22,7 +22,7 @@
               <div class="task-info">
                 <div class="task-info-inner">
                   <div class="task-info-content">
-                    <div class="task-info-content-inner">
+                    <!-- <div class="task-info-content-inner">
                       <img
                         src="https://ai-image.weshop.com/71bf8823-5df5-4cab-b008-9a3d7387f4c2_1200x1200.png"
                         width="26"
@@ -37,19 +37,9 @@
                       </div>
                       <div class="task-assignee">自由发挥</div>
                       <div class="task-assignee">巷子</div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
-                <!-- <div>
-                    <div>
-                      <img
-                        src="https://www.weshop.com/edit_again.svg"
-                        width="14"
-                        height="14"
-                      />
-                      <span>再次编辑</span>
-                    </div>
-                  </div> -->
                 <div class="task-status">
                   <span style="margin-right: 10px">执行成功</span>
                   <span style="margin-left: 10px">2024-08-08 11:33:19</span>
@@ -57,12 +47,21 @@
               </div>
               <div>
                 <div class="image-container">
-                  <div>
+                  <div v-if="isLoading">
+                    <div class="loading-spinner">
+                      <div class="loading-text"></div>
+                    </div>
+                  </div>
+                  <div v-for="(item, index) in image" :key="index">
                     <div class="image-content">
                       <div class="image-content-inner">
                         <div class="image-final" style="width: 252px">
+                          <div v-if="!item.imageUrl" class="loading-spinner">
+                            <div class="loading-text"></div>
+                          </div>
                           <img
-                            src="https://ai-image.weshop.com/061121a2-4c75-40b2-a8f5-4737d4e2fe45_1024x1024.png_preview.webp"
+                            v-else
+                            :src="item.imageUrl"
                             width="252"
                             class="image-src"
                           />
@@ -81,10 +80,86 @@
 </template>
 
 <script>
-export default {};
+import { queryImagesByProjectId } from "@/api/zhiqi/projectImage";
+export default {
+  props: {
+    currentTask: Object,
+  },
+  data() {
+    return {
+      image: [], // 初始化 image 为 null
+      intervalId: null,
+      isLoading: true,
+    };
+  },
+  methods: {
+    async loadImage() {
+      this.intervalId = setInterval(async () => {
+        try {
+          const res = await queryImagesByProjectId(this.currentTask.id);
+          if (res && Array.isArray(res.data)) {
+            const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
+            console.log(allImagesHaveUrl);
+
+            if (allImagesHaveUrl) {
+              this.image = res.data;
+              this.isLoading = false;
+              clearInterval(this.intervalId);
+            } else {
+              this.image = res.data;
+              this.isLoading = false
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      }, 5000);
+    },
+  },
+  watch: {
+    currentTask: {
+      immediate: true, // 使得在组件首次加载时也会触发
+      handler() {
+        this.image = [];
+        this.isLoading = true
+        clearInterval(this.intervalId);
+        this.loadImage();
+      },
+    },
+  },
+   beforeDestroy() {
+    console.log(this.intervalId);
+    
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  },
+};
 </script>
 
-<style>
+<style scoped>
+.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 5px solid #3498db;
+  animation: spin 1s linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .task-wrapper {
   height: 100%;
   background-color: #fff;
@@ -97,7 +172,7 @@ export default {};
 .task-header {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  /* overflow: scroll; */
   min-width: 584px;
 }
 .task-header-inner {
@@ -190,6 +265,7 @@ export default {};
 }
 .image-container {
   width: 100%;
+  min-height: 400px;
   display: flex;
   flex-wrap: wrap;
   position: relative;
@@ -203,7 +279,7 @@ export default {};
 .image-content-inner {
   position: relative;
   width: 252px;
-  background-color: #f5f7fd;
+  /* background-color: #f5f7fd; */
   border-radius: 20px;
 }
 .image-final {

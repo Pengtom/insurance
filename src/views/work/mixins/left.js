@@ -34,18 +34,32 @@ export default {
             }
         },
         async openDrawer(taskId) {
-            // if(!this.currentTask || Object.keys(this.currentTask).length === 0){
-            //     const task = this.tasks.find(task=> task.id === taskId)
-            //     console.log(task);
-            //     if(task.taskType === 2){
-            //         return
-            //     }
-            // }
+            const task = this.tasks.find(task => task.id === taskId)
+            console.log(task);
+            if (!this.currentTask || Object.keys(this.currentTask).length === 0) {
+                if (task.taskType === 1 || task.taskType === 2) {
+                    this.$emit('success', {
+                        id: taskId,
+                        image: task.uploadedImage,
+                        name: task.name,
+                        isSuccess: true
+                    })
+                    this.currentTaskId = taskId;
+                    return
+                }
+            }
             if (this.currentTask.id !== taskId) {
-                // if(this.currentTask.taskType === 2){
-                //     console.log("###");
-                //     return
-                // }
+                if (task.taskType === 2 || task.taskType === 1) {
+                    this.$emit('success', {
+                        id: taskId,
+                        image: task.uploadedImage,
+                        name: task.name,
+                        isSuccess: true
+                    })
+                    this.currentTaskId = taskId;
+                    this.isDrawerVisible = false;
+                    return
+                }
                 console.log(this.currentTask);
 
                 this.currentTaskId = taskId;
@@ -80,7 +94,7 @@ export default {
         },
         handleDrawerClose() {
             this.isDrawerVisible = false;
-            this.currentTaskId = null;
+            // this.currentTaskId = null;
         },
         async handleUpload(file) {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/webp'];
@@ -100,7 +114,10 @@ export default {
                 });
                 return;
             }
-            this.iSImageStatus(file.file)
+            const imageStatus = await this.iSImageStatus(file.file);
+            if (!imageStatus.isValid) {
+                return;
+            }
             this.$set(this.currentTask, 'uploading', this.currentTaskId)
 
             try {
@@ -203,19 +220,34 @@ export default {
             });
         },
         iSImageStatus(file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const dataUrl = reader.result;
-                const img = new Image();
-                img.onerror = () => {
-                    this.$message({
-                        message: "❌ 图片文件无法加载，文件可能已损坏 ❗",
-                        type: '',
-                    });
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const dataUrl = reader.result;
+                    const img = new Image();
+                    img.onload = () => {
+                        const width = img.width;
+                        const height = img.height;
+
+                        if (width < 512 || height < 512) {
+                            this.$message({
+                                message: "❌ 图片宽高尺寸需要大于512 ❗",
+                                type: '',
+                            });
+                            resolve({ isValid: false });
+                        }
+                    }
+                    img.onerror = () => {
+                        this.$message({
+                            message: "❌ 图片文件无法加载，文件可能已损坏 ❗",
+                            type: '',
+                        });
+                        resolve({ isValid: false })
+                    };
+                    img.src = dataUrl;
                 };
-                img.src = dataUrl;
-            };
-            reader.readAsDataURL(file);
+                reader.readAsDataURL(file);
+            })
         },
         getImageClickCoordinates(event) {
             event.preventDefault()
@@ -340,8 +372,8 @@ export default {
             } else {
                 fileImg = dataURLtoBlob(this.currentTask.maskImage, fileName + '.png')
             }
-            console.log(fileImg,"====================");
-            
+            console.log(fileImg, "====================");
+
             const formdata = new FormData()
             formdata.append("file", fileImg)
             formdata.append("type", "1")
@@ -349,17 +381,18 @@ export default {
             console.log(res, "============================");
             this.$set(this.currentTask, "maskImage", res.url)
 
-            // const file = dataURLtoBlob(this.currentTask.maskImageSrc);
-            // console.log(file, "===", this.currentTask.maskImageSrc);
-            // const formdata1 = new FormData();
-            // formdata.append("file", file);
-            // formdata.append("type", "2");
-            // const res1 = await upload(formdata1);
+            const file = dataURLtoBlob(this.currentTask.maskImageSrc);
+            console.log(file, "===", this.currentTask.maskImageSrc);
+            const formdata1 = new FormData();
+            formdata1.append("uniqueId", `${Date.now()}_${Math.random()}`);
+            formdata1.append("file", file);
+            formdata1.append("type", "2");
+            const res1 = await upload(formdata1);
             const qzProject = {
                 id: this.currentTask.id,
                 primaryImage: this.currentTask.uploadedImage,
                 maskImage: res.url,
-                // mask: res1.url
+                mask: res1.url
             }
             console.log(qzProject);
             update(qzProject)

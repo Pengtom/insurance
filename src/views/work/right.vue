@@ -25,22 +25,30 @@
         <div v-if="!hasMore" class="no-more-data">没有更多数据了</div>
       </div>
     </div>
-    <success v-if="isSuccess" :currentTask="currentTask"/>
+    <success v-if="isSuccess" :currentTask="currentTask" />
   </div>
 </template>
 
 <script>
-import success from './success.vue'
+import success from "./success.vue";
 export default {
   props: {
     images: Array,
     hasMore: Boolean,
-    isSuccess:Boolean,
-    flag:Boolean,
-    currentTask:Object
+    isSuccess: Boolean,
+    flag: Boolean,
+    currentTask: Object,
   },
-  components:{
-    success
+  components: {
+    success,
+  },
+  updated() {
+    if (!this.isSuccess) {
+      this.$nextTick(() => {
+        this.initLazyLoad();
+        this.waterfallHandler();
+      });
+    }
   },
   data() {
     return {
@@ -57,8 +65,8 @@ export default {
   },
   methods: {
     waterfallHandler() {
-      if(!this.images){
-        return
+      if (!this.images) {
+        return;
       }
       this.$nextTick(() => {
         // 计算图片宽度和间隙

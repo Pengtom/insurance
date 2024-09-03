@@ -27,11 +27,12 @@ export default {
         },
         async deleteTask(taskId) {
             await deleteTaskById(taskId)
-            this.tasks = this.tasks.filter(item => item.id !== taskId)
+            // this.tasks = this.tasks.filter(item => item.id !== taskId)
             this.init()
-            if (this.tasks.length === 0) {
+            // if (this.tasks.length === 0) {
                 this.isDrawerVisible = false
-            }
+                this.$emit('success', { isSuccess: false})
+            // }
         },
         async openDrawer(taskId) {
             const task = this.tasks.find(task => task.id === taskId)

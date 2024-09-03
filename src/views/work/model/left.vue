@@ -211,13 +211,107 @@
 </template>
 
 <script>
-import left from "../left";
+// import left from "../left";
+import mixins from "../mixins/left";
 import custom from "./custom.vue";
+import { queryListTask, save } from "@/api/zhiqi/task";
+import { img2img } from "@/api/zhiqi/sd";
 export default {
-  ...left,
+  mixins: [mixins],
   components: {
     custom,
   },
+  data() {
+    return {
+      type: 0,
+      selectSceneId: "",
+      prompt: "",
+      negativePrompt: "",
+    };
+  },
+  methods: {
+    async init() {
+      const params = { type: "1", name: "" };
+      const res = await queryListTask(params);
+      this.tasks = res.data;
+      this.tasks.forEach((item) => {
+        if (item.primaryImage) {
+          item.uploadedImage = item.primaryImage;
+        } else {
+          item.imagesrc = "https://www.weshop.com/mask.svg";
+        }
+        if (item.maskImage) {
+          this.$set(item, "maskImageSrc", item.maskImage);
+        }
+        this.$set(item, "showOptions", false);
+        this.$set(item, "uploading", null);
+      });
+    },
+    async addTask() {
+      const newTaskId = Date.now() % 100000000;
+      const newTask = {
+        id: newTaskId,
+        name: "任务-" + newTaskId,
+        imagesrc: "https://www.weshop.com/mask.svg",
+        uploadedImage: null,
+        fileList: [],
+        showOptions: false,
+        uploading: null
+        // active: true
+      };
+      const res = await save({ type: 1, name: "任务-" + newTaskId });
+      newTask.id = res.msg;
+      this.tasks.unshift(newTask);
+      this.currentTaskId = newTask.id;
+      this.isDrawerVisible = true;
+    },
+    sceneId(sceneId) {
+      this.selectSceneId = sceneId;
+    },
+    openSwitch(openvalue) {
+      console.log("121", openvalue);
+
+      this.type = openvalue;
+    },
+    correctval(correct) {
+      this.prompt = correct;
+    },
+    reverseVal(reverse) {
+      this.negativePrompt = reverse;
+    },
+    selectNum(num) {
+      this.quantity = num;
+    },
+    async img2img() {
+      if (!this.selectSceneId && this.type !== 1) {
+        this.$message({
+          message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
+          type: "",
+        });
+        return;
+      }
+      const Img2imgVo = {
+        projectId: this.currentTask.id,
+        type: this.type,
+        selectPmodelId: this.selectSceneId,
+        quantity: this.quantity,
+      };
+      if (this.type === 1) {
+        Img2imgVo.prompt = this.prompt;
+        Img2imgVo.negativePrompt = this.negativePrompt;
+      }
+
+      console.log(Img2imgVo);
+      await img2img(Img2imgVo);
+      this.isDrawerVisible = false;
+      this.$emit("success", {
+        id: this.currentTask.id,
+        image: this.currentTask.uploadedImage,
+        name: this.currentTask.name,
+        isSuccess: true,
+      });
+    },
+  }
 };
 </script>
 

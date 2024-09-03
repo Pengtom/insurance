@@ -47,6 +47,9 @@ export default {
       this.$nextTick(() => {
         this.initLazyLoad();
         this.waterfallHandler();
+        document
+          .querySelector(".content-wrapper")
+          .addEventListener("scroll", this.checkIfNeedMore);
       });
     }
   },

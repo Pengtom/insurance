@@ -30,7 +30,7 @@
             />
             <div class="task-details">
               <span class="task-tag">{{ task.name }}</span>
-              <div class="task-status">未启动</div>
+              <div class="task-status">{{statusMap[task.taskType]}}</div>
             </div>
           </div>
           <div class="task-options" @click.stop="toggleOptions">
@@ -253,8 +253,8 @@ export default {
         uploadedImage: null,
         fileList: [],
         showOptions: false,
-        uploading: null
-        // active: true
+        uploading: null,
+        taskType: 0
       };
       const res = await save({ type: 2, name: "任务-" + newTaskId });
       newTask.id = res.msg;
@@ -280,6 +280,20 @@ export default {
       this.quantity = num;
     },
     async img2img() {
+      if(!this.currentTask.uploadedImage){
+        this.$message({
+          message: "❌ 请先进行图片的上传 ❗",
+          type: "",
+        });
+        return;
+      }
+      if(!this.currentTask.maskImage){
+         this.$message({
+          message: "❌ 请选择蒙版图 ❗",
+          type: "",
+        });
+        return;
+      }
       if (!this.selectSceneId && this.type !== 1) {
         this.$message({
           message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
@@ -300,7 +314,9 @@ export default {
 
       console.log(Img2imgVo);
       await img2img(Img2imgVo);
+      this,this.selectSceneId = null
       this.isDrawerVisible = false;
+      this.init()
       this.$emit("success", {
         id: this.currentTask.id,
         image: this.currentTask.uploadedImage,

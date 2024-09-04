@@ -4,7 +4,7 @@
       <div class="task-header">
         <div class="task-header-inner">
           <img
-            :src= currentTask.image
+            :src="currentTask.image"
             alt=""
             width="54"
             height="54"
@@ -47,25 +47,31 @@
               </div>
               <div>
                 <div class="image-container">
-                  <div v-if="isLoading">
-                    <div class="loading-spinner">
-                      <div class="loading-text"></div>
-                    </div>
-                  </div>
                   <div v-for="(item, index) in image" :key="index">
                     <div class="image-content">
                       <div class="image-content-inner">
-                        <div class="image-final" style="width: 252px">
+                        <div
+                          class="image-final"
+                          :style="{
+                            width: '252px',
+                            height: item.imageUrl ? 'auto' : '335px',
+                          }"
+                        >
                           <div v-if="!item.imageUrl" class="loading-spinner">
                             <div class="loading-text"></div>
                           </div>
-                          <img
+                          <el-image
                             v-else
                             :src="item.imageUrl"
                             width="252"
                             class="image-src"
-                          />
+                          >
+                          </el-image>
                         </div>
+                      </div>
+                      <div class="overlay">
+                        <span>预览</span><br />
+                        <a @click="downloadImage(item.imageUrl)">下载</a>
                       </div>
                     </div>
                   </div>
@@ -89,7 +95,6 @@ export default {
     return {
       image: [], // 初始化 image 为 null
       intervalId: null,
-      isLoading: true,
     };
   },
   methods: {
@@ -99,15 +104,10 @@ export default {
           const res = await queryImagesByProjectId(this.currentTask.id);
           if (res && Array.isArray(res.data)) {
             const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
-            console.log(allImagesHaveUrl);
 
             if (allImagesHaveUrl) {
               this.image = res.data;
-              this.isLoading = false;
               clearInterval(this.intervalId);
-            } else {
-              this.image = res.data;
-              this.isLoading = false
             }
           }
         } catch (error) {
@@ -115,21 +115,58 @@ export default {
         }
       }, 5000);
     },
+    async downloadImage(url){
+      try {
+        const filename = url.substring(url.lastIndexOf('/') + 1);
+        // Fetch the image from the URL
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        // Convert the response to a blob
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+
+        // Create a temporary link element and trigger the download
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = filename
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Clean up the object URL
+        URL.revokeObjectURL(blobUrl);
+      } catch (error) {
+        console.error('Error downloading the image:', error);
+      }
+    }
   },
   watch: {
     currentTask: {
       immediate: true, // 使得在组件首次加载时也会触发
-      handler() {
+      async handler() {
         this.image = [];
-        this.isLoading = true
+        const res = await queryImagesByProjectId(this.currentTask.id);
+        if (res && Array.isArray(res.data)) {
+          const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
+          console.log(allImagesHaveUrl);
+
+          if (allImagesHaveUrl) {
+            this.image = res.data;
+          } else {
+            this.image = res.data;
+          }
+        }
         clearInterval(this.intervalId);
         this.loadImage();
       },
     },
   },
-   beforeDestroy() {
+  beforeDestroy() {
     console.log(this.intervalId);
-    
+
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -140,8 +177,8 @@ export default {
 <style scoped>
 .loading-spinner {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 40%;
+  left: 40%;
   width: 40px;
   height: 40px;
   border: 5px solid rgba(0, 0, 0, 0.1);
@@ -279,7 +316,7 @@ export default {
 .image-content-inner {
   position: relative;
   width: 252px;
-  /* background-color: #f5f7fd; */
+  background-color: #f5f7fd;
   border-radius: 20px;
 }
 .image-final {
@@ -293,5 +330,27 @@ export default {
   height: auto;
   vertical-align: middle;
   border-radius: 20px;
+}
+.image-content:hover .overlay {
+  opacity: 1;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: opacity 0.3s;
+  z-index: 1;
+  border-radius: 20px;
+  font-size: 16px;
+  line-height: 22px;
+  opacity: 0;
 }
 </style>

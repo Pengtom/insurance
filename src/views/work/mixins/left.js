@@ -10,7 +10,13 @@ export default {
             currentTaskId: String, // 当前正在编辑的任务的 ID
             isDrawerVisible: false,
             dialogVisible: false,
-            quantity: 1
+            quantity: 1,
+            statusMap: {
+                0: '未启动',
+                1: '等待中',
+                2: '已完成',
+                3: '失败'
+            }
         }
     },
     computed: {
@@ -95,7 +101,7 @@ export default {
         },
         handleDrawerClose() {
             this.isDrawerVisible = false;
-            // this.currentTaskId = null;
+            this.currentTaskId = null; // 关闭抽屉不能再次选择同抽屉
         },
         async handleUpload(file) {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/webp'];
@@ -116,88 +122,154 @@ export default {
                 return;
             }
             const imageStatus = await this.iSImageStatus(file.file);
-            console.log(imageStatus,"222");
+            console.log(imageStatus, "222");
 
             if (!imageStatus.isValid) {
+                const fileList = this.currentTask.fileList.filter(f => f.uid !== file.file.uid);
+                this.$set(this.currentTask, 'fileList', fileList);
                 return;
             }
             this.$set(this.currentTask, 'uploading', this.currentTaskId)
 
-            try {
-                const resizedImageBlob = await this.resizeImage(file.file, 1024);
-                console.log(resizedImageBlob);
+            const resizedImageBlob = await this.resizeImage(file.file, 1024);
+            console.log(resizedImageBlob);
 
-                const imageByteArray = await blobToByteArray(resizedImageBlob);
+            const imageByteArray = await blobToByteArray(resizedImageBlob);
 
-                const form = new FormData();
-                form.append('image', new Blob([imageByteArray]), "image.png");
-                const task = this.currentTask;
-                fetch('/apix/imagev2', {
-                    method: "POST",
-                    body: form
-                }).then((response) => response.json())
-                    .then((data) => {
-                        if (task) {
-                            this.$set(task, 'fileName', data.message);
-                        }
-                    }).catch(error => {
-                        console.log(error);
-                    })
+            const form = new FormData();
+            form.append('image', new Blob([imageByteArray]), "image.png");
+            const task = this.currentTask;
+            fetch('/apix/imagev2', {
+                method: "POST",
+                body: form
+            }).then((response) => response.json())
+                .then((data) => {
+                    if (task) {
+                        this.$set(task, 'fileName', data.message);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                })
 
-                const blob = await readFileAsBlob(resizedImageBlob);
-                const newFile = new File([blob], resizedImageBlob.name, { type: resizedImageBlob.type });
-                const formdata = new FormData()
-                formdata.append("file", newFile)
-                formdata.append("type", "0")
-                console.log(formdata);
+            const blob = await readFileAsBlob(resizedImageBlob);
+            const newFile = new File([blob], resizedImageBlob.name, { type: resizedImageBlob.type });
+            const formdata = new FormData()
+            formdata.append("file", newFile)
+            formdata.append("type", "0")
+            console.log(formdata);
 
-                const res = await upload(formdata)
-                console.log(res);
-                if (task) {
-                    console.log(task);
-                    this.$set(task, 'uploadedImage', res.url);
-                    this.$set(task, "fileList", newFile)
-                    this.$set(task, "clickCoordinates", [])
-                    this.$set(task, "type", [])
-                }
-                this.$set(this.currentTask, 'loading', true);
-            } finally {
-                this.currentTask.uploadingTaskId = null;
+            const res = await upload(formdata)
+            console.log(res);
+            if (task) {
+                console.log(task);
+                this.$set(task, 'uploadedImage', res.url);
+                this.$set(task, "fileList", newFile)
+                this.$set(task, "clickCoordinates", [])
+                this.$set(task, "type", [])
             }
+            this.$set(this.currentTask, 'loading', true);
         },
-        resizeImage(file, targetHeight) {
+        // resizeImage(file, targetHeight) {
+        //     return new Promise((resolve, reject) => {
+        //         // 创建 FileReader 对象读取文件内容
+        //         const reader = new FileReader();
+
+        //         // 当文件读取成功时
+        //         reader.onload = (event) => {
+        //             const image = new Image();
+        //             image.src = event.target.result;
+
+        //             image.onload = () => {
+        //                 // 创建临时画布以保持缩放后的图像
+        //                 const tmp_canvas = document.createElement('canvas');
+        //                 const tmp_ctx = tmp_canvas.getContext('2d');
+
+        //                 // 计算缩放因子
+        //                 let scaleFactor = 1;
+        //                 if (image.height > targetHeight) {
+        //                     scaleFactor = targetHeight / image.height;
+        //                 }
+
+        //                 // 计算缩放后的宽度和高度
+        //                 const scaledWidth = image.width * scaleFactor;
+        //                 const scaledHeight = image.height * scaleFactor;
+
+        //                 // 设置画布的大小
+        //                 tmp_canvas.width = scaledWidth;
+        //                 tmp_canvas.height = scaledHeight;
+
+        //                 // 绘制缩放后的图像到画布上
+        //                 tmp_ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, scaledWidth, scaledHeight);
+
+        //                 // 将画布内容转换为 Blob
+        //                 tmp_canvas.toBlob((blob) => {
+        //                     if (blob) {
+        //                         resolve(blob);
+        //                     } else {
+        //                         reject(new Error("Canvas to Blob conversion failed"));
+        //                     }
+        //                 });
+        //             };
+
+        //             // 处理图像加载错误
+        //             image.onerror = (error) => {
+        //                 reject(new Error("Image loading failed"));
+        //             };
+        //         };
+
+        //         // 处理文件读取错误
+        //         reader.onerror = (error) => {
+        //             reject(new Error("File reading failed"));
+        //         };
+
+        //         // 读取文件为 Data URL
+        //         reader.readAsDataURL(file);
+        //     });
+        // },
+        resizeImage(file, targetSize) {
             return new Promise((resolve, reject) => {
-                // 创建 FileReader 对象读取文件内容
                 const reader = new FileReader();
 
-                // 当文件读取成功时
                 reader.onload = (event) => {
                     const image = new Image();
                     image.src = event.target.result;
 
                     image.onload = () => {
-                        // 创建临时画布以保持缩放后的图像
                         const tmp_canvas = document.createElement('canvas');
                         const tmp_ctx = tmp_canvas.getContext('2d');
 
-                        // 计算缩放因子
-                        let scaleFactor = 1;
-                        if (image.height > targetHeight) {
-                            scaleFactor = targetHeight / image.height;
+                        let scaleFactor;
+                        const { width, height } = image;
+
+                        if (width > height) {
+                            scaleFactor = targetSize / width;
+                            tmp_canvas.width = targetSize;
+                            tmp_canvas.height = height * scaleFactor;
+
+                            // 处理高度调整
+                            let heightAfterScale = tmp_canvas.height - 512;
+                            const heightRemainder = heightAfterScale % 64;
+                            const heightAdjustment = (heightRemainder < 32) ? -heightRemainder : (64 - heightRemainder);
+                            tmp_canvas.height += heightAdjustment;
+                        } else if (width < height) {
+                            scaleFactor = targetSize / height;
+                            tmp_canvas.width = width * scaleFactor;
+                            tmp_canvas.height = targetSize;
+
+                            // 处理宽度调整
+                            const widthAfterScale = tmp_canvas.width - 512;
+                            const remainder = widthAfterScale % 64;
+
+                            // 判断余数接近0还是接近64
+                            const adjustment = (remainder < 32) ? - remainder : (64 - remainder);
+                            tmp_canvas.width += adjustment;
+                        } else {
+                            tmp_canvas.width = width
+                            tmp_canvas.height = height
                         }
 
-                        // 计算缩放后的宽度和高度
-                        const scaledWidth = image.width * scaleFactor;
-                        const scaledHeight = image.height * scaleFactor;
+                        tmp_ctx.drawImage(image, 0, 0, width, height, 0, 0, tmp_canvas.width, tmp_canvas.height);
 
-                        // 设置画布的大小
-                        tmp_canvas.width = scaledWidth;
-                        tmp_canvas.height = scaledHeight;
-
-                        // 绘制缩放后的图像到画布上
-                        tmp_ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, scaledWidth, scaledHeight);
-
-                        // 将画布内容转换为 Blob
                         tmp_canvas.toBlob((blob) => {
                             if (blob) {
                                 resolve(blob);
@@ -207,21 +279,19 @@ export default {
                         });
                     };
 
-                    // 处理图像加载错误
                     image.onerror = (error) => {
                         reject(new Error("Image loading failed"));
                     };
                 };
 
-                // 处理文件读取错误
                 reader.onerror = (error) => {
                     reject(new Error("File reading failed"));
                 };
 
-                // 读取文件为 Data URL
                 reader.readAsDataURL(file);
             });
         },
+
         iSImageStatus(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -370,6 +440,9 @@ export default {
             const fileName = Date.now()
             console.log(this.currentTask.maskImage);
             const urlPattern = /^(https?:\/\/[^\s]+)$/;
+            if(!this.currentTask.maskImage){
+                this.dialogVisible = false
+            }
             let fileImg = null
             if (urlPattern.test(this.currentTask.maskImage)) {
                 fileImg = await getFileFromUrl(this.currentTask.maskImage, fileName + '.png')

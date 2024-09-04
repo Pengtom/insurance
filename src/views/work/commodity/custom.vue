@@ -117,6 +117,7 @@ export default {
     handleClick(id) {
       if (this.sceneIndex === id) {
         this.sceneIndex = null;
+        this.$emit("sceneId", this.sceneIndex);
       } else {
         this.sceneIndex = id;
         this.$emit("sceneId", this.sceneIndex);

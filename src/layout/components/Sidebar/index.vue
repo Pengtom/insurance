@@ -73,7 +73,7 @@
               >算力点</span
             >
           </div>
-          <router-link to="/">
+          <router-link to="/order">
             <div class="button">去购买</div>
           </router-link>
         </div>

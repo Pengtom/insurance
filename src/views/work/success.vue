@@ -48,7 +48,10 @@
               <div>
                 <div class="image-container">
                   <div v-for="(item, index) in image" :key="index">
-                    <div class="image-content">
+                    <div
+                      class="image-content"
+                      @click="hidePreview(item.imageUrl)"
+                    >
                       <div class="image-content-inner">
                         <div
                           class="image-final"
@@ -70,14 +73,45 @@
                         </div>
                       </div>
                       <div class="overlay">
-                        <span>预览</span><br />
-                        <a @click="downloadImage(item.imageUrl)">下载</a>
+                        <span>预览</span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="showPreview" class="preview-overlay" @click="hidePreview">
+      <div class="close-btn">
+        <img src="https://www.weshop.com/ic_modal_close_light.svg" alt="" />
+      </div>
+      <div class="preview-content">
+        <div class="preview-image-container left-image">
+          <img
+            :src="currentTask.image"
+            alt="Large Image 1"
+            class="preview-image"
+          />
+          <div class="image-label before-label">Before</div>
+        </div>
+        <div class="preview-image-container right-image">
+          <img :src="currentImg" alt="Large Image 2" class="preview-image" />
+          <div class="image-label after-label">After</div>
+        </div>
+        <div class="outer-container">
+          <div class="inner-container">
+            <div class="content-wrapper" @click="downloadImage">
+              <img
+                src="https://www.weshop.com/ic_opreate_download_light.svg"
+                width="24"
+                height="24"
+              />
+              <div>下载大图</div>
+            </div>
+            <div style="width:1px;height:20px;background-color:#4f535a;"></div>
           </div>
         </div>
       </div>
@@ -95,6 +129,8 @@ export default {
     return {
       image: [], // 初始化 image 为 null
       intervalId: null,
+      showPreview: false,
+      currentImg: "",
     };
   },
   methods: {
@@ -115,33 +151,27 @@ export default {
         }
       }, 5000);
     },
-    async downloadImage(url){
+    async downloadImage() {
       try {
-        const filename = url.substring(url.lastIndexOf('/') + 1);
-        // Fetch the image from the URL
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        // Convert the response to a blob
+        const filename = this.currentImg.substring(this.currentImg.lastIndexOf("/") + 1);
+        const response = await fetch(this.currentImg);
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
-
-        // Create a temporary link element and trigger the download
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.href = blobUrl;
-        link.download = filename
+        link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
-        // Clean up the object URL
         URL.revokeObjectURL(blobUrl);
       } catch (error) {
-        console.error('Error downloading the image:', error);
+        console.error("Error downloading the image:", error);
       }
-    }
+    },
+    hidePreview(img) {
+      this.currentImg = img;
+      this.showPreview = !this.showPreview;
+    },
   },
   watch: {
     currentTask: {
@@ -174,7 +204,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .loading-spinner {
   position: absolute;
   top: 40%;
@@ -329,6 +359,7 @@ export default {
   width: 100%;
   height: auto;
   vertical-align: middle;
+  cursor: pointer;
   border-radius: 20px;
 }
 .image-content:hover .overlay {
@@ -352,5 +383,111 @@ export default {
   font-size: 16px;
   line-height: 22px;
   opacity: 0;
+}
+
+.preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.3s ease, visibility 0.3s ease; /* 过渡效果 */
+}
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.preview-content {
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+  padding: calc(10px + 2vw); // 边距根据屏幕分辨率调整
+
+  @media (max-width: 768px) {
+    padding: calc(10px + 5vw); // 更大边距
+  }
+
+  @media (min-width: 768px) {
+    padding: calc(20px + 4vw);
+  }
+
+  @media (min-width: 1200px) {
+    padding: calc(30px + 3vw);
+  }
+
+  @media (min-width: 1600px) {
+    padding: calc(40px + 2vw);
+  }
+}
+
+.preview-image-container {
+  position: relative;
+  flex: 1;
+  max-width: 45%; // 确保两张图片在一行内显示
+
+  .preview-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease; // 平滑放大效果
+    transform: scale(1); // 调整放大比例
+    max-width: 100vw; // 限制图片最大宽度
+    max-height: 80vh; // 限制图片最大高度
+  }
+
+  .image-label {
+    position: absolute;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 15px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  .before-label {
+    top: 5px;
+    left: 5px;
+  }
+
+  .after-label {
+    top: 5px;
+    right: 5px;
+  }
+}
+.outer-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  bottom: 10%;
+  width: 100vw;
+  transform: translateY(100%);
+}
+.inner-container {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 50px;
+  border-radius: 30px;
+  align-items: center;
+  display: flex;
+  padding: 0 12px;
+}
+.content-wrapper {
+  color: #fff;
+  padding: 0 16px;
+  height: 40px;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  font-size: 14px;
+  line-height: 20px;
 }
 </style>

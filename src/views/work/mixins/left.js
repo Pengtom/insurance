@@ -74,28 +74,32 @@ export default {
                 if (this.currentTask.fileName) {
                     return
                 } else if (this.currentTask.maskImage) {
-                    const file = await getFileFromUrl(this.currentTask.uploadedImage, Date.now() + ".png")
-                    this.$set(this.currentTask, 'loading', true);
-                    const resizedImageBlob = await this.resizeImage(file, 1024);
-                    console.log(resizedImageBlob);
+                    try {
+                        const file = await getFileFromUrl(this.currentTask.uploadedImage, Date.now() + ".png")
+                        this.$set(this.currentTask, 'loading', true);
+                        const resizedImageBlob = await this.resizeImage(file, 1024);
+                        console.log(resizedImageBlob);
 
-                    const imageByteArray = await blobToByteArray(resizedImageBlob);
+                        const imageByteArray = await blobToByteArray(resizedImageBlob);
 
-                    const form = new FormData();
-                    form.append('image', new Blob([imageByteArray]), "image.png");
-                    const task = this.currentTask;
-                    await fetch('/apix/imagev2', {
-                        method: "POST",
-                        body: form
-                    }).then((response) => response.json())
-                        .then(async (data) => {
-                            if (task) {
-                                await this.applyMask(this.currentTask.maskImage)
-                                this.$set(task, 'fileName', data.message);
-                            }
-                        }).catch(error => {
-                            console.log(error);
-                        })
+                        const form = new FormData();
+                        form.append('image', new Blob([imageByteArray]), "image.png");
+                        const task = this.currentTask;
+                        await fetch('/apix/imagev2', {
+                            method: "POST",
+                            body: form
+                        }).then((response) => response.json())
+                            .then(async (data) => {
+                                if (task) {
+                                    await this.applyMask(this.currentTask.maskImage)
+                                    this.$set(task, 'fileName', data.message);
+                                }
+                            }).catch(error => {
+                                console.log(error);
+                            })
+                    } finally {
+                        this.$set(this.currentTask, 'loading', false);
+                    }
                 }
             }
         },
@@ -160,13 +164,10 @@ export default {
 
             const res = await upload(formdata)
             console.log(res);
-            if (task) {
-                console.log(task);
-                this.$set(task, 'uploadedImage', res.url);
-                this.$set(task, "fileList", newFile)
-                this.$set(task, "clickCoordinates", [])
-                this.$set(task, "type", [])
-            }
+            this.$set(task, 'uploadedImage', res.url);
+            this.$set(task, "fileList", newFile)
+            this.$set(task, "clickCoordinates", [])
+            this.$set(task, "type", [])
             this.$set(this.currentTask, 'loading', true);
         },
         // resizeImage(file, targetHeight) {
@@ -326,7 +327,7 @@ export default {
         getImageClickCoordinates(event) {
             event.preventDefault()
             if (this.currentTask.clickCoordinates) {
-                if (this.currentTask.clickCoordinates.length > 20) {
+                if (this.currentTask.clickCoordinates.length > 30) {
                     this.$message({
                         message: "❌ 点击次数太多 ❗",
                         type: '',
@@ -438,10 +439,10 @@ export default {
         },
         async dialogclose() {
             const fileName = Date.now()
-            console.log(this.currentTask.maskImage);
             const urlPattern = /^(https?:\/\/[^\s]+)$/;
-            if(!this.currentTask.maskImage){
+            if (!this.currentTask.maskImage) {
                 this.dialogVisible = false
+                return
             }
             let fileImg = null
             if (urlPattern.test(this.currentTask.maskImage)) {
@@ -454,17 +455,16 @@ export default {
             const formdata = new FormData()
             formdata.append("file", fileImg)
             formdata.append("type", "1")
-            const res = await upload(formdata)
-            console.log(res, "============================");
-            this.$set(this.currentTask, "maskImage", res.url)
-
-            const file = dataURLtoBlob(this.currentTask.maskImageSrc);
-            console.log(file, "===", this.currentTask.maskImageSrc);
-            const formdata1 = new FormData();
-            formdata1.append("uniqueId", `${Date.now()}_${Math.random()}`);
-            formdata1.append("file", file);
-            formdata1.append("type", "2");
-            const res1 = await upload(formdata1);
+            const [res, res1] = await Promise.all([
+                upload(formdata),
+                (async () => {
+                    const fileSrc = dataURLtoBlob(this.currentTask.maskImageSrc);
+                    const formdataSrc = new FormData();
+                    formdataSrc.append("file", fileSrc);
+                    formdataSrc.append("type", "2");
+                    return await upload(formdataSrc);
+                })()
+            ]);
             const qzProject = {
                 id: this.currentTask.id,
                 primaryImage: this.currentTask.uploadedImage,

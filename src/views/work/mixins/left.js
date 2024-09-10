@@ -28,12 +28,13 @@ export default {
         this.init()
     },
     methods: {
-        toggleOptions() {
-            this.currentTask.showOptions = !this.currentTask.showOptions;
+        toggleOptions(taskId) {
+            const task = this.tasks.find(task => task.id === taskId)
+            task.showOptions = !task.showOptions
         },
         async deleteTask(taskId) {
             await deleteTaskById(taskId)
-            // this.tasks = this.tasks.filter(item => item.id !== taskId)
+            this.tasks = this.tasks.filter(item => item.id !== taskId)
             this.init()
             // if (this.tasks.length === 0) {
             this.isDrawerVisible = false

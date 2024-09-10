@@ -46,7 +46,7 @@
           <transition name="fade">
             <div v-if="task.showOptions" class="options-dropdown">
               <i class="el-icon-delete"></i>
-              <button @click.stop="deleteTask(task.id)">删除</button>
+              <button @click="deleteTask(task.id)">删除</button>
             </div>
           </transition>
         </div>
@@ -76,6 +76,7 @@
               class="upload-demo"
               :limit="1"
               drag
+              :show-file-list="false"
               action="#"
               v-loading="currentTask.uploading !== null"
               :http-request="handleUpload"
@@ -98,25 +99,14 @@
               />
               <p>原图</p>
             </div>
-            <div class="image-preview image-preview2">
-              <img :src="currentTask.maskImageSrc" class="uploaded-image" />
-              <p v-if="currentTask.loading">选区图</p>
-              <p v-if="!currentTask.loading">
-                <a
-                  @click="dialogVisible = true"
-                  style="color: #7530fe; text-decoration: underline"
-                  >编辑选区</a
-                >
-              </p>
-            </div>
           </template>
         </div>
       </transition>
       <custom
-        @openSwitch="openSwitch"
+        @radioval="radioval"
+        @stepsVal="stepsVal"
         @correctval="correctval"
-        @reverseVal="reverseVal"
-        @sceneId="sceneId"
+        @loraIndexVal="loraIndexVal"
       />
       <div class="fixed-bottom">
         <div class="info-text">
@@ -177,41 +167,13 @@
         </div>
       </div>
     </el-drawer>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="50%"
-      :modal="false"
-      flex
-      :before-close="dialogclose"
-    >
-      <img
-        :src="currentTask.uploadedImage"
-        alt="Uploaded Image"
-        ref="uploadedImage"
-        style="cursor: Pointer; object-fit: contain"
-        @click="getImageClickCoordinates"
-        @contextmenu.prevent="getImageClickCoordinates"
-        width="350"
-        height="350"
-      />
-      <img
-        width="350"
-        height="350"
-        :src="currentTask.maskImageSrc"
-        class="overlay-image"
-      />
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogclose">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import mixins from "../mixins/left";
 import custom from "./custom.vue";
-import { queryListTask, save } from "@/api/zhiqi/task";
+import { queryListTask, save, upload, update } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
 export default {
   mixins: [mixins],
@@ -221,14 +183,15 @@ export default {
   data() {
     return {
       type: 0,
-      selectSceneId: "",
       prompt: "",
-      negativePrompt: "",
+      steps: 25,
+      loraIndex:0,
+      loramodel: 1, //权重
     };
   },
   methods: {
     async init() {
-      const params = { type: "2", name: "" };
+      const params = { type: "3", name: "" };
       const res = await queryListTask(params);
       this.tasks = res.data;
       this.tasks.forEach((item) => {
@@ -256,23 +219,91 @@ export default {
         uploading: null,
         taskType: 0,
       };
-      const res = await save({ type: 2, name: "任务-" + newTaskId });
+      const res = await save({ type: 3, name: "任务-" + newTaskId });
       newTask.id = res.msg;
       this.tasks.unshift(newTask);
       this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
-    sceneId(sceneId) {
-      this.selectSceneId = sceneId;
+    async openDrawer(taskId) {
+      const task = this.tasks.find((task) => task.id === taskId);
+      if (task.taskType === 1 || task.taskType === 2) {
+        this.$emit("success", {
+          id: taskId,
+          image: task.uploadedImage,
+          name: task.name,
+          isSuccess: true,
+        });
+        this.currentTaskId = taskId;
+        this.isDrawerVisible = false;
+        return;
+      }
+      if (this.currentTask.id !== taskId) {
+        this.currentTaskId = taskId;
+        this.isDrawerVisible = true;
+      }
     },
-    openSwitch(openvalue) {
-      this.type = openvalue;
+    async handleUpload(file) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/bmp",
+        "image/webp",
+      ];
+      const isAllowedType = allowedTypes.includes(file.file.type);
+      if (!isAllowedType) {
+        this.$message({
+          message: "❌ 不允许上传此类型的文件 ❗",
+          type: "",
+        });
+        return;
+      }
+      const isLt5M = file.file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message({
+          message: "❌ 图片大小不能超过 5MB ❗",
+          type: "",
+        });
+        return;
+      }
+      const imageStatus = await this.iSImageStatus(file.file);
+      console.log(imageStatus, "222");
+
+      if (!imageStatus.isValid) {
+        const fileList = this.currentTask.fileList.filter(
+          (f) => f.uid !== file.file.uid
+        );
+        this.$set(this.currentTask, "fileList", fileList);
+        return;
+      }
+
+      this.$set(this.currentTask, "uploading", this.currentTaskId);
+      const formdata = new FormData();
+      formdata.append("file", file.file);
+      formdata.append("type", "0");
+      const res = await upload(formdata);
+      const qzProject = {
+        id: this.currentTask.id,
+        primaryImage: res.url,
+      };
+      console.log(qzProject);
+      update(qzProject);
+      console.log(res);
+      this.$set(this.currentTask, "uploadedImage", res.url);
+      this.$set(this.currentTask, "fileList", file.file);
+    },
+    radioval(radio) {
+      this.type = radio;
+    },
+    stepsVal(steps) {
+      this.steps = steps;
     },
     correctval(correct) {
       this.prompt = correct;
     },
-    reverseVal(reverse) {
-      this.negativePrompt = reverse;
+    loraIndexVal(lora){
+      this.loraIndex = lora.loraIndex
+      this.loramodel = lora.loraWeight
     },
     selectNum(num) {
       this.quantity = num;
@@ -285,16 +316,9 @@ export default {
         });
         return;
       }
-      if (!this.currentTask.maskImage) {
-        this.$message({
-          message: "❌ 请选择蒙版图 ❗",
-          type: "",
-        });
-        return;
-      }
-      if (!this.selectSceneId && this.type !== 1) {
-        this.$message({
-          message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
+      if(this.type === 0 && this.loraIndex === 0){
+         this.$message({
+          message: "❌ 请选择lora模型 ❗",
           type: "",
         });
         return;
@@ -302,14 +326,14 @@ export default {
       const Img2imgVo = {
         projectId: this.currentTask.id,
         type: this.type,
-        selectPmodelId: this.selectSceneId,
         quantity: this.quantity,
+        steps: this.steps,
+        loramodel: this.loramodel,
+        prompt: this.prompt,
       };
-      if (this.type === 1) {
-        Img2imgVo.prompt = this.prompt;
-        Img2imgVo.negativePrompt = this.negativePrompt;
+      if(this.type === 0){
+        Img2imgVo.loraname = this.loraIndex
       }
-
       console.log(Img2imgVo);
       await img2img(Img2imgVo);
       this.isDrawerVisible = false;

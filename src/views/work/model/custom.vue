@@ -1,13 +1,7 @@
 <template>
   <div>
-    <div class="radio-group-container">
-      <el-radio-group v-model="radio">
-        <el-radio-button :label="0">推荐</el-radio-button>
-        <el-radio-button :label="1">自定义</el-radio-button>
-      </el-radio-group>
-    </div>
     <div style="padding: 0 10px">
-      <div class="container" v-if="radio === 0">
+      <div class="container">
         <!-- AI 模特部分 -->
         <div class="ai-models">
           <div class="header">
@@ -52,37 +46,8 @@
                 :class="{ outline: sceneIndex === scene.id }"
                 @click="handleSenceClick(scene.id)"
               />
-              <span>{{ scene.modelName }}</span>
+              <span class="model-name">{{ scene.modelName }}</span>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="container2" v-else>
-        <div class="left-section">
-          <div class="input-section">
-            <label>场景描述</label>
-            <el-input
-              v-model="correct"
-              type="textarea"
-              placeholder="TIPS:场景描述请写场景以及位置等信息
-例如：一杯牛奶放在餐桌上，清晨，温馨"
-              :rows="16"
-              :maxlength="1500"
-              show-word-limit
-            />
-          </div>
-        </div>
-        <div class="right-section">
-          <div class="input-section">
-            <label>不希望出现的内容</label>
-            <el-input
-              v-model="reverse"
-              type="textarea"
-              placeholder="请输入不希望出现的内容"
-              :rows="16"
-              maxlength="1500"
-              show-word-limit
-            />
           </div>
         </div>
       </div>
@@ -96,26 +61,9 @@ export default {
   data() {
     return {
       models: [],
-      scenes: [
-        {
-          id:1,
-          modelName: "场景1",
-          modelImage:
-            "https://ai-image.weshop.com/403df960-8ac8-47c1-bdff-3e90681d855f_1024x1024.png_256x256.jpeg",
-        },
-        {
-          id:2,
-          modelName: "场景2",
-          modelImage:
-            "https://ai-image.weshop.com/2bc446c7-3283-41cb-b5e2-6b2fbae36680.png_256x256.jpeg",
-        },
-        // 添加更多场景
-      ],
+      scenes: [],
       modelsIndex: "",
       sceneIndex: "",
-      radio: 0,
-      correct: "",
-      reverse: "",
     };
   },
   mounted() {
@@ -123,11 +71,16 @@ export default {
       this.models = res.data;
       console.log(res);
     });
+    queryListModel(0, 1).then((res) => {
+      this.scenes = res.data;
+      console.log(res);
+    });
   },
   methods: {
     handleClick(id) {
       if (this.modelsIndex === id) {
         this.modelsIndex = null;
+        this.$emit("modelId", this.sceneIndex);
       } else {
         this.modelsIndex = id;
         this.$emit("modelId", this.modelsIndex);
@@ -136,21 +89,11 @@ export default {
     handleSenceClick(id) {
       if (this.sceneIndex === id) {
         this.sceneIndex = null;
+        this.$emit("sceneId", this.sceneIndex);
       } else {
         this.sceneIndex = id;
         this.$emit("sceneId", this.sceneIndex);
       }
-    },
-  },
-  watch: {
-    radio(newval) {
-      this.$emit("radioval", newval);
-    },
-    correct(newVal) {
-      this.$emit("correctval", newVal);
-    },
-    reverse(newVal) {
-      this.$emit("reverseVal", newVal);
     },
   },
 };
@@ -168,22 +111,20 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding: 20px;
 }
 
 .ai-models,
 .store-scenes {
   background-color: #fff;
   border-radius: 8px;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .start-button {

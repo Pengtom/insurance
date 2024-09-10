@@ -1,17 +1,25 @@
 <template>
   <div class="container">
-    <left :context="context" @data = "handle"/>
-      <right :images="images" :flag="flag"/>
+    <left :context="context" @data="handleOpen" @success="handleOpenSuccess" />
+    <right
+      :images="images"
+      :flag="flag"
+      :isSuccess="isSuccess"
+      :hasMore="hasMore"
+      :currentTask="currentTask"
+      @load-more="loadMoreImages"
+    />
   </div>
 </template>
 
 <script>
-import Left from "../model/left.vue";
+import Left from "./left.vue";
 import Right from "../right.vue";
+import work from "../mixins/work";
 export default {
+  mixins: [work],
   data() {
     return {
-      flag:true,
       context: {
         title: "建筑外观",
         content:
@@ -31,17 +39,12 @@ export default {
     Left,
     Right,
   },
-  methods:{
-    handle(newdata){
-      this.flag = !newdata
-    }
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 .container {
   display: flex;
-  height: 90vh;
+  height: 100vh;
 }
 </style>

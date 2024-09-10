@@ -111,7 +111,9 @@
               />
               <div>下载大图</div>
             </div>
-            <div style="width:1px;height:20px;background-color:#4f535a;"></div>
+            <div
+              style="width: 1px; height: 20px; background-color: #4f535a"
+            ></div>
           </div>
         </div>
       </div>
@@ -153,7 +155,9 @@ export default {
     },
     async downloadImage() {
       try {
-        const filename = this.currentImg.substring(this.currentImg.lastIndexOf("/") + 1);
+        const filename = this.currentImg.substring(
+          this.currentImg.lastIndexOf("/") + 1
+        );
         const response = await fetch(this.currentImg);
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
@@ -169,6 +173,13 @@ export default {
       }
     },
     hidePreview(img) {
+      if (!img) {
+        this.$message({
+          message: "❌ 图片正在生成中 ❗",
+          type: "",
+        });
+        return;
+      }
       this.currentImg = img;
       this.showPreview = !this.showPreview;
     },
@@ -179,16 +190,17 @@ export default {
       async handler() {
         this.image = [];
         const res = await queryImagesByProjectId(this.currentTask.id);
-        if (res && Array.isArray(res.data)) {
-          const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
-          console.log(allImagesHaveUrl);
+        this.image = res.data;
+        // if (res && Array.isArray(res.data)) {
+        //   const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
+        //   console.log(allImagesHaveUrl);
 
-          if (allImagesHaveUrl) {
-            this.image = res.data;
-          } else {
-            this.image = res.data;
-          }
-        }
+        //   if (allImagesHaveUrl) {
+        //     this.image = res.data;
+        //   } else {
+        //     this.image = res.data;
+        //   }
+        // }
         clearInterval(this.intervalId);
         this.loadImage();
       },

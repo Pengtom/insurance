@@ -494,7 +494,7 @@
           </div>
         </div>
         <div class="content-container">
-          <div class="header-text">AI 模特商拍</div>
+          <div class="header-text">AI 商品商拍</div>
           <div class="carousel-container">
             <div class="carousel-item">
               <img

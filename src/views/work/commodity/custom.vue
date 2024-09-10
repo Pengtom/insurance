@@ -107,8 +107,8 @@ export default {
       },
     },
   },
-  async mounted() {
-    await queryListModel(1, 1).then((res) => {
+  mounted() {
+    queryListModel(1, 1).then((res) => {
       this.scenes = res.data;
       console.log(res);
     });

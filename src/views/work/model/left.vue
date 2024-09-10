@@ -30,10 +30,10 @@
             />
             <div class="task-details">
               <span class="task-tag">{{ task.name }}</span>
-              <div class="task-status">未启动</div>
+              <div class="task-status">{{ statusMap[task.taskType] }}</div>
             </div>
           </div>
-          <div class="task-options" @click="toggleOptions">
+          <div class="task-options" @click.stop="toggleOptions(task.id)">
             <img
               class="more-options-icon"
               loading="lazy"
@@ -46,7 +46,7 @@
           <transition name="fade">
             <div v-if="task.showOptions" class="options-dropdown">
               <i class="el-icon-delete"></i>
-              <button @click="deleteTask(task.id)">删除</button>
+              <button @click.stop="deleteTask(task.id)">删除</button>
             </div>
           </transition>
         </div>
@@ -84,7 +84,7 @@
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">点击上传或将图片拖入此区域</div>
               <div class="el-upload__tip" slot="tip">
-                文件不超过20mb，不支持gif/avif格式
+                文件不超过5mb，不支持gif/avif格式
               </div>
             </el-upload>
           </div>
@@ -113,13 +113,7 @@
         </div>
         ·
       </transition>
-      <custom
-        @radioval="radioval"
-        @modelId="modelId"
-        @sceneId="sceneId"
-        @correctval="correctval"
-        @reverseVal="reverseVal"
-      />
+      <custom @modelId="modelId" @sceneId="sceneId" />
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
@@ -128,7 +122,9 @@
           >
         </div>
         <div class="button-container">
-          <el-button class="execute-button" @click="img2img">执行</el-button>
+          <el-button class="execute-button" :loading="loading" @click="img2img"
+            >执行</el-button
+          >
           <div class="settings-container">
             <div class="settings-image" @click="openSelectFlag">
               <img
@@ -212,7 +208,6 @@
 </template>
 
 <script>
-// import left from "../left";
 import mixins from "../mixins/left";
 import custom from "./custom.vue";
 import { queryListTask, save } from "@/api/zhiqi/task";
@@ -224,11 +219,9 @@ export default {
   },
   data() {
     return {
-      radio: 0,
       selectModelId: "",
       selectSceneId: "",
-      prompt: "",
-      negativePrompt: "",
+      loading: false,
     };
   },
   methods: {
@@ -259,7 +252,7 @@ export default {
         fileList: [],
         showOptions: false,
         uploading: null,
-        // active: true
+        taskType: 0,
       };
       const res = await save({ type: 1, name: "任务-" + newTaskId });
       newTask.id = res.msg;
@@ -267,408 +260,67 @@ export default {
       this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
-    radioval(radioval) {
-      this.radio = radioval;
-    },
     modelId(selectModelId) {
       this.selectModelId = selectModelId;
     },
     sceneId(sceneId) {
       this.selectSceneId = sceneId;
     },
-    correctval(correct) {
-      this.prompt = correct;
-    },
-    reverseVal(reverse) {
-      this.negativePrompt = reverse;
-    },
     selectNum(num) {
       this.quantity = num;
     },
     async img2img() {
-      console.log(this.selectModelId +"222",this.selectSceneId,this.radio);
-      
-      console.log((this.selectSceneId || this.selectModelId)&& this.radio !== 1);
-      console.log(!this.selectSceneId);
-      console.log(!this.selectModelId);
-       console.log(this.radio !== 1);
-      if ((!this.selectSceneId && !this.selectModelId) && this.radio !== 1) {
+       if (!this.currentTask.uploadedImage) {
         this.$message({
-          message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
+          message: "❌ 请先进行图片的上传 ❗",
           type: "",
         });
         return;
       }
+      if (!this.currentTask.maskImage) {
+        this.$message({
+          message: "❌ 请选择蒙版图 ❗",
+          type: "",
+        });
+        return;
+      }
+      console.log(!this.selectModelId);
+      console.log(!this.selectSceneId);
+      
+      if (!this.selectSceneId || !this.selectModelId) {
+        this.$message({
+          message: "❌ 请选择或填写商拍场景 不能为空 ❗",
+          type: "",
+        });
+        return;
+      }
+      this.loading = true;
       const Img2imgVo = {
         projectId: this.currentTask.id,
-        radio: this.radio,
         selectPmodelId: this.selectSceneId,
+        selectModelId: this.selectModelId,
         quantity: this.quantity,
       };
-      if (this.radio === 1) {
-        Img2imgVo.prompt = this.prompt;
-        Img2imgVo.negativePrompt = this.negativePrompt;
-      }
 
-      console.log(Img2imgVo);
-      await img2img(Img2imgVo);
-      this.isDrawerVisible = false;
-      this.$emit("success", {
-        id: this.currentTask.id,
-        image: this.currentTask.uploadedImage,
-        name: this.currentTask.name,
-        isSuccess: true,
-      });
+      try {
+        console.log(Img2imgVo);
+        await img2img(Img2imgVo);
+        this.isDrawerVisible = false;
+        this.init();
+        this.$emit("success", {
+          id: this.currentTask.id,
+          image: this.currentTask.uploadedImage,
+          name: this.currentTask.name,
+          isSuccess: true,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
 </script>
 
-<style scoped>
-canvas {
-  display: none;
-}
-.left-container {
-  width: 20%;
-  height: 100%;
-  border-right: 1px solid #ccc;
-  overflow: hidden; /* 隐藏外部滚动条 */
-  background-color: white;
-}
-
-.left {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: #fff;
-  border-right: 1px #e3e3e3 solid;
-}
-
-.sticky-header {
-  position: sticky;
-  top: 0;
-  background-image: url("https://www.weshop.com/bg_tip_aimodel.webp");
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  padding: 10px; /* 让内容不贴边 */
-  z-index: 1; /* 确保 header 在其他内容之上 */
-}
-
-.new-task-button {
-  margin-left: 5%;
-  margin-bottom: 20px;
-  width: 90%;
-  border-radius: 5px;
-}
-
-.tasks {
-  overflow-y: auto; /* 允许垂直滚动 */
-  flex: 1; /* 填满剩余空间 */
-  padding: 0 10px; /* 内边距调整 */
-  scrollbar-width: none;
-}
-
-.task {
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 4px;
-  height: 70px;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.task.active {
-  background-color: #f5f7fd;
-}
-
-.task-info {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.task-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  margin-right: 10px; /* 为了让图片和文字之间有间距 */
-}
-
-.task-details {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  justify-content: left;
-}
-
-.task-tag {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: #333;
-}
-
-.task-status {
-  color: #7530fe;
-  font-size: 12px;
-  line-height: 17px;
-}
-
-.task-options {
-  margin-left: auto; /* 将更多选项图标推到右边 */
-  cursor: pointer;
-}
-
-.options-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-  z-index: 10;
-}
-
-.options-dropdown button {
-  background: none;
-  border: none;
-  color: #333;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.more-options-icon {
-  width: 14px;
-  height: 4px;
-  cursor: pointer;
-}
-
-h2 {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  font-size: 24px;
-  color: rgba(0, 0, 0, 0.8);
-}
-
-p {
-  font-size: 16px;
-  color: rgba(0, 0, 0, 0.6);
-  margin-left: 10px;
-  margin-bottom: 20px;
-}
-
-.el-drawer {
-  position: absolute;
-  left: 20%;
-  padding: 0;
-  width: 50vw !important;
-  background: rgba(7, 18, 26, 0.8);
-  font-size: 16px;
-  transition: transform 0.1s linear, opacity 0.1s linear;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  background-color: white;
-}
-
-::v-deep .el-drawer__body {
-  scrollbar-width: none;
-}
-
-.dialog-content {
-  display: flex;
-  justify-content: space-between;
-  padding: 0px 30px;
-  margin-bottom: 50px;
-}
-
-.upload-section {
-  width: 300px;
-  height: 300px;
-  padding-right: 20px;
-}
-
-::v-deep .el-upload-dragger {
-  width: 300px;
-  height: 300px;
-}
-
-::v-deep .el-icon-upload {
-  margin-top: 33%;
-}
-
-.image-preview {
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 30px;
-}
-
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 10;
-}
-
-.uploaded-image {
-  background-color: #f5f7fd;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
-.canvas-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  pointer-events: none; /* Allow clicks to pass through canvas to the image */
-}
-
-/* 过渡效果 */
-.fade-in-out-enter-active,
-.fade-in-out-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-in-out-enter,
-.fade-in-out-leave-to {
-  opacity: 0;
-}
-
-.fixed-bottom {
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between; /* 确保两个 div 在水平方向上分开 */
-  align-items: center; /* 垂直居中对齐 */
-  border-top: 1px solid #eee;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  text-align: center;
-  padding: 10px;
-  z-index: 1;
-}
-.info-text {
-  font-size: 14px;
-  color: #333;
-}
-.button-container {
-  display: flex;
-  align-items: center;
-  width: 286px;
-  height: 44px;
-}
-.execute-button {
-  font-weight: 500;
-  flex: 1 1 0%;
-  border-radius: 10px;
-  background-color: #7530fe;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-.settings-container {
-  width: 40px;
-  height: 40px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  cursor: pointer;
-  background-color: #f5f7fd;
-  margin-left: 8px;
-}
-.settings-image {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  cursor: pointer;
-  background-color: #f5f7fd;
-}
-.modal-container {
-  position: absolute;
-  width: 476px;
-  right: 4px;
-  bottom: 48px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
-  z-index: 2;
-  padding: 24px 0;
-  display: flex;
-  flex-direction: column;
-}
-.close-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
-.count-settings {
-  flex: 1 1;
-  overflow-y: scroll;
-  padding: 0 24px;
-  margin-top: 16px;
-  gap: 24px;
-  display: flex;
-  flex-direction: column;
-}
-.count-options-container {
-  width: 100%;
-}
-.count-label {
-  margin: 0;
-  margin-bottom: 8px;
-  font-size: 12px;
-  line-height: 17px;
-  font-weight: 500;
-}
-.count-options {
-  width: 100%;
-  display: flex;
-  cursor: pointer;
-  flex-wrap: wrap;
-  gap: 12px 6px;
-}
-.count-option {
-  padding: 4px 18px;
-  border-radius: 100px;
-  border: 1px solid #e3e3e3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #97a0b4;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
-}
-.overlay-image {
-  object-fit: contain;
-}
-.selected {
-  border: 1px solid #7530fe;
-}
+<style lang="scss" scoped>
+@import "~@/assets/styles/work.scss";
 </style>

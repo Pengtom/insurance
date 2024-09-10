@@ -1,6 +1,6 @@
 <template>
-  <div class="container" :style="containerStyle" @success="handleOpenSuccess">
-    <left :context="context" @data="handleOpen" />
+  <div class="container" :style="containerStyle" >
+    <left :context="context" @data="handleOpen" @success="handleOpenSuccess"/>
     <right
       :images="images"
       :flag="flag"

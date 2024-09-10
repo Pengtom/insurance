@@ -116,7 +116,9 @@
           >
         </div>
         <div class="button-container">
-          <el-button class="execute-button" :loading="loading" @click="img2img">执行</el-button>
+          <el-button class="execute-button" :loading="loading" @click="img2img"
+            >执行</el-button
+          >
           <div class="settings-container">
             <div class="settings-image" @click="openSelectFlag">
               <img
@@ -175,6 +177,7 @@ import mixins from "../mixins/left";
 import custom from "./custom.vue";
 import { queryListTask, save, upload, update } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
+import store from '@/store'
 export default {
   mixins: [mixins],
   components: {
@@ -185,7 +188,7 @@ export default {
       type: 0,
       prompt: "",
       steps: 25,
-      loraIndex:0,
+      loraIndex: 0,
       loramodel: 1, //权重
       loading: false,
     };
@@ -302,9 +305,9 @@ export default {
     correctval(correct) {
       this.prompt = correct;
     },
-    loraIndexVal(lora){
-      this.loraIndex = lora.loraIndex
-      this.loramodel = lora.loraWeight
+    loraIndexVal(lora) {
+      this.loraIndex = lora.loraIndex;
+      this.loramodel = lora.loraWeight;
     },
     selectNum(num) {
       this.quantity = num;
@@ -317,14 +320,14 @@ export default {
         });
         return;
       }
-      if(this.type === 0 && this.loraIndex === 0){
-         this.$message({
+      if (this.type === 0 && this.loraIndex === 0) {
+        this.$message({
           message: "❌ 请选择lora模型 ❗",
           type: "",
         });
         return;
       }
-      this.loading = true
+      this.loading = true;
       const Img2imgVo = {
         projectId: this.currentTask.id,
         type: this.type,
@@ -333,12 +336,20 @@ export default {
         loramodel: this.loramodel,
         prompt: this.prompt,
       };
-      if(this.type === 0){
-        Img2imgVo.loraname = this.loraIndex
+      if (this.type === 0) {
+        Img2imgVo.loraname = this.loraIndex;
       }
-     try {
+      try {
         console.log(Img2imgVo);
-        await img2img(Img2imgVo);
+        const res = await img2img(Img2imgVo);
+        if (res.msg === "算力点不足") {
+          this.$message({
+            message: "❌ 您的算力点不足，请及时充值 ❗",
+            type: "",
+          });
+          return;
+        }
+        store.dispatch('getComputingPower')
         this.isDrawerVisible = false;
         this.init();
         this.$emit("success", {

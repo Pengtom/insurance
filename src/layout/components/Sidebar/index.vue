@@ -61,7 +61,7 @@
                 line-height: 20px;
                 color: #7530fe;
               "
-              >200</span
+              >{{compPower}}</span
             >
             <span
               style="
@@ -92,7 +92,7 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapState(["settings"]),
-    ...mapGetters(["sidebarRouters", "sidebar"]),
+    ...mapGetters(["sidebarRouters", "sidebar","compPower"]),
     activeMenu() {
       const route = this.$route;
       const { meta, path } = route;

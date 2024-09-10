@@ -13,6 +13,7 @@ const whiteList = ['/', '/register']
 router.beforeEach((to, from, next) => {
   // NProgress.start()
   if (getToken()) {
+    store.dispatch('getComputingPower')
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     // if (to.path === '/') {

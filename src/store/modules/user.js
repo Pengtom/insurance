@@ -1,6 +1,7 @@
 import { login, SMSlogin, wxLogin, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { getIsLogin, removeIsLogin, setIsLogin } from '../../utils/auth'
+import { getIsLogin, removeIsLogin, setIsLogin } from '@/utils/auth'
+import { getComputingPowerTotal } from '@/api/zhiqi/userPurchases'
 
 const user = {
   state: {
@@ -11,7 +12,8 @@ const user = {
     phone: '',
     isLogin: getIsLogin(),
     roles: [],
-    permissions: []
+    permissions: [],
+    compPower: 0   //算力
   },
 
   mutations: {
@@ -27,10 +29,10 @@ const user = {
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
-    SET_PHONE(state, phone){
+    SET_PHONE(state, phone) {
       state.phone = phone
     },
-    SET_ISLOGIN:(state,islogin) =>{
+    SET_ISLOGIN: (state, islogin) => {
       state.isLogin = islogin
     },
     SET_ROLES: (state, roles) => {
@@ -38,6 +40,9 @@ const user = {
     },
     SET_PERMISSIONS: (state, permissions) => {
       state.permissions = permissions
+    },
+    SETCOMPPOWER: (state, compPower) => {
+      state.compPower = compPower
     }
   },
 
@@ -52,7 +57,7 @@ const user = {
         login(username, password, code, uuid).then(res => {
           setToken(res.token)
           commit('SET_TOKEN', res.token)
-          commit('SET_ISLOGIN',true)
+          commit('SET_ISLOGIN', true)
           resolve()
         }).catch(error => {
           reject(error)
@@ -65,7 +70,7 @@ const user = {
           setToken(res.token)
           setIsLogin(true)
           commit('SET_TOKEN', res.token)
-          commit('SET_ISLOGIN',true)
+          commit('SET_ISLOGIN', true)
           resolve()
         }).catch(error => {
           reject(error)
@@ -75,16 +80,25 @@ const user = {
 
     wxLogin({ commit }, state) {
       return new Promise((resolve, reject) => {
-       wxLogin(state).then(res => {
-        if(res.message === "用户已登录"){
-          setToken(res.token)
-          setIsLogin(true)
-          commit('SET_TOKEN', res.token)
-          commit('SET_ISLOGIN',true)
-        }
+        wxLogin(state).then(res => {
+          if (res.message === "用户已登录") {
+            setToken(res.token)
+            setIsLogin(true)
+            commit('SET_TOKEN', res.token)
+            commit('SET_ISLOGIN', true)
+          }
           resolve(res)
         }).catch(error => {
           reject(error)
+        })
+      })
+    },
+
+    //获取算力点
+    getComputingPower({ commit, state }) {
+      return new ((resolve) => {
+        getComputingPowerTotal().then(res => {
+          commit('SETCOMPPOWER', res.data.total_remaining_compute_power)
         })
       })
     },
@@ -120,7 +134,7 @@ const user = {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           commit('SET_PERMISSIONS', [])
-          commit('SET_ISLOGIN',false)
+          commit('SET_ISLOGIN', false)
           removeToken()
           removeIsLogin()
           resolve()

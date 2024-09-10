@@ -214,6 +214,7 @@ import mixins from "../mixins/left";
 import custom from "./custom.vue";
 import { queryListTask, save } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
+import store from '@/store'
 export default {
   mixins: [mixins],
   components: {
@@ -315,7 +316,15 @@ export default {
 
       try {
         console.log(Img2imgVo);
-        await img2img(Img2imgVo);
+        const res = await img2img(Img2imgVo);
+        if (res.msg === "算力点不足") {
+          this.$message({
+            message: "❌ 您的算力点不足，请及时充值 ❗",
+            type: "",
+          });
+          return;
+        }
+        store.dispatch('getComputingPower')
         this.isDrawerVisible = false;
         this.init();
         this.$emit("success", {

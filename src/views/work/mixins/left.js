@@ -327,18 +327,18 @@ export default {
         },
         getImageClickCoordinates(event) {
             event.preventDefault()
-            if (this.currentTask.clickCoordinates) {
-                if (this.currentTask.clickCoordinates.length > 30) {
-                    this.$message({
-                        message: "❌ 点击次数太多 ❗",
-                        type: '',
-                    });
-                    return;
-                }
-            } else {
-                this.$set(this.currentTask, "clickCoordinates", [])
-                this.$set(this.currentTask, "type", [])
-            }
+            // if (this.currentTask.clickCoordinates) {
+            //     if (this.currentTask.clickCoordinates.length > 30) {
+            //         this.$message({
+            //             message: "❌ 点击次数太多 ❗",
+            //             type: '',
+            //         });
+            //         return;
+            //     }
+            // } else {
+            //     this.$set(this.currentTask, "clickCoordinates", [])
+            //     this.$set(this.currentTask, "type", [])
+            // }
             const imgElement = this.$refs.uploadedImage;
 
             if (imgElement) {

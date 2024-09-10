@@ -77,6 +77,7 @@
               :limit="1"
               drag
               action="#"
+              :show-file-list="false"
               v-loading="currentTask.uploading !== null"
               :http-request="handleUpload"
               :file-list="currentTask.fileList"

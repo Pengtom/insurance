@@ -127,7 +127,7 @@
           >
         </div>
         <div class="button-container">
-          <el-button class="execute-button" @click="img2img">执行</el-button>
+          <el-button class="execute-button" :loading="loading" @click="img2img">执行</el-button>
           <div class="settings-container">
             <div class="settings-image" @click="openSelectFlag">
               <img
@@ -225,6 +225,7 @@ export default {
       selectSceneId: "",
       prompt: "",
       negativePrompt: "",
+      loading: false,
     };
   },
   methods: {
@@ -300,6 +301,7 @@ export default {
         });
         return;
       }
+      this.loading = true;
       const Img2imgVo = {
         projectId: this.currentTask.id,
         type: this.type,
@@ -311,16 +313,20 @@ export default {
         Img2imgVo.negativePrompt = this.negativePrompt;
       }
 
-      console.log(Img2imgVo);
-      await img2img(Img2imgVo);
-      this.isDrawerVisible = false;
-      this.init();
-      this.$emit("success", {
-        id: this.currentTask.id,
-        image: this.currentTask.uploadedImage,
-        name: this.currentTask.name,
-        isSuccess: true,
-      });
+      try {
+        console.log(Img2imgVo);
+        await img2img(Img2imgVo);
+        this.isDrawerVisible = false;
+        this.init();
+        this.$emit("success", {
+          id: this.currentTask.id,
+          image: this.currentTask.uploadedImage,
+          name: this.currentTask.name,
+          isSuccess: true,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

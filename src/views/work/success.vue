@@ -84,7 +84,14 @@
         </div>
       </div>
     </div>
-    <div v-if="showPreview" class="preview-overlay" @click="hidePreview">
+    <div
+      v-if="showPreview"
+      class="preview-overlay"
+      @click="handleEscKey"
+      tabindex="0"
+      @keydown="handleEscKey"
+      ref="previewOverlay"
+    >
       <div class="close-btn">
         <img src="https://www.weshop.com/ic_modal_close_light.svg" alt="" />
       </div>
@@ -182,7 +189,17 @@ export default {
       }
       this.currentImg = img;
       this.showPreview = !this.showPreview;
+      this.$nextTick(() => {
+        this.$refs.previewOverlay.focus();
+      });
     },
+    handleEscKey(event){
+      if(event.key == 'Escape'){
+        this.showPreview  = false
+      }else{
+        this.showPreview  = false
+      }
+    }
   },
   watch: {
     currentTask: {

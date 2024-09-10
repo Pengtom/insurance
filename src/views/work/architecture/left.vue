@@ -116,7 +116,7 @@
           >
         </div>
         <div class="button-container">
-          <el-button class="execute-button" @click="img2img">执行</el-button>
+          <el-button class="execute-button" :loading="loading" @click="img2img">执行</el-button>
           <div class="settings-container">
             <div class="settings-image" @click="openSelectFlag">
               <img
@@ -187,6 +187,7 @@ export default {
       steps: 25,
       loraIndex:0,
       loramodel: 1, //权重
+      loading: false,
     };
   },
   methods: {
@@ -323,6 +324,7 @@ export default {
         });
         return;
       }
+      this.loading = true
       const Img2imgVo = {
         projectId: this.currentTask.id,
         type: this.type,
@@ -334,16 +336,20 @@ export default {
       if(this.type === 0){
         Img2imgVo.loraname = this.loraIndex
       }
-      console.log(Img2imgVo);
-      await img2img(Img2imgVo);
-      this.isDrawerVisible = false;
-      this.init();
-      this.$emit("success", {
-        id: this.currentTask.id,
-        image: this.currentTask.uploadedImage,
-        name: this.currentTask.name,
-        isSuccess: true,
-      });
+     try {
+        console.log(Img2imgVo);
+        await img2img(Img2imgVo);
+        this.isDrawerVisible = false;
+        this.init();
+        this.$emit("success", {
+          id: this.currentTask.id,
+          image: this.currentTask.uploadedImage,
+          name: this.currentTask.name,
+          isSuccess: true,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

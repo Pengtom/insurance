@@ -66,7 +66,7 @@
           />
         </div>
       </div>
-      <div class="right-section">
+      <!-- <div class="right-section">
         <div class="input-section">
           <label>不希望出现的内容</label>
           <el-input
@@ -78,7 +78,7 @@
             show-word-limit
           />
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

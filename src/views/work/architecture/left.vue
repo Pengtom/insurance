@@ -358,6 +358,13 @@ export default {
       try {
         console.log(Img2imgVo);
         const res = await img2img(Img2imgVo);
+        if(res.code === 500){
+           this.$message({
+            message: `❌ ${res.msg} ❗`,
+            type: "",
+          });
+          return;
+        }
         if (res.msg === "算力点不足") {
           this.$message({
             message: "❌ 您的算力点不足，请及时充值 ❗",

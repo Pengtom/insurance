@@ -8,7 +8,7 @@
           width="44"
           height="44"
         />
-        <span style="color: #7530fe; margin-right: 8px">105</span>
+        <span style="color: #7530fe; margin-right: 8px">{{ compPower }}</span>
       </div>
       <div class="content">
         <p>
@@ -29,16 +29,41 @@
           <span>10算力点 ≈ 高速生成1张图</span>
         </div>
       </div>
-      <div class="horizontal-spacer">
-        <div>
-          <div>
-            <el-slider
-              v-model="value2"
-              :max="200"
-              :show-stops="false"
-            ></el-slider>
-          </div>
-        </div>
+      <div style="width: 60%; margin-top: 2%">
+        <el-button round type="primary">过期的</el-button>
+        <el-button round type="primary">未过期的</el-button>
+        <el-button round type="primary">未过期已经使用的</el-button>
+        <el-table
+          :data="tableData"
+          style="width: 100%;margin-top:1%;border-radius: 10px;"
+          :default-sort="{ prop: 'date', order: 'descending' }"
+        >
+          <el-table-column prop="address" label="算力包名" align="center">
+          </el-table-column>
+          <el-table-column
+            prop="date"
+            label="购买时间"
+            align="center"
+            :formatter="formatter"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="过期时间"
+            align="center"
+            :formatter="formatter"
+          >
+          </el-table-column>
+          <el-table-column
+            prop="address"
+            label="支付时间"
+            align="center"
+            :formatter="formatter"
+          >
+          </el-table-column>
+          <el-table-column prop="address" label="剩余算力点" align="center">
+          </el-table-column>
+        </el-table>
       </div>
     </div>
     <div class="plans-container" id="plan">
@@ -269,6 +294,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import { pay } from "@/api/zhiqi/wxPay";
 import { queryYearPackages, queryPackageById } from "@/api/zhiqi/package";
 export default {
@@ -281,6 +307,9 @@ export default {
       yearPackage: [],
       selectPackage: {},
     };
+  },
+  computed: {
+    ...mapGetters(["compPower"]),
   },
   async mounted() {
     const res = await queryYearPackages("年包");

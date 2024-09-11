@@ -87,13 +87,13 @@
     <div
       v-if="showPreview"
       class="preview-overlay"
-      @click="handleEscKey"
+      @click="closePreview"
       tabindex="0"
       @keydown="handleEscKey"
       ref="previewOverlay"
     >
       <div class="close-btn">
-        <img src="https://www.weshop.com/ic_modal_close_light.svg" alt="" />
+        <img src="https://www.weshop.com/ic_modal_close_light.svg" />
       </div>
       <div class="preview-content">
         <div class="preview-image-container left-image">
@@ -196,9 +196,10 @@ export default {
     handleEscKey(event){
       if(event.key == 'Escape'){
         this.showPreview  = false
-      }else{
-        this.showPreview  = false
       }
+    },
+    closePreview(){
+      this.showPreview = false
     }
   },
   watch: {

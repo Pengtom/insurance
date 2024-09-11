@@ -74,7 +74,6 @@
           <div class="upload-section" v-if="!currentTask.uploadedImage">
             <el-upload
               class="upload-demo"
-              :limit="1"
               drag
               action="#"
               :show-file-list="false"
@@ -97,7 +96,19 @@
                 class="uploaded-image"
                 ref="uploadedImage"
               />
-              <p>原图</p>
+              <div style="display:flex">
+                <p>原图</p>
+                <el-upload
+                  class="upload-demo"
+                  action="#"
+                  :file-list="currentTask.fileList"
+                  list-type="picture"
+                  :show-file-list="false"
+                  :http-request="handleUpload"
+                >
+                  <p v-if="!currentTask.loading">重新上传</p>
+                </el-upload>
+              </div>
             </div>
             <div class="image-preview image-preview2">
               <img :src="currentTask.maskImageSrc" class="uploaded-image" />
@@ -213,7 +224,7 @@ import mixins from "../mixins/left";
 import custom from "./custom.vue";
 import { queryListTask, save } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
-import store from '@/store'
+import store from "@/store";
 export default {
   mixins: [mixins],
   components: {
@@ -272,7 +283,7 @@ export default {
       this.quantity = num;
     },
     async img2img() {
-       if (!this.currentTask.uploadedImage) {
+      if (!this.currentTask.uploadedImage) {
         this.$message({
           message: "❌ 请先进行图片的上传 ❗",
           type: "",
@@ -288,7 +299,7 @@ export default {
       }
       console.log(!this.selectModelId);
       console.log(!this.selectSceneId);
-      
+
       if (!this.selectSceneId || !this.selectModelId) {
         this.$message({
           message: "❌ 请选择或填写商拍场景 不能为空 ❗",
@@ -314,7 +325,7 @@ export default {
           });
           return;
         }
-        store.dispatch('getComputingPower')
+        store.dispatch("getComputingPower");
         this.isDrawerVisible = false;
         this.init();
         this.$emit("success", {

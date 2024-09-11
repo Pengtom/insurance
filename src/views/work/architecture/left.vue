@@ -74,7 +74,6 @@
           <div class="upload-section" v-if="!currentTask.uploadedImage">
             <el-upload
               class="upload-demo"
-              :limit="1"
               drag
               :show-file-list="false"
               action="#"
@@ -97,7 +96,19 @@
                 class="uploaded-image"
                 ref="uploadedImage"
               />
-              <p>原图</p>
+              <div style="display: flex">
+                <p>原图</p>
+                <el-upload
+                  class="upload-demo"
+                  action="#"
+                  :file-list="currentTask.fileList"
+                  list-type="picture"
+                  :show-file-list="false"
+                  :http-request="handleUpload"
+                >
+                  <p v-if="!currentTask.loading">重新上传</p>
+                </el-upload>
+              </div>
             </div>
           </template>
         </div>
@@ -177,7 +188,7 @@ import mixins from "../mixins/left";
 import custom from "./custom.vue";
 import { queryListTask, save, upload, update } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
-import store from '@/store'
+import store from "@/store";
 export default {
   mixins: [mixins],
   components: {
@@ -271,7 +282,6 @@ export default {
         return;
       }
       const imageStatus = await this.iSImageStatus(file.file);
-      console.log(imageStatus, "222");
 
       if (!imageStatus.isValid) {
         const fileList = this.currentTask.fileList.filter(
@@ -280,7 +290,13 @@ export default {
         this.$set(this.currentTask, "fileList", fileList);
         return;
       }
-
+      if (this.currentTask.fileList) {
+        const fileList = this.currentTask.fileList.filter(
+          (f) => f.uid === file.file.uid
+        );
+        this.$set(this.currentTask, "fileList", fileList);
+        console.log(this.currentTask.fileList);
+      }
       this.$set(this.currentTask, "uploading", this.currentTaskId);
       const formdata = new FormData();
       formdata.append("file", file.file);
@@ -294,7 +310,7 @@ export default {
       update(qzProject);
       console.log(res);
       this.$set(this.currentTask, "uploadedImage", res.url);
-      this.$set(this.currentTask, "fileList", file.file);
+      this.$set(this.currentTask, "fileList", [file.file]);
     },
     radioval(radio) {
       this.type = radio;
@@ -349,7 +365,7 @@ export default {
           });
           return;
         }
-        store.dispatch('getComputingPower')
+        store.dispatch("getComputingPower");
         this.isDrawerVisible = false;
         this.init();
         this.$emit("success", {

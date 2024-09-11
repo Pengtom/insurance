@@ -97,7 +97,19 @@
                 class="uploaded-image"
                 ref="uploadedImage"
               />
-              <p>原图</p>
+              <div style="display: flex">
+                <p>原图</p>
+                <el-upload
+                  class="upload-demo"
+                  action="#"
+                  :file-list="currentTask.fileList"
+                  list-type="picture"
+                  :show-file-list="false"
+                  :http-request="handleUpload"
+                >
+                  <p v-if="!currentTask.loading">重新上传</p>
+                </el-upload>
+              </div>
             </div>
             <div class="image-preview image-preview2">
               <img :src="currentTask.maskImageSrc" class="uploaded-image" />
@@ -127,7 +139,9 @@
           >
         </div>
         <div class="button-container">
-          <el-button class="execute-button" :loading="loading" @click="img2img">执行</el-button>
+          <el-button class="execute-button" :loading="loading" @click="img2img"
+            >执行</el-button
+          >
           <div class="settings-container">
             <div class="settings-image" @click="openSelectFlag">
               <img
@@ -214,7 +228,7 @@ import mixins from "../mixins/left";
 import custom from "./custom.vue";
 import { queryListTask, save } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
-import store from '@/store'
+import store from "@/store";
 export default {
   mixins: [mixins],
   components: {
@@ -324,7 +338,7 @@ export default {
           });
           return;
         }
-        store.dispatch('getComputingPower')
+        store.dispatch("getComputingPower");
         this.isDrawerVisible = false;
         this.init();
         this.$emit("success", {

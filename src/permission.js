@@ -13,7 +13,6 @@ const whiteList = ['/', '/register']
 router.beforeEach((to, from, next) => {
   // NProgress.start()
   if (getToken()) {
-    store.dispatch('getComputingPower')
     to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
     /* has token*/
     // if (to.path === '/') {
@@ -28,6 +27,7 @@ router.beforeEach((to, from, next) => {
         // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(() => {
           isRelogin.show = false
+          store.dispatch('getComputingPower')
           store.dispatch('GenerateRoutes').then(accessRoutes => {
             // 根据roles权限生成可访问的路由表
             router.addRoutes(accessRoutes) // 动态添加可访问路由表
@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
             next({ path: '/' })
           })
         })
-      } else {        
+      } else {
         next()
       }
     }

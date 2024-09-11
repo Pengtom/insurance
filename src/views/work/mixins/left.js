@@ -127,12 +127,22 @@ export default {
                 return;
             }
             const imageStatus = await this.iSImageStatus(file.file);
-            console.log(imageStatus, "222");
 
             if (!imageStatus.isValid) {
                 const fileList = this.currentTask.fileList.filter(f => f.uid !== file.file.uid);
                 this.$set(this.currentTask, 'fileList', fileList);
                 return;
+            }
+            console.log(file.file);
+            console.log(this.currentTask.fileList);
+            
+            if (this.currentTask.fileList) {
+                console.log("111");
+                
+                const fileList = this.currentTask.fileList.filter(f => f.uid === file.file.uid);
+                this.$set(this.currentTask, 'fileList', fileList)
+                console.log(this.currentTask.fileList);
+                
             }
             this.$set(this.currentTask, 'uploading', this.currentTaskId)
 
@@ -166,7 +176,7 @@ export default {
             const res = await upload(formdata)
             console.log(res);
             this.$set(task, 'uploadedImage', res.url);
-            this.$set(task, "fileList", newFile)
+            this.$set(task, "fileList", [newFile])
             this.$set(task, "clickCoordinates", [])
             this.$set(task, "type", [])
             this.$set(this.currentTask, 'loading', true);

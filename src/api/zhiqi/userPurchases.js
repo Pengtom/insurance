@@ -9,3 +9,10 @@ export function getComputingPowerTotal(){
         method: 'get',
     })
 }
+
+export function getuserup(){
+    return  request({
+        url: prefix + '/getuserup',
+        method: 'get',
+    })
+}

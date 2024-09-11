@@ -30,38 +30,38 @@
         </div>
       </div>
       <div style="width: 60%; margin-top: 2%">
-        <el-button round type="primary">过期的</el-button>
-        <el-button round type="primary">未过期的</el-button>
-        <el-button round type="primary">未过期已经使用的</el-button>
+        <el-button round type="primary" @click="findGreater"
+          >未过期的</el-button
+        >
+        <el-button round type="primary" @click="findExpired"
+          >已过期的</el-button
+        >
+        <el-button round type="primary" @click="findZero"
+          >未过期已使用完的</el-button
+        >
         <el-table
           :data="tableData"
-          style="width: 100%;margin-top:1%;border-radius: 10px;"
-          :default-sort="{ prop: 'date', order: 'descending' }"
+          height="300"
+          style="
+            width: 100%;
+            margin-top: 1%;
+            border-radius: 10px;
+            border: 1px solid #e3e3e3;
+          "
         >
-          <el-table-column prop="address" label="算力包名" align="center">
+          <el-table-column prop="packageName" label="算力包名" align="center">
+          </el-table-column>
+          <el-table-column prop="date" label="购买时间" align="center">
+          </el-table-column>
+          <el-table-column prop="expiryDate" label="过期时间" align="center">
+          </el-table-column>
+          <el-table-column prop="createTime" label="支付时间" align="center">
           </el-table-column>
           <el-table-column
-            prop="date"
-            label="购买时间"
+            prop="remainingComputePower"
+            label="剩余算力点"
             align="center"
-            :formatter="formatter"
           >
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="过期时间"
-            align="center"
-            :formatter="formatter"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="支付时间"
-            align="center"
-            :formatter="formatter"
-          >
-          </el-table-column>
-          <el-table-column prop="address" label="剩余算力点" align="center">
           </el-table-column>
         </el-table>
       </div>
@@ -297,6 +297,7 @@
 import { mapGetters } from "vuex";
 import { pay } from "@/api/zhiqi/wxPay";
 import { queryYearPackages, queryPackageById } from "@/api/zhiqi/package";
+import { getuserup } from "@/api/zhiqi/userPurchases";
 export default {
   data() {
     return {
@@ -306,6 +307,8 @@ export default {
       value2: 105,
       yearPackage: [],
       selectPackage: {},
+      tableData: [],
+      purchases: [],
     };
   },
   computed: {
@@ -315,8 +318,14 @@ export default {
     const res = await queryYearPackages("年包");
     this.yearPackage = res.rows;
     console.log(res.rows);
+    this.init();
   },
   methods: {
+    async init() {
+      const res = await getuserup();
+      this.purchases = res.data;
+      this.tableData = this.purchases.ValidPurchases;
+    },
     async openDialog(packageId) {
       const resq = await queryPackageById(packageId);
       this.selectPackage = resq.data;
@@ -330,6 +339,15 @@ export default {
     },
     selectPay(method) {
       this.selectedPayment = method;
+    },
+    findGreater() {
+      this.tableData = this.purchases.ValidPurchases;
+    },
+    findZero() {
+      this.tableData = this.purchases.UsedUpPurchases;
+    },
+    findExpired() {
+      this.tableData = this.purchases.ExpiredPurchases;
     },
   },
 };

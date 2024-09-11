@@ -158,7 +158,7 @@ export default {
   object-fit: cover;
 }
 .outline {
-  outline: 2px solid #7530fe;
+  outline: 2px solid #1890ff;
 }
 .model-name {
   color: #97a0b4;

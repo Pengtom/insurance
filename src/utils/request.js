@@ -6,7 +6,7 @@ import errorCode from '@/utils/errorCode'
 import { tansParams, blobValidate } from "@/utils/ruoyi";
 import cache from '@/plugins/cache'
 import { saveAs } from 'file-saver'
-
+import CryptoJS from 'crypto-js';
 let downloadLoadingInstance;
 // 是否显示重新登录
 export let isRelogin = { show: false };
@@ -67,46 +67,64 @@ service.interceptors.request.use(config => {
   }
   return config
 }, error => {
-    console.log(error)
-    Promise.reject(error)
+  console.log(error)
+  Promise.reject(error)
 })
 
 // 响应拦截器
 service.interceptors.response.use(res => {
-    // 未设置状态码则默认成功状态
-    const code = res.data.code || 200;
-    // 获取错误信息
-    const msg = errorCode[code] || res.data.msg || errorCode['default']
-    // 二进制数据则直接返回
-    if (res.request.responseType ===  'blob' || res.request.responseType ===  'arraybuffer') {
-      return res.data
-    }
-    if (code === 401) {
-      if (!isRelogin.show) {
-        isRelogin.show = true;
-        MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
-          isRelogin.show = false;
-          store.dispatch('LogOut').then(() => {
-            location.href = '/index';
-          })
+  // 未设置状态码则默认成功状态
+  const code = res.data.code || 200;
+  // 获取错误信息
+  const msg = errorCode[code] || res.data.msg || errorCode['default']
+  // 二进制数据则直接返回
+  if (res.request.responseType === 'blob' || res.request.responseType === 'arraybuffer') {
+    return res.data
+  }
+  if (code === 401) {
+    if (!isRelogin.show) {
+      isRelogin.show = true;
+      MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
+        isRelogin.show = false;
+        store.dispatch('LogOut').then(() => {
+          location.href = '/index';
+        })
       }).catch(() => {
         isRelogin.show = false;
       });
     }
-      return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
-    } else if (code === 500) {
-      Message({ message: msg, type: 'error' })
-      return Promise.reject(new Error(msg))
-    } else if (code === 601) {
-      Message({ message: msg, type: 'warning' })
-      return Promise.reject('error')
-    } else if (code !== 200) {
-      Notification.error({ title: msg })
-      return Promise.reject('error')
-    } else {
-      return res.data
+    return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
+  } else if (code === 500) {
+    Message({ message: `❌ ${msg} ❗`, type: '' })
+    return Promise.reject(new Error(msg))
+  } else if (code === 601) {
+    Message({ message: msg, type: 'warning' })
+    return Promise.reject('error')
+  } else if (code !== 200) {
+    Notification.error({ title: msg })
+    return Promise.reject('error')
+  } else {
+    if (typeof res.data.data === 'string' && res.data.data.trim().length > 0) {
+      // 解密 data 字段
+      const secretKey = '1234567890123456'; // 必须是和后端一致的16字节密钥
+      try {
+        const encryptedData = res.data.data;
+        const bytes = CryptoJS.AES.decrypt(encryptedData, CryptoJS.enc.Utf8.parse(secretKey), {
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7
+        });
+        const decryptedData = CryptoJS.enc.Utf8.stringify(bytes);
+        const data = handleDecryptedData(decryptedData)
+        res.data.data = data; // 解密后的数据替换原始数据
+        return res.data
+      } catch (error) {
+        console.error('数据解密失败:', error);
+        return Promise.reject(new Error('数据解密失败'));
+      }
     }
-  },
+    return res.data;
+  }
+},
   error => {
     console.log('err' + error)
     let { message } = error;
@@ -121,6 +139,27 @@ service.interceptors.response.use(res => {
     return Promise.reject(error)
   }
 )
+
+function handleDecryptedData(decryptedData) {
+  // 如果解密后的数据是字符串，尝试将其解析为 JSON
+  if (typeof decryptedData === 'string') {
+    try {
+      // 尝试解析为 JSON
+      const parsedData = JSON.parse(decryptedData);
+      
+      // 如果解析后是数组，则返回数组
+      if (Array.isArray(parsedData)) {
+        return parsedData;  // 返回数组类型
+      } else {
+        return parsedData;  // 返回对象或其他类型
+      }
+    } catch (error) {
+      return decryptedData;  // 返回普通字符串
+    }
+  }
+  
+  return decryptedData;
+}
 
 // 通用下载方法
 export function download(url, params, filename, config) {

@@ -401,7 +401,7 @@ export default {
   align-items: center;
   border-radius: 20px;
   cursor: pointer;
-  background-color: #cc17c3;
+  background: linear-gradient(70deg, #fd1e49, #8859ee);;
   color: #fff;
 }
 .avatarArea {

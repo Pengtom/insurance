@@ -470,101 +470,17 @@
         </div>
       </div>
       <div class="spacer-3">
-        <router-link to="">
+        <router-link to="" v-for="(item,index) in bigPng" :key="index">
           <div class="custom-image-container">
             <img
               width="172"
               height="220"
               loading="lazy"
               class="custom-main-img"
-              :src="require('@/assets/indexImage/首页-未登录-image48.png')"
+              :src="item.src"
             />
             <div class="custom-text-overlay">
-              去背景
-              <img
-                width="24"
-                height="24"
-                loading="lazy"
-                class="custom-main-img"
-                src="https://www.weshop.com/ic_home_arrow.svg"
-              />
-            </div>
-          </div>
-        </router-link>
-        <router-link to="">
-          <div class="custom-image-container">
-            <img
-              width="172"
-              height="220"
-              loading="lazy"
-              class="custom-main-img"
-              :src="require('@/assets/indexImage/首页-未登录-image47.png')"
-            />
-            <div class="custom-text-overlay">
-              高清增强
-              <img
-                width="24"
-                height="24"
-                loading="lazy"
-                class="custom-main-img"
-                src="https://www.weshop.com/ic_home_arrow.svg"
-              />
-            </div>
-          </div>
-        </router-link>
-        <router-link to="">
-          <div class="custom-image-container">
-            <img
-              width="172"
-              height="220"
-              loading="lazy"
-              class="custom-main-img"
-              :src="require('@/assets/indexImage/首页-未登录-image46.png')"
-            />
-            <div class="custom-text-overlay">
-              智能打光
-              <img
-                width="24"
-                height="24"
-                loading="lazy"
-                class="custom-main-img"
-                src="https://www.weshop.com/ic_home_arrow.svg"
-              />
-            </div>
-          </div>
-        </router-link>
-        <router-link to="">
-          <div class="custom-image-container">
-            <img
-              width="172"
-              height="220"
-              loading="lazy"
-              class="custom-main-img"
-              :src="require('@/assets/indexImage/首页-未登录-image45.png')"
-            />
-            <div class="custom-text-overlay">
-              图生图
-              <img
-                width="24"
-                height="24"
-                loading="lazy"
-                class="custom-main-img"
-                src="https://www.weshop.com/ic_home_arrow.svg"
-              />
-            </div>
-          </div>
-        </router-link>
-        <router-link to="">
-          <div class="custom-image-container">
-            <img
-              width="172"
-              height="220"
-              loading="lazy"
-              class="custom-main-img"
-              :src="require('@/assets/indexImage/首页-未登录-image44.png')"
-            />
-            <div class="custom-text-overlay">
-              文生图
+              {{item.name}}
               <img
                 width="24"
                 height="24"
@@ -692,8 +608,26 @@ export default {
       ],
       classOption: {
         limitMoveNum: 2,
-        direction: 3, // Assumes 3 is the value for horizontal scroll; check your library docs
-      }
+        direction: 2,
+      },
+      bigPng: [
+        {
+          src: require("@/assets/indexImage/2-高清增强.png"),
+          name: "高清增强",
+        },
+        {
+          src: require("@/assets/indexImage/3-打光.png"),
+          name: "智能打光",
+        },
+          {
+          src: require("@/assets/indexImage/4.图生图.png"),
+          name: "图生图",
+        },
+          {
+          src: require("@/assets/indexImage/5建筑生成.png"),
+          name: "建筑设计",
+        },
+      ],
     };
   },
 };
@@ -843,8 +777,8 @@ export default {
   height: 24px;
 }
 .warp {
-  width: 100%; 
-  height: 24px; 
+  width: 100%;
+  height: 24px;
   overflow: hidden;
 }
 

@@ -46,7 +46,7 @@
           <transition name="fade">
             <div v-if="task.showOptions" class="options-dropdown">
               <i class="el-icon-delete"></i>
-              <button @click.stop="deleteTask(task.id)">删除</button>
+              <button @click.stop="deleteTask(task.id,task.type)">删除</button>
             </div>
           </transition>
         </div>
@@ -77,7 +77,7 @@
               drag
               action="#"
               :show-file-list="false"
-              v-loading="currentTask.uploading !== null"
+              v-loading="!!currentTask.uploading"
               :http-request="handleUpload"
               :file-list="currentTask.fileList"
             >
@@ -241,6 +241,8 @@ export default {
     async init() {
       const params = { type: "1", name: "" };
       const res = await queryListTask(params);
+      console.log(res);
+      
       this.tasks = res.data;
       this.tasks.forEach((item) => {
         if (item.primaryImage) {
@@ -252,7 +254,6 @@ export default {
           this.$set(item, "maskImageSrc", item.maskImage);
         }
         this.$set(item, "showOptions", false);
-        this.$set(item, "uploading", null);
       });
     },
     async addTask() {
@@ -264,8 +265,8 @@ export default {
         uploadedImage: null,
         fileList: [],
         showOptions: false,
-        uploading: null,
         taskType: 0,
+        type: 1
       };
       const res = await save({ type: 1, name: "任务-" + newTaskId });
       newTask.id = res.msg;

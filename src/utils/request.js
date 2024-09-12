@@ -113,7 +113,7 @@ service.interceptors.response.use(res => {
           mode: CryptoJS.mode.ECB,
           padding: CryptoJS.pad.Pkcs7
         });
-        const decryptedData = CryptoJS.enc.Utf8.stringify(bytes);
+        const decryptedData = bytes.toString(CryptoJS.enc.Utf8);
         const data = handleDecryptedData(decryptedData)
         res.data.data = data; // 解密后的数据替换原始数据
         return res.data
@@ -122,7 +122,7 @@ service.interceptors.response.use(res => {
         return Promise.reject(new Error('数据解密失败'));
       }
     }
-    return res.data;
+    return res.data
   }
 },
   error => {

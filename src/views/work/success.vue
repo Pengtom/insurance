@@ -41,8 +41,8 @@
                   </div>
                 </div>
                 <div class="task-status">
-                  <span style="margin-right: 10px">执行成功</span>
-                  <span style="margin-left: 10px">2024-08-08 11:33:19</span>
+                  <span style="margin-right: 10px">{{success}}</span>
+                  <!-- <span style="margin-left: 10px">2024-08-08 11:33:19</span> -->
                 </div>
               </div>
               <div>
@@ -130,6 +130,7 @@
 
 <script>
 import { queryImagesByProjectId } from "@/api/zhiqi/projectImage";
+import { getParam } from '@/api/zhiqi/task'
 export default {
   props: {
     currentTask: Object,
@@ -140,9 +141,14 @@ export default {
       intervalId: null,
       showPreview: false,
       currentImg: "",
+      success:''
     };
   },
   methods: {
+    async init(){
+      const res = await getParam(this.currentTask.id);
+      this.success = res.data
+    },
     async loadImage() {
       this.intervalId = setInterval(async () => {
         try {
@@ -153,6 +159,8 @@ export default {
             if (allImagesHaveUrl) {
               this.image = res.data;
               clearInterval(this.intervalId);
+            }else{
+              this.image = res.data
             }
           }
         } catch (error) {
@@ -206,6 +214,7 @@ export default {
     currentTask: {
       immediate: true, // 使得在组件首次加载时也会触发
       async handler() {
+        this.init()
         this.image = [];
         const res = await queryImagesByProjectId(this.currentTask.id);
         this.image = res.data;

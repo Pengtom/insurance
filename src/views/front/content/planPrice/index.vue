@@ -16,7 +16,7 @@
           computingpower）通用于进行人工智能（AI）任务和应用的计算能力。
         </p>
         <p>
-          AI算力点赋予用户在WeShop唯象工具中进行生图、渲染、下载以及参与社区等操作的能力。
+          AI算力点赋予用户在智启工具中进行生图、渲染、下载以及参与社区等操作的能力。
         </p>
       </div>
       <div class="power-point-info">
@@ -51,7 +51,7 @@
         >
           <el-table-column prop="packageName" label="算力包名" align="center">
           </el-table-column>
-          <el-table-column prop="date" label="购买时间" align="center">
+          <el-table-column prop="purchaseDate" label="购买时间" align="center">
           </el-table-column>
           <el-table-column prop="expiryDate" label="过期时间" align="center">
           </el-table-column>
@@ -111,8 +111,8 @@
               src="https://www.weshop.com/ic_monthly_plan.svg"
               style="color: transparent"
             />
-            <p class="plan-title">连续包月</p>
-            <img
+            <p class="plan-title">月算力包</p>
+            <!-- <img
               alt="dropDown"
               loading="lazy"
               width="10"
@@ -121,12 +121,12 @@
               class="plan-dropdown-icon"
               src="https://www.weshop.com/ic_subscription_down.svg"
               style="color: transparent"
-            />
+            /> -->
           </div>
           <div class="plan-content">
             <div class="plan-details" style="border: none">
               <div class="plan-price">
-                <p class="price-amount">¥29.8</p>
+                <p class="price-amount">{{ monthPackage[0].price }}</p>
                 <span> /</span><span>月</span>
               </div>
               <p class="plan-description">购买后，您将获得</p>
@@ -144,7 +144,10 @@
                   <span>AI算力点2000（约可高速生成200张图</span>
                 </div>
               </div>
-              <div class="plan-purchase" @click="openDialog(2)">
+              <div
+                class="plan-purchase"
+                @click="openDialog(monthPackage[0].id)"
+              >
                 购买（立即生效）
               </div>
             </div>
@@ -161,7 +164,7 @@
               src="https://www.weshop.com/ic_yearly_plan.svg"
               style="color: transparent"
             />
-            <div class="plan-title">算力包</div>
+            <div class="plan-title">年算力包</div>
           </div>
           <div class="plan-content">
             <div
@@ -303,9 +306,10 @@ export default {
     return {
       dialogVisible: false,
       wxImage: "",
+      uuid:"",
       selectedPayment: "wx",
-      value2: 105,
       yearPackage: [],
+      monthPackage: [],
       selectPackage: {},
       tableData: [],
       purchases: [],
@@ -315,23 +319,28 @@ export default {
     ...mapGetters(["compPower"]),
   },
   async mounted() {
-    const res = await queryYearPackages("年包");
-    this.yearPackage = res.rows;
-    console.log(res.rows);
     this.init();
   },
   methods: {
     async init() {
-      const res = await getuserup();
-      this.purchases = res.data;
+      const res = await queryYearPackages("年包");
+      this.yearPackage = res.rows;
+      const res1 = await queryYearPackages("月包");
+      this.monthPackage = res1.rows;
+      const res2 = await getuserup();
+      console.log(res2);
+ console.log(res1,"===");
+      this.purchases = res2.data;
       this.tableData = this.purchases.ValidPurchases;
     },
     async openDialog(packageId) {
       const resq = await queryPackageById(packageId);
       this.selectPackage = resq.data;
       const res = await pay({ packagesId: packageId });
-      this.wxImage = res.msg;
-
+      this.wxImage = res.data.base64;
+      this.uuid = res.data.uuid
+      console.log(resq);
+      
       this.dialogVisible = true;
     },
     closeDialog() {
@@ -479,10 +488,10 @@ export default {
   padding: 0;
   margin-left: 8px;
 }
-.plan-dropdown-icon {
+/* .plan-dropdown-icon {
   cursor: pointer;
   margin-left: 4px;
-}
+} */
 .plan-content {
   display: flex;
   flex-wrap: wrap;

@@ -1,5 +1,5 @@
 import { Loading } from 'element-ui';
-import { upload, update, deleteTaskById } from '@/api/zhiqi/task'
+import { upload, update, deleteTaskById,getOne } from '@/api/zhiqi/task'
 export default {
     props: {
         context: Object,
@@ -11,12 +11,14 @@ export default {
             isDrawerVisible: false,
             dialogVisible: false,
             quantity: 1,
+            projectDetails: {},
             statusMap: {
                 0: '未启动',
                 1: '等待中',
                 2: '已完成',
                 3: '失败'
-            }
+            },
+            intervalId: null
         }
     },
     computed: {
@@ -25,15 +27,25 @@ export default {
         },
     },
     mounted() {
-        this.init()
+        // this.intervalId = setInterval(async() => {
+            console.log("1111");
+            this.init()
+        // },2000)
     },
     methods: {
         toggleOptions(taskId) {
             const task = this.tasks.find(task => task.id === taskId)
             task.showOptions = !task.showOptions
         },
-        async deleteTask(taskId) {
-            await deleteTaskById(taskId)
+        async getProjectDetails(id) {
+            const res = await getOne(id)
+            this.projectDetails = res.data
+        },
+
+        async deleteTask(taskId,type) {
+            console.log(this.currentTask,"====================");
+
+            await deleteTaskById(taskId, type)
             this.tasks = this.tasks.filter(item => item.id !== taskId)
             this.init()
             // if (this.tasks.length === 0) {
@@ -135,14 +147,14 @@ export default {
             }
             console.log(file.file);
             console.log(this.currentTask.fileList);
-            
+
             if (this.currentTask.fileList) {
                 console.log("111");
-                
+
                 const fileList = this.currentTask.fileList.filter(f => f.uid === file.file.uid);
                 this.$set(this.currentTask, 'fileList', fileList)
                 console.log(this.currentTask.fileList);
-                
+
             }
             this.$set(this.currentTask, 'uploading', this.currentTaskId)
 
@@ -492,6 +504,11 @@ export default {
             }
             this.$set(this.currentTask, 'selectFlag', !this.currentTask.selectFlag)
         },
+    },
+    beforeDestroy() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
     },
     watch: {
         isDrawerVisible() {

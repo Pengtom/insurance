@@ -18,12 +18,22 @@ export function queryListTask(data) {
     })
 }
 
-export function deleteTaskById(id) {
+export function getOne(id) {
     return request({
-        url: `${prefix}/${id}`,
+        url: `${prefix}/getOne/${id}`,
+        method: 'get'
+    })
+}
+
+
+export function deleteTaskById(id,type) {
+    return request({
+        url: `${prefix}/${id}/${type}`,
         method: 'delete'
     })
 }
+
+
 
 export function upload(data){
     return request({
@@ -41,5 +51,15 @@ export function update(data){
         url: prefix,
         method:"put",
         data
+    })
+}
+
+export function getParam(id){
+    return request({
+        url:prefix+'/getParam',
+        method:'get',
+        params:{
+            id
+        }
     })
 }

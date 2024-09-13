@@ -306,7 +306,7 @@ export default {
     return {
       dialogVisible: false,
       wxImage: "",
-      uuid:"",
+      uuid: "",
       selectedPayment: "wx",
       yearPackage: [],
       monthPackage: [],
@@ -329,7 +329,7 @@ export default {
       this.monthPackage = res1.rows;
       const res2 = await getuserup();
       console.log(res2);
- console.log(res1,"===");
+      console.log(res1, "===");
       this.purchases = res2.data;
       this.tableData = this.purchases.ValidPurchases;
     },
@@ -338,15 +338,22 @@ export default {
       this.selectPackage = resq.data;
       const res = await pay({ packagesId: packageId });
       this.wxImage = res.data.base64;
-      this.uuid = res.data.uuid
+      this.uuid = res.data.uuid;
       console.log(resq);
-      
+
       this.dialogVisible = true;
     },
     closeDialog() {
       this.dialogVisible = false;
     },
     selectPay(method) {
+      if (method) {
+        this.$message({
+          message: "❌ 暂不支持支付宝！待开发中 ❗",
+          type: "",
+        });
+        return;
+      }
       this.selectedPayment = method;
     },
     findGreater() {

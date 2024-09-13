@@ -18,7 +18,6 @@ export default {
                 2: '已完成',
                 3: '失败'
             },
-            intervalId: null
         }
     },
     computed: {
@@ -501,11 +500,6 @@ export default {
             }
             this.$set(this.currentTask, 'selectFlag', !this.currentTask.selectFlag)
         },
-    },
-    beforeDestroy() {
-        if (this.intervalId) {
-            clearInterval(this.intervalId);
-        }
     },
     watch: {
         isDrawerVisible() {

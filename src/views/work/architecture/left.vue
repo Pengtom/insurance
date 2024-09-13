@@ -46,7 +46,7 @@
           <transition name="fade">
             <div v-if="task.showOptions" class="options-dropdown">
               <i class="el-icon-delete"></i>
-              <button @click="deleteTask(task.id,task.type)">删除</button>
+              <button @click="deleteTask(task.id, task.type)">删除</button>
             </div>
           </transition>
         </div>
@@ -208,7 +208,9 @@ export default {
     async init() {
       const params = { type: "3", name: "" };
       const res = await queryListTask(params);
-      this.tasks = res.data;
+      this.tasks = res.data.sort((a, b) => {
+        return new Date(b.createTime) - new Date(a.createTime);
+      });
       this.tasks.forEach((item) => {
         if (item.primaryImage) {
           item.uploadedImage = item.primaryImage;
@@ -356,8 +358,8 @@ export default {
       try {
         console.log(Img2imgVo);
         const res = await img2img(Img2imgVo);
-        if(res.code === 500){
-           this.$message({
+        if (res.code === 500) {
+          this.$message({
             message: `❌ ${res.msg} ❗`,
             type: "",
           });
@@ -378,6 +380,7 @@ export default {
           image: this.currentTask.uploadedImage,
           name: this.currentTask.name,
           isSuccess: true,
+          type:this.currentTask.type
         });
       } finally {
         this.loading = false;

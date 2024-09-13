@@ -612,6 +612,10 @@ export default {
       },
       bigPng: [
         {
+          src: require("@/assets/indexImage/1-去背景.png"),
+          name: "去背景",
+        },
+        {
           src: require("@/assets/indexImage/2-高清增强.png"),
           name: "高清增强",
         },

@@ -240,8 +240,9 @@ export default {
       const params = { type: "1", name: "" };
       const res = await queryListTask(params);
       console.log(res);
-
-      this.tasks = res.data;
+      this.tasks = res.data.sort((a, b) => {
+        return new Date(b.createTime) - new Date(a.createTime);
+      });
       this.tasks.forEach((item) => {
         if (item.primaryImage) {
           item.uploadedImage = item.primaryImage;
@@ -339,6 +340,7 @@ export default {
           image: this.currentTask.uploadedImage,
           name: this.currentTask.name,
           isSuccess: true,
+          type:this.currentTask.type
         });
       } finally {
         this.loading = false;

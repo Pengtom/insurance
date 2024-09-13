@@ -25,7 +25,7 @@
         <div v-if="!hasMore" class="no-more-data">没有更多数据了</div>
       </div>
     </div>
-    <success v-if="isSuccess" :currentTask="currentTask" />
+    <success v-if="isSuccess" :currentTask="currentTask" @updateProjetStatus = "loadImageSuccess"/>
   </div>
 </template>
 
@@ -141,6 +141,9 @@ export default {
         observer.observe(img);
       });
     },
+    loadImageSuccess(){
+      this.$emit("updateStatus")
+    }
   },
 };
 </script>

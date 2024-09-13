@@ -152,7 +152,7 @@ export default {
     async loadImage() {
       this.intervalId = setInterval(async () => {
         try {
-          const res = await queryImagesByProjectId(this.currentTask.id);
+          const res = await queryImagesByProjectId(this.currentTask.id,this.currentTask.type);
           if (res && Array.isArray(res.data)) {
             const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
 
@@ -161,6 +161,7 @@ export default {
               clearInterval(this.intervalId);
             }else{
               this.image = res.data
+              this.$emit("updateProjetStatus")
             }
           }
         } catch (error) {

@@ -40,8 +40,8 @@ export default {
         },
 
         async deleteTask(taskId,type) {
-            console.log(this.currentTask,"====================");
-
+            console.log(type);
+            
             await deleteTaskById(taskId, type)
             this.tasks = this.tasks.filter(item => item.id !== taskId)
             this.init()

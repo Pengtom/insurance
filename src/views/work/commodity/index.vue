@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <commodity
+      ref="leftComponent"
       :context="context"
       @data="handleOpen"
       @success="handleOpenSuccess"
@@ -12,6 +13,7 @@
       :hasMore="hasMore"
       :currentTask="currentTask"
       @load-more="loadMoreImages"
+      @updateStatus="handleUpdateStatus"
     />
   </div>
 </template>

@@ -5,7 +5,7 @@ export default {
             images: [],
             hasMore: true,
             isSuccess: false,
-            currentTask:{}
+            currentTask: {}
         }
     },
     methods: {
@@ -33,5 +33,8 @@ export default {
                 });
             }
         },
+        handleUpdateStatus() {
+            this.$refs.leftComponent.init();
+        }
     },
 }

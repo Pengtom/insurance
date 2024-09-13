@@ -1,6 +1,11 @@
 <template>
-  <div class="container" :style="containerStyle" >
-    <left :context="context" @data="handleOpen" @success="handleOpenSuccess"/>
+  <div class="container" :style="containerStyle">
+    <left
+      ref="leftComponent"
+      :context="context"
+      @data="handleOpen"
+      @success="handleOpenSuccess"
+    />
     <right
       :images="images"
       :flag="flag"
@@ -8,6 +13,7 @@
       :hasMore="hasMore"
       :currentTask="currentTask"
       @load-more="loadMoreImages"
+      @updateStatus="handleUpdateStatus"
     />
   </div>
 </template>

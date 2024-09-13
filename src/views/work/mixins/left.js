@@ -59,7 +59,6 @@ export default {
                         image: task.uploadedImage,
                         name: task.name,
                         isSuccess: true,
-                        type:task.type
                     })
                     this.currentTaskId = taskId;
                     return
@@ -72,7 +71,6 @@ export default {
                         image: task.uploadedImage,
                         name: task.name,
                         isSuccess: true,
-                        type:task.type
                     })
                     this.currentTaskId = taskId;
                     this.isDrawerVisible = false;

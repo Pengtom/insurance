@@ -340,7 +340,6 @@ export default {
           image: this.currentTask.uploadedImage,
           name: this.currentTask.name,
           isSuccess: true,
-          type:this.currentTask.type
         });
       } finally {
         this.loading = false;

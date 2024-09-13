@@ -152,7 +152,7 @@ export default {
     async loadImage() {
       this.intervalId = setInterval(async () => {
         try {
-          const res = await queryImagesByProjectId(this.currentTask.id,this.currentTask.type);
+          const res = await queryImagesByProjectId(this.currentTask.id);
           if (res && Array.isArray(res.data)) {
             const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
 
@@ -217,7 +217,7 @@ export default {
       async handler() {
         this.init()
         this.image = [];
-        const res = await queryImagesByProjectId(this.currentTask.id,this.currentTask.type);
+        const res = await queryImagesByProjectId(this.currentTask.id);
         this.image = res.data;
         // if (res && Array.isArray(res.data)) {
         //   const allImagesHaveUrl = res.data.every((item) => item.imageUrl);

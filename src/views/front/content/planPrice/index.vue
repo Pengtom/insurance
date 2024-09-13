@@ -310,7 +310,7 @@ import { mapGetters } from "vuex";
 import { pay, polling } from "@/api/zhiqi/orders";
 import { queryYearPackages, queryPackageById } from "@/api/zhiqi/package";
 import { getuserup } from "@/api/zhiqi/userPurchases";
-import store from '@/store'
+import store from "@/store";
 export default {
   data() {
     return {
@@ -360,9 +360,9 @@ export default {
             message: "🎉 支付成功！感谢您的支持！",
             type: "success",
           });
-          this.dialogVisible = false
-          this.init()
-          store.dispatch('getComputingPower')
+          this.dialogVisible = false;
+          this.init();
+          store.dispatch("getComputingPower");
           clearInterval(this.intervalId);
         }
       }, 2000);
@@ -378,8 +378,6 @@ export default {
         clearTimeout(this.timerId);
       }
       this.timerId = setTimeout(() => {
-        console.log("111");
-        
         this.qrExpired = true;
       }, 300000); // 5分钟 = 300000 毫秒
     },

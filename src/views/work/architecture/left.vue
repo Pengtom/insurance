@@ -40,13 +40,13 @@
               width="14"
               height="4"
               decoding="async"
-              src="https://www.weshop.com/_next/image?url=%2Fmore-horizontal.png&w=16&q=75"
+              :src="require('@/assets/images/more-horizontal.png')"
             />
           </div>
           <transition name="fade">
             <div v-if="task.showOptions" class="options-dropdown">
               <i class="el-icon-delete"></i>
-              <button @click="deleteTask(task.id)">删除</button>
+              <button @click="deleteTask(task.id,task.type)">删除</button>
             </div>
           </transition>
         </div>
@@ -77,7 +77,7 @@
               drag
               :show-file-list="false"
               action="#"
-              v-loading="currentTask.uploading !== null"
+              v-loading="!!currentTask.uploading"
               :http-request="handleUpload"
               :file-list="currentTask.fileList"
             >
@@ -124,7 +124,7 @@
           本次任务将消耗
           <span style="margin-right: 4px; color: #7530fe"
             >{{ 10 * quantity }}算力点</span
-          >
+          >，生成{{ quantity }}张图片
         </div>
         <div class="button-container">
           <el-button class="execute-button" :loading="loading" @click="img2img"
@@ -135,7 +135,7 @@
               <img
                 width="16"
                 height="16"
-                src="https://www.weshop.com/ic_agent_setting.svg"
+                :src="require('@/assets/images/ic_agent_setting.svg')"
               />
             </div>
             <div class="modal-container" v-if="currentTask.selectFlag">
@@ -143,7 +143,7 @@
                 width="44"
                 height="44"
                 class="close-icon"
-                src="https://www.weshop.com/ic_modal_close.svg"
+                :src="require('@/assets/images/ic_modal_close.svg')"
                 @click="openSelectFlag"
               />
               <div class="count-settings">
@@ -213,13 +213,12 @@ export default {
         if (item.primaryImage) {
           item.uploadedImage = item.primaryImage;
         } else {
-          item.imagesrc = "https://www.weshop.com/mask.svg";
+          item.imagesrc = require("@/assets/images/未标题-1.png");
         }
         if (item.maskImage) {
           this.$set(item, "maskImageSrc", item.maskImage);
         }
         this.$set(item, "showOptions", false);
-        this.$set(item, "uploading", null);
       });
     },
     async addTask() {
@@ -227,11 +226,10 @@ export default {
       const newTask = {
         id: newTaskId,
         name: "任务-" + newTaskId,
-        imagesrc: "https://www.weshop.com/mask.svg",
+        imagesrc: require("@/assets/images/未标题-1.png"),
         uploadedImage: null,
         fileList: [],
         showOptions: false,
-        uploading: null,
         taskType: 0,
       };
       const res = await save({ type: 3, name: "任务-" + newTaskId });

@@ -27,10 +27,7 @@ export default {
         },
     },
     mounted() {
-        // this.intervalId = setInterval(async() => {
-            console.log("1111");
-            this.init()
-        // },2000)
+        this.init()
     },
     methods: {
         toggleOptions(taskId) {

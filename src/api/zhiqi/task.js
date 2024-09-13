@@ -20,7 +20,7 @@ export function queryListTask(data) {
 
 export function getOne(id) {
     return request({
-        url: `${prefix}/getOne/${id}`,
+        url: `${prefix}/getProject/${id}`,
         method: 'get'
     })
 }

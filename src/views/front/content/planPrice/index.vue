@@ -244,7 +244,16 @@
               </div>
             </div>
             <div class="payment-separator">
+              <div
+                v-if="qrExpired"
+                class="expired-qr-code"
+                @click="regenerateQRCode"
+              >
+                <i class="el-icon-refresh"></i>
+                <!-- 显示循环箭头 -->
+              </div>
               <img :src="wxImage" width="240" height="240" />
+              <!-- <img :src="wxImage" width="240" height="240" /> -->
             </div>
             <div class="payment-terms">
               <div class="terms-info">
@@ -298,9 +307,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { pay } from "@/api/zhiqi/wxPay";
+import { pay, polling } from "@/api/zhiqi/orders";
 import { queryYearPackages, queryPackageById } from "@/api/zhiqi/package";
 import { getuserup } from "@/api/zhiqi/userPurchases";
+import store from '@/store'
 export default {
   data() {
     return {
@@ -313,6 +323,9 @@ export default {
       selectPackage: {},
       tableData: [],
       purchases: [],
+      intervalId: null,
+      qrExpired: false,
+      timerId: null,
     };
   },
   computed: {
@@ -336,15 +349,51 @@ export default {
     async openDialog(packageId) {
       const resq = await queryPackageById(packageId);
       this.selectPackage = resq.data;
+      await this.generateQRCode(packageId);
+      this.dialogVisible = true;
+      this.setQRCodeTimer();
+      this.intervalId = setInterval(async () => {
+        const res = await polling(this.uuid);
+        console.log(res);
+        if (res.data.status === "paid") {
+          this.$message({
+            message: "🎉 支付成功！感谢您的支持！",
+            type: "success",
+          });
+          this.dialogVisible = false
+          this.init()
+          store.dispatch('getComputingPower')
+          clearInterval(this.intervalId);
+        }
+      }, 2000);
+    },
+    async generateQRCode(packageId) {
       const res = await pay({ packagesId: packageId });
       this.wxImage = res.data.base64;
       this.uuid = res.data.uuid;
-      console.log(resq);
-
-      this.dialogVisible = true;
+      this.qrExpired = false; // 重置二维码状态
+    },
+    setQRCodeTimer() {
+      if (this.timerId) {
+        clearTimeout(this.timerId);
+      }
+      this.timerId = setTimeout(() => {
+        console.log("111");
+        
+        this.qrExpired = true;
+      }, 300000); // 5分钟 = 300000 毫秒
+    },
+    // 重新生成二维码
+    regenerateQRCode() {
+      this.generateQRCode(this.selectPackage.id);
+      this.setQRCodeTimer(); // 重新设置定时器
     },
     closeDialog() {
       this.dialogVisible = false;
+      clearInterval(this.intervalId);
+      if (this.timerId) {
+        clearTimeout(this.timerId); // 清除定时器
+      }
     },
     selectPay(method) {
       if (method) {
@@ -661,6 +710,32 @@ export default {
   width: 240px;
   height: 240px;
   margin-top: 12px;
+}
+
+.expired-qr-code {
+  width: 240px;
+  height: 240px;
+  position: absolute;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 鼠标悬停显示为可点击 */
+}
+
+.expired-qr-code .el-icon-loading {
+  font-size: 48px;
+  color: white;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .payment-terms {
   display: flex;

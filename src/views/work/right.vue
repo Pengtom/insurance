@@ -46,6 +46,7 @@ export default {
     return {
       imgWidth: 240,
       imgMargin: 15,
+      observer: null,
     };
   },
   mounted() {
@@ -118,7 +119,12 @@ export default {
       }
     },
     initLazyLoad() {
-      const observer = new IntersectionObserver(
+       if (this.observer) {
+        Array.from(this.$refs.img).forEach(img => {
+          this.observer.unobserve(img);
+        });
+      }
+       this.observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -128,7 +134,7 @@ export default {
                 img.classList.add("loaded");
                 this.waterfallHandler(); // 图片加载后重新计算布局
               };
-              observer.unobserve(img);
+              this.observer.unobserve(img);
             }
           });
         },
@@ -138,12 +144,22 @@ export default {
       );
 
       Array.from(this.$refs.img).forEach((img) => {
-        observer.observe(img);
+        this.observer.observe(img);
       });
     },
     loadImageSuccess(){
       this.$emit("updateStatus")
     }
+  },
+  beforeDestroy() {
+    // 组件销毁前取消观察
+    if (this.observer) {
+      Array.from(this.$refs.img).forEach(img => {
+        this.observer.unobserve(img);
+      });
+    }
+    window.removeEventListener("resize", this.waterfallHandler);
+    document.querySelector(".content-wrapper").removeEventListener("scroll", this.checkIfNeedMore);
   },
 };
 </script>

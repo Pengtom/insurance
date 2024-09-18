@@ -329,7 +329,7 @@ export default {
     renderOnSelectionCanvas(whiteAreaCoords) {
       const selectionCanvas = this.$el.querySelector("#selectionCanvas");
       const selectionCtx = selectionCanvas.getContext("2d");
-
+      this.drawTransparentBackground(selectionCtx, selectionCanvas.width, selectionCanvas.height)
       // 使用背景图的颜色对蒙版进行着色
       whiteAreaCoords.forEach(({ x, y }) => {
         const index = (y * selectionCanvas.width + x) * 4;
@@ -358,6 +358,20 @@ export default {
       this.selectedMasks.forEach((mask) => {
         this.renderOnSelectionCanvas(mask.whiteAreaCoords);
       });
+    },
+    drawTransparentBackground(ctx, width, height) {
+      // 定义方格大小和颜色
+      const gridSize = 30;
+      const color1 = "#cccccc"; // 浅灰色
+      const color2 = "#ffffff"; // 白色
+
+      // 绘制交替的方格
+      for (let y = 0; y < height; y += gridSize) {
+        for (let x = 0; x < width; x += gridSize) {
+          ctx.fillStyle = (x / gridSize + y / gridSize) % 2 === 0 ? color1 : color2;
+          ctx.fillRect(x, y, gridSize, gridSize);
+        }
+      }
     },
   },
 };

@@ -75,7 +75,7 @@
             <img
               width="580"
               height="420"
-              :src="require('@/assets/indexImage/首页-未登录-image62.png')"
+              :src="require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')"
               alt="Content Image 1"
               class="main-image"
             />
@@ -884,7 +884,7 @@ export default {
   color: #fff;
   padding: 0 60px;
   cursor: pointer;
-  background-color: #7530fe;
+  background-color: rgb(33, 23, 255);
   height: 50px;
 }
 .spacer-2 {

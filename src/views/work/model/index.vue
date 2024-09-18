@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Left from "./left.vue";
+import Left from "./left copy.vue";
 import Right from "../right.vue";
 import work from "../mixins/work";
 export default {

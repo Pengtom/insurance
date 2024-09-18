@@ -141,16 +141,9 @@ export default {
                 this.$set(this.currentTask, 'fileList', fileList);
                 return;
             }
-            console.log(file.file);
-            console.log(this.currentTask.fileList);
-
             if (this.currentTask.fileList) {
-                console.log("111");
-
                 const fileList = this.currentTask.fileList.filter(f => f.uid === file.file.uid);
                 this.$set(this.currentTask, 'fileList', fileList)
-                console.log(this.currentTask.fileList);
-
             }
             this.$set(this.currentTask, 'uploading', this.currentTaskId)
 

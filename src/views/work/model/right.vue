@@ -53,116 +53,98 @@ export default {
   },
   methods: {
     close() {
+      const selectionCanvas = this.$el.querySelector("#selectionCanvas");
+      const selectionCtx = selectionCanvas.getContext("2d");
+
+      selectionCtx.clearRect(
+        0,
+        0,
+        selectionCanvas.width,
+        selectionCanvas.height
+      );
+
+      // 重绘已经选中的蒙版
+      this.selectedMasks.forEach((mask) => {
+        this.renderOnSelectionCanvas(mask.whiteAreaCoords);
+      });
+
+      // 将canvas内容保存为图片
+      this.maskImage = selectionCanvas.toDataURL("image/png");
       this.$emit("close", this.maskImage); // 关闭事件
     },
     loadBackground(imageSrc) {
-    const backgroundCanvas = this.$el.querySelector("#backgroundCanvas");
-    const bgCtx = backgroundCanvas.getContext("2d");
+      const backgroundCanvas = this.$el.querySelector("#backgroundCanvas");
+      const bgCtx = backgroundCanvas.getContext("2d");
 
-    this.backgroundImage.src = imageSrc;
-    this.backgroundImage.crossOrigin = "anonymous";
-    this.backgroundImage.onload = () => {
-      // 获取屏幕宽度和高度
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
+      this.backgroundImage.src = imageSrc;
+      this.backgroundImage.crossOrigin = "anonymous";
+      this.backgroundImage.onload = () => {
+        // 获取屏幕宽度和高度
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
 
-      // 动态计算宽高，确保按比例缩放
-      let canvasWidth, canvasHeight;
-      
-      if (this.backgroundImage.width > this.backgroundImage.height) {
-        // 宽度主导，保持宽度为屏幕宽度的某个百分比
-        canvasWidth = screenWidth * 0.6; // 占据屏幕60%的宽度
-        canvasHeight = (this.backgroundImage.height / this.backgroundImage.width) * canvasWidth;
-      } else {
-        // 高度主导，保持高度为屏幕高度的某个百分比
-        canvasHeight = screenHeight * 0.6; // 占据屏幕60%的高度
-        canvasWidth = (this.backgroundImage.width / this.backgroundImage.height) * canvasHeight;
-      }
+        // 动态计算宽高，确保按比例缩放
+        let canvasWidth, canvasHeight;
 
-      // 设置 canvas 的宽度和高度
-      backgroundCanvas.width = this.backgroundImage.width;
-      backgroundCanvas.height = this.backgroundImage.height;
+        if (this.backgroundImage.width > this.backgroundImage.height) {
+          // 宽度主导，保持宽度为屏幕宽度的某个百分比
+          canvasWidth = screenWidth * 0.6; // 占据屏幕60%的宽度
+          canvasHeight =
+            (this.backgroundImage.height / this.backgroundImage.width) *
+            canvasWidth;
+        } else {
+          // 高度主导，保持高度为屏幕高度的某个百分比
+          canvasHeight = screenHeight * 0.6; // 占据屏幕60%的高度
+          canvasWidth =
+            (this.backgroundImage.width / this.backgroundImage.height) *
+            canvasHeight;
+        }
 
-      // 绘制背景图
-      bgCtx.drawImage(this.backgroundImage, 0, 0);
+        // 设置 canvas 的宽度和高度
+        backgroundCanvas.width = this.backgroundImage.width;
+        backgroundCanvas.height = this.backgroundImage.height;
 
-      // 获取背景图的像素数据
-      this.backgroundData = bgCtx.getImageData(
-        0,
-        0,
-        backgroundCanvas.width,
-        backgroundCanvas.height
-      );
+        // 绘制背景图
+        bgCtx.drawImage(this.backgroundImage, 0, 0);
 
-      // 设置缩放比例，使 canvas 根据屏幕比例显示
-      this.scaleRatio = canvasWidth / backgroundCanvas.width;
+        // 获取背景图的像素数据
+        this.backgroundData = bgCtx.getImageData(
+          0,
+          0,
+          backgroundCanvas.width,
+          backgroundCanvas.height
+        );
 
-      // 按比例调整蒙版画布
-      const maskCanvas = this.$el.querySelector("#maskCanvas");
-      const selectionCanvas = this.$el.querySelector("#selectionCanvas");
-      maskCanvas.width = backgroundCanvas.width;
-      maskCanvas.height = backgroundCanvas.height;
-      selectionCanvas.width = backgroundCanvas.width;
-      selectionCanvas.height = backgroundCanvas.height;
+        // 设置缩放比例，使 canvas 根据屏幕比例显示
+        this.scaleRatio = canvasWidth / backgroundCanvas.width;
 
-      // 对canvas元素进行缩放显示，但保持原尺寸
-      backgroundCanvas.style.transform = `scale(${this.scaleRatio})`;
-      selectionCanvas.style.transform = `scale(${this.scaleRatio})`;
-      maskCanvas.style.transform = `scale(${this.scaleRatio})`;
-      backgroundCanvas.style.transformOrigin = 'top left';
-      selectionCanvas.style.transformOrigin = 'top left';
-      maskCanvas.style.transformOrigin = 'top left';
+        // 按比例调整蒙版画布
+        const maskCanvas = this.$el.querySelector("#maskCanvas");
+        const selectionCanvas = this.$el.querySelector("#selectionCanvas");
+        maskCanvas.width = backgroundCanvas.width;
+        maskCanvas.height = backgroundCanvas.height;
+        selectionCanvas.width = backgroundCanvas.width;
+        selectionCanvas.height = backgroundCanvas.height;
 
-      // 初始化蒙版
-      this.initMasks();
-    };
-  },
-    // loadBackground(imageSrc) {
-    //   const backgroundCanvas = this.$el.querySelector("#backgroundCanvas");
-    //   const bgCtx = backgroundCanvas.getContext("2d");
+        // 对canvas元素进行缩放显示，但保持原尺寸
+        backgroundCanvas.style.transform = `scale(${this.scaleRatio})`;
+        selectionCanvas.style.transform = `scale(${this.scaleRatio})`;
+        maskCanvas.style.transform = `scale(${this.scaleRatio})`;
+        backgroundCanvas.style.transformOrigin = "top left";
+        selectionCanvas.style.transformOrigin = "top left";
+        maskCanvas.style.transformOrigin = "top left";
 
-    //   this.backgroundImage.src = imageSrc;
-    //   this.backgroundImage.crossOrigin = "anonymous";
-    //   this.backgroundImage.onload = () => {
-    //     // 设置背景图 canvas 的宽度和高度
-    //     backgroundCanvas.width = this.backgroundImage.width;
-    //     backgroundCanvas.height = this.backgroundImage.height;
-
-    //     // 绘制背景图
-    //     bgCtx.drawImage(this.backgroundImage, 0, 0);
-
-    //     // 获取背景图的像素数据
-    //     this.backgroundData = bgCtx.getImageData(
-    //       0,
-    //       0,
-    //       backgroundCanvas.width,
-    //       backgroundCanvas.height
-    //     );
-
-    //     // 设置缩放比例
-    //     const displayWidth = 300;
-    //     this.scaleRatio = displayWidth / backgroundCanvas.width;
-
-    //     // 按比例调整蒙版画布
-    //     const maskCanvas = this.$el.querySelector("#maskCanvas");
-    //     const selectionCanvas = this.$el.querySelector("#selectionCanvas");
-    //     maskCanvas.width = backgroundCanvas.width;
-    //     maskCanvas.height = backgroundCanvas.height;
-    //     selectionCanvas.width = backgroundCanvas.width;
-    //     selectionCanvas.height = backgroundCanvas.height;
-
-    //     // 对canvas元素进行缩放显示，但保持原尺寸
-    //     backgroundCanvas.style.transform = `scale(${this.scaleRatio})`;
-    //     selectionCanvas.style.transform = `scale(${this.scaleRatio})`;
-    //     maskCanvas.style.transform = `scale(${this.scaleRatio})`;
-    //     backgroundCanvas.style.transformOrigin = "top left";
-    //     selectionCanvas.style.transformOrigin = "top left";
-    //     maskCanvas.style.transformOrigin = "top left";
-
-    //     // 初始化蒙版
-    //     this.initMasks();
-    //   };
-    // },
+        const scaledMaskCanvasWidth = maskCanvas.width * this.scaleRatio;
+        selectionCanvas.style.left = `${scaledMaskCanvasWidth + 20}px`;
+        this.drawTransparentBackground(
+          selectionCanvas.getContext("2d"),
+          selectionCanvas.width,
+          selectionCanvas.height
+        );
+        // 初始化蒙版
+        this.initMasks();
+      };
+    },
     async initMasks() {
       const maskCanvas = this.$el.querySelector("#maskCanvas");
       const maskCtx = maskCanvas.getContext("2d");
@@ -329,7 +311,6 @@ export default {
     renderOnSelectionCanvas(whiteAreaCoords) {
       const selectionCanvas = this.$el.querySelector("#selectionCanvas");
       const selectionCtx = selectionCanvas.getContext("2d");
-      this.drawTransparentBackground(selectionCtx, selectionCanvas.width, selectionCanvas.height)
       // 使用背景图的颜色对蒙版进行着色
       whiteAreaCoords.forEach(({ x, y }) => {
         const index = (y * selectionCanvas.width + x) * 4;
@@ -342,8 +323,6 @@ export default {
         selectionCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
         selectionCtx.fillRect(x, y, 1, 1);
       });
-
-      this.maskImage = selectionCanvas.toDataURL("image/png");
     },
     redrawAllSelectedMasks() {
       const selectionCanvas = this.$el.querySelector("#selectionCanvas");
@@ -368,7 +347,8 @@ export default {
       // 绘制交替的方格
       for (let y = 0; y < height; y += gridSize) {
         for (let x = 0; x < width; x += gridSize) {
-          ctx.fillStyle = (x / gridSize + y / gridSize) % 2 === 0 ? color1 : color2;
+          ctx.fillStyle =
+            (x / gridSize + y / gridSize) % 2 === 0 ? color1 : color2;
           ctx.fillRect(x, y, gridSize, gridSize);
         }
       }
@@ -394,7 +374,7 @@ export default {
 }
 #canvasContainer {
   position: relative;
-  width: 300px;
+  width: 800px;
   height: 300px;
 }
 
@@ -406,7 +386,8 @@ export default {
   top: 0;
 }
 #selectionCanvas {
-  left: 320px;
+  /* left: 320px; */
+  margin-left: 20px;
   height: auto;
 }
 </style>

@@ -21,8 +21,20 @@
         <div>
           <div class="extra-item">联系我们</div>
           <div class="extra-item-inner">
-            <div class="extra-item-content">
-                <span>企业微信</span>
+            <div
+              class="extra-item-content"
+              @mouseover="showKfCode"
+              @mouseleave="hideKfCode"
+            >
+              <div class="showKfImage" v-if="showKf">
+                <el-image
+                  style="width: 100px; height: 100px; border-radius: 8px"
+                  :src="require('@/assets/logo/企业微信二维码.jpg')"
+                  fit="cover"
+                >
+                </el-image>
+              </div>
+              <span>企业微信</span>
             </div>
           </div>
         </div>
@@ -43,7 +55,17 @@
               :src="require('@/assets/indexImage/首页-未登录-image76.png')"
               width="24"
               height="24"
+              @mouseover="showQRCode"
+              @mouseleave="hideQRCode"
             />
+            <div class="showKfImage showwxImage" v-if="showQR">
+                <el-image
+                  style="width: 100px; height: 100px; border-radius: 8px"
+                  :src="require('@/assets/logo/企业微信二维码.jpg')"
+                  fit="cover"
+                >
+                </el-image>
+              </div>
           </div>
         </div>
       </div>
@@ -75,11 +97,6 @@
             <p>网信算备 xxxxxxxxxxxxx号</p>
           </div>
         </a>
-        <a href="#">
-          <div class="footer-info">
-            <p>举报投诉</p>
-          </div>
-        </a>
       </div>
     </div>
   </footer>
@@ -93,6 +110,8 @@ export default {
   data() {
     return {
       items: [],
+      showQR: false,
+      showKf: false,
     };
   },
   mounted() {
@@ -101,6 +120,22 @@ export default {
     });
   },
   methods: {
+    showQRCode() {
+      //显示二维码
+      this.showQR = true;
+    },
+    hideQRCode() {
+      //隐藏二维码
+      this.showQR = false;
+    },
+    showKfCode() {
+      //显示二维码
+      this.showKf = true;
+    },
+    hideKfCode() {
+      //隐藏二维码
+      this.showKf = false;
+    },
     fetchMenuItems() {
       // 示例异步请求
       return new Promise((resolve) => {
@@ -233,15 +268,33 @@ export default {
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  position: relative;
 }
-.extra-item-group-one{
-  color:#97a0b4;
+.showKfImage {
+  position: absolute;
+  bottom: 20px;
+  right: 15px;
+  width: 120px;
+  height: 120px;
+  background: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+.showwxImage{
+  bottom: 30px;
+}
+.extra-item-group-one {
+  color: #97a0b4;
   margin-bottom: 10px;
 }
-.extra-item-group-two{
+.extra-item-group-two {
   display: flex;
-    gap: 14px;
-    flex-wrap: wrap;
-    width: 100px;
+  gap: 14px;
+  flex-wrap: wrap;
+  width: 100px;
+  position: relative;
 }
 </style>

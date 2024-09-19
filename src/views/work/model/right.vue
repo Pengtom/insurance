@@ -11,11 +11,19 @@
     >
       <span>鼠标左键点击选取蒙版，鼠标右击取消选取的蒙版</span>
     </div>
-    <div>111</div>
     <div id="canvasContainer">
       <canvas id="backgroundCanvas"></canvas>
+      <canvas id="selectionBgCanvas"></canvas>
       <canvas id="selectionCanvas"></canvas>
       <canvas id="maskCanvas"></canvas>
+    </div>
+    <div class="outer-container">
+      <div class="inner-container">
+        <div class="content-wrapper">
+          <div @click="save">保存</div>
+        </div>
+        <div style="width: 1px; height: 20px; background-color: #4f535a"></div>
+      </div>
     </div>
     <div
       style="position: absolute; top: 20px; right: 20px; cursor: pointer"
@@ -53,24 +61,11 @@ export default {
   },
   methods: {
     close() {
-      const selectionCanvas = this.$el.querySelector("#selectionCanvas");
-      const selectionCtx = selectionCanvas.getContext("2d");
-
-      selectionCtx.clearRect(
-        0,
-        0,
-        selectionCanvas.width,
-        selectionCanvas.height
-      );
-
-      // 重绘已经选中的蒙版
-      this.selectedMasks.forEach((mask) => {
-        this.renderOnSelectionCanvas(mask.whiteAreaCoords);
-      });
-
-      // 将canvas内容保存为图片
+      this.$emit("close", null); // 关闭事件
+    },
+    save() {
       this.maskImage = selectionCanvas.toDataURL("image/png");
-      this.$emit("close", this.maskImage); // 关闭事件
+      this.$emit("close", this.maskImage);
     },
     loadBackground(imageSrc) {
       const backgroundCanvas = this.$el.querySelector("#backgroundCanvas");
@@ -121,25 +116,31 @@ export default {
         // 按比例调整蒙版画布
         const maskCanvas = this.$el.querySelector("#maskCanvas");
         const selectionCanvas = this.$el.querySelector("#selectionCanvas");
+        const selectioBgnCanvas = this.$el.querySelector("#selectionBgCanvas");
         maskCanvas.width = backgroundCanvas.width;
         maskCanvas.height = backgroundCanvas.height;
         selectionCanvas.width = backgroundCanvas.width;
         selectionCanvas.height = backgroundCanvas.height;
+        selectioBgnCanvas.width = backgroundCanvas.width;
+        selectioBgnCanvas.height = backgroundCanvas.height;
 
         // 对canvas元素进行缩放显示，但保持原尺寸
         backgroundCanvas.style.transform = `scale(${this.scaleRatio})`;
         selectionCanvas.style.transform = `scale(${this.scaleRatio})`;
+        selectioBgnCanvas.style.transform = `scale(${this.scaleRatio})`;
         maskCanvas.style.transform = `scale(${this.scaleRatio})`;
         backgroundCanvas.style.transformOrigin = "top left";
         selectionCanvas.style.transformOrigin = "top left";
+        selectioBgnCanvas.style.transformOrigin = "top left";
         maskCanvas.style.transformOrigin = "top left";
 
         const scaledMaskCanvasWidth = maskCanvas.width * this.scaleRatio;
         selectionCanvas.style.left = `${scaledMaskCanvasWidth + 20}px`;
+        selectioBgnCanvas.style.left = `${scaledMaskCanvasWidth + 20}px`;
         this.drawTransparentBackground(
-          selectionCanvas.getContext("2d"),
-          selectionCanvas.width,
-          selectionCanvas.height
+          selectioBgnCanvas.getContext("2d"),
+          selectioBgnCanvas.width,
+          selectioBgnCanvas.height
         );
         // 初始化蒙版
         this.initMasks();
@@ -380,14 +381,44 @@ export default {
 
 #backgroundCanvas,
 #maskCanvas,
-#selectionCanvas {
+#selectionCanvas,
+#selectionBgCanvas {
   position: absolute;
   left: 0;
   top: 0;
 }
-#selectionCanvas {
+#selectionCanvas,
+#selectionBgCanvas {
   /* left: 320px; */
   margin-left: 20px;
   height: auto;
+}
+.outer-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  bottom: 5px;
+  width: 100vw;
+}
+.inner-container {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 50px;
+  border-radius: 30px;
+  align-items: center;
+  display: flex;
+  padding: 0 12px;
+}
+.content-wrapper {
+  color: #fff;
+  padding: 0 16px;
+  height: 40px;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  font-size: 14px;
+  line-height: 20px;
 }
 </style>

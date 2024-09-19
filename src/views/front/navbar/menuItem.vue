@@ -33,7 +33,11 @@ export default {
   methods: {
     test(index) {
       console.log(index);
-
+      this.$message({
+        message: "❌ 待开发中，敬请期待 ❗",
+        type: "",
+      });
+      return;
       this.$emit("menuChild", this.item, index);
     },
   },

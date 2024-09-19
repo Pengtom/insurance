@@ -16,6 +16,7 @@
                   ? require('@/assets/indexImage/logo.png')
                   : require('@/assets/indexImage/logo1.png')
               "
+              @click="close"
             />
           </router-link>
         </div>
@@ -91,8 +92,8 @@
         </el-button>
       </div>
     </div>
-    <div v-if="menuChild.showflag" class="header-menu-down">
-      <expansionMenu :childMenu="menuChild.childMenu" />
+    <div v-if="menuChild.showflag" class="header-menu-down" @click="close">
+      <expansionMenu id="expansionMenu" :childMenu="menuChild.childMenu" @click.stop />
     </div>
     <el-dialog
       :visible.sync="loginDialogVisible"
@@ -182,6 +183,12 @@ export default {
     },
   },
   methods: {
+    close(event) {
+      const menu = this.$el.querySelector("#expansionMenu");
+      if (menu && !menu.contains(event.target)) {
+        this.menuChild.showflag = !this.menuChild.showflag;
+      }
+    },
     showLogin() {
       this.loginDialogVisible = true;
       this.$nextTick(() => {
@@ -241,7 +248,7 @@ export default {
       this.$store.dispatch("SMSLogin", this.loginForm).then(() => {
         this.$router.push({ path: this.redirect || "/index" }).catch(() => {});
       });
-      this.loginDialogVisible = false
+      this.loginDialogVisible = false;
       console.log(111);
     },
     get_wx_qrcode() {
@@ -401,7 +408,7 @@ export default {
   align-items: center;
   border-radius: 20px;
   cursor: pointer;
-  background: linear-gradient(70deg, #fd1e49, #8859ee);;
+  background: linear-gradient(70deg, #fd1e49, #8859ee);
   color: #fff;
 }
 .avatarArea {

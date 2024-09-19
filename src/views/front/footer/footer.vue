@@ -5,7 +5,7 @@
         <div class="menu-title">{{ menu.meta.title }}</div>
         <div class="sub-menu-container">
           <router-link
-            :to="subMenu.path"
+            to=""
             v-for="(subMenu, subIndex) in menu.children"
             :key="subIndex"
           >
@@ -55,7 +55,7 @@
         </div>
         <a class="footer-link" href="#">
           <div class="footer-info">
-            <p>粤ICP备xxxxxxxx号-x</p>
+            <p>粤ICP备2024293608号-1</p>
           </div>
         </a>
         <a class="footer-link" href="#">

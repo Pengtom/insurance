@@ -93,7 +93,11 @@
       </div>
     </div>
     <div v-if="menuChild.showflag" class="header-menu-down" @click="close">
-      <expansionMenu id="expansionMenu" :childMenu="menuChild.childMenu" @click.stop />
+      <expansionMenu
+        id="expansionMenu"
+        :childMenu="menuChild.childMenu"
+        @click.stop
+      />
     </div>
     <el-dialog
       :visible.sync="loginDialogVisible"
@@ -130,7 +134,13 @@
           </el-button>
           <p class="agreement">
             登录即表示同意
-            <a href="#">用户服务协议</a> 和 <a href="#">隐私条款</a>
+            <router-link to="/userAgrrement" target="_blank"
+              >用户服务协议</router-link
+            >
+            和
+            <router-link to="privacypolicy" target="_blank"
+              >隐私条款</router-link
+            >
           </p>
         </div>
       </div>

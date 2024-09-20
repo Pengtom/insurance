@@ -258,9 +258,9 @@
             <div class="payment-terms">
               <div class="terms-info">
                 支付完成后默认您同意
-                <a href="" class="terms-link">
+                <router-link to="/userAgrrement" target="_blank">
                   <p class="terms-text">相关协议条例</p>
-                </a>
+                </router-link>
               </div>
               <div class="refund-policy">虚拟商品, 不支持退款</div>
             </div>

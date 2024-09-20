@@ -71,6 +71,16 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/userAgrrement',
+    component: () => import('@/views/agrreement/useragrreement'),
+    hidden: true
+  },
+  {
+    path: '/privacypolicy',
+    component: () => import('@/views/agrreement/privacypolicy'),
+    hidden: true
+  },
+  {
     path: '',
     component: Layout,
     redirect: 'index',

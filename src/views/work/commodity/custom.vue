@@ -94,7 +94,6 @@ export default {
       sceneIndex: "",
       openValue: 0,
       correct: "",
-      reverse: "",
     };
   },
   computed: {
@@ -130,9 +129,6 @@ export default {
     },
     correct(newVal) {
       this.$emit("correctval", newVal);
-    },
-    reverse(newVal) {
-      this.$emit("reverseVal", newVal);
     },
   },
 };

@@ -52,9 +52,6 @@
         </div>
       </div>
     </div>
-    <canvas id="imageCanvas"></canvas>
-    <canvas id="maskCanvas"></canvas>
-    <canvas id="resultCanvas"></canvas>
     <!-- 抽屉组件 -->
     <el-drawer
       :visible.sync="isDrawerVisible"
@@ -79,7 +76,7 @@
               action="#"
               :show-file-list="false"
               v-loading="!!currentTask.uploading"
-              :http-request="handleUpload"
+              :http-request="(uploadData) => handleUpload(uploadData, 1)"
               :file-list="currentTask.fileList"
             >
               <i class="el-icon-upload"></i>
@@ -89,7 +86,7 @@
               </div>
             </el-upload>
           </div>
-          <template v-else>
+          <template v-if="currentTask.uploadedImage">
             <div class="image-preview">
               <img
                 :src="currentTask.uploadedImage"
@@ -105,32 +102,56 @@
                   :file-list="currentTask.fileList"
                   list-type="picture"
                   :show-file-list="false"
-                  :http-request="handleUpload"
+                  :http-request="(uploadData) => handleUpload(uploadData, 1)"
                 >
                   <p v-if="!currentTask.loading">重新上传</p>
                 </el-upload>
               </div>
             </div>
-            <div class="image-preview image-preview2">
-              <img :src="currentTask.maskImageSrc" class="uploaded-image" />
-              <p v-if="currentTask.loading">选区图</p>
-              <p v-if="!currentTask.loading">
-                <a
-                  @click="dialogVisible = true"
-                  style="color: #7530fe; text-decoration: underline"
-                  >编辑选区</a
+          </template>
+          <div class="upload-section" v-if="!currentTask.uploadedImage1">
+            <el-upload
+              class="upload-demo"
+              :limit="1"
+              drag
+              action="#"
+              :show-file-list="false"
+              v-loading="!!currentTask.uploading1"
+              :http-request="(uploadData) => handleUpload(uploadData, 2)"
+              :file-list="currentTask.fileList1"
+            >
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">点击上传或将图片拖入此区域</div>
+              <div class="el-upload__tip" slot="tip">
+                文件不超过5mb，不支持gif/avif格式
+              </div>
+            </el-upload>
+          </div>
+          <template v-if="currentTask.uploadedImage1">
+            <div class="image-preview">
+              <img
+                :src="currentTask.uploadedImage1"
+                alt="Uploaded Image"
+                class="uploaded-image"
+                ref="uploadedImage"
+              />
+              <div style="display: flex">
+                <p>服装</p>
+                <el-upload
+                  class="upload-demo"
+                  action="#"
+                  :file-list="currentTask.fileList1"
+                  list-type="picture"
+                  :show-file-list="false"
+                  :http-request="(uploadData) => handleUpload(uploadData, 2)"
                 >
-              </p>
+                  <p v-if="!currentTask.loading">重新上传</p>
+                </el-upload>
+              </div>
             </div>
           </template>
         </div>
       </transition>
-      <custom
-        @openSwitch="openSwitch"
-        @correctval="correctval"
-        @reverseVal="reverseVal"
-        @sceneId="sceneId"
-      />
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
@@ -142,109 +163,27 @@
           <el-button class="execute-button" :loading="loading" @click="img2img"
             >执行</el-button
           >
-          <div class="settings-container">
-            <div class="settings-image" @click="openSelectFlag">
-              <img
-                width="16"
-                height="16"
-                :src="require('@/assets/images/ic_agent_setting.svg')"
-              />
-            </div>
-            <div class="modal-container" v-if="currentTask.selectFlag">
-              <img
-                width="44"
-                height="44"
-                class="close-icon"
-                :src="require('@/assets/images/ic_modal_close.svg')"
-                @click="openSelectFlag"
-              />
-              <div class="count-settings">
-                <div class="placeholder"></div>
-                <div class="count-options-container">
-                  <p class="count-label">生成张数</p>
-                  <div class="count-options">
-                    <div
-                      class="count-option"
-                      :class="{ selected: quantity === 1 }"
-                      @click="selectNum(1)"
-                    >
-                      1
-                    </div>
-                    <div
-                      class="count-option"
-                      :class="{ selected: quantity === 2 }"
-                      @click="selectNum(2)"
-                    >
-                      2
-                    </div>
-                    <div
-                      class="count-option"
-                      :class="{ selected: quantity === 4 }"
-                      @click="selectNum(4)"
-                    >
-                      4
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </el-drawer>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="50%"
-      :modal="false"
-      flex
-      :before-close="dialogclose"
-    >
-      <img
-        :src="currentTask.uploadedImage"
-        alt="Uploaded Image"
-        ref="uploadedImage"
-        style="cursor: Pointer; object-fit: contain"
-        @click="getImageClickCoordinates"
-        @contextmenu.prevent="getImageClickCoordinates"
-        width="350"
-        height="350"
-      />
-      <img
-        width="350"
-        height="350"
-        :src="currentTask.maskImageSrc"
-        class="overlay-image"
-      />
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogclose">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import mixins from "../mixins/left";
-import custom from "./custom.vue";
-import { queryListTask, save } from "@/api/zhiqi/task";
+import { queryListTask, save, upload, update } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
 import store from "@/store";
 export default {
   mixins: [mixins],
-  components: {
-    custom,
-  },
   data() {
     return {
-      type: 0,
-      selectSceneId: "",
-      prompt: "",
       loading: false,
     };
   },
   methods: {
     async init() {
-      const params = { type: "2", name: "" };
+      const params = { type: "4", name: "" };
       const res = await queryListTask(params);
       this.tasks = res.data.sort((a, b) => {
         return new Date(b.createTime) - new Date(a.createTime);
@@ -255,8 +194,8 @@ export default {
         } else {
           item.imagesrc = require("@/assets/images/未标题-1.png");
         }
-        if (item.maskImage) {
-          this.$set(item, "maskImageSrc", item.maskImage);
+        if (item.mask) {
+          this.$set(item, "uploadedImage1", item.mask);
         }
         this.$set(item, "showOptions", false);
       });
@@ -272,23 +211,92 @@ export default {
         showOptions: false,
         taskType: 0,
       };
-      const res = await save({ type: 2, name: "任务-" + newTaskId });
+      const res = await save({ type: 4, name: "任务-" + newTaskId });
       newTask.id = res.msg;
       this.tasks.unshift(newTask);
       this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },
-    sceneId(sceneId) {
-      this.selectSceneId = sceneId;
+    async openDrawer(taskId) {
+      const task = this.tasks.find((task) => task.id === taskId);
+      if (task.taskType === 1 || task.taskType === 2) {
+        this.$emit("success", {
+          id: taskId,
+          image: task.uploadedImage,
+          name: task.name,
+          isSuccess: true,
+        });
+        this.currentTaskId = taskId;
+        this.isDrawerVisible = false;
+        return;
+      }
+      if (this.currentTask.id !== taskId) {
+        this.currentTaskId = taskId;
+        this.isDrawerVisible = true;
+      }
     },
-    openSwitch(openvalue) {
-      this.type = openvalue;
-    },
-    correctval(correct) {
-      this.prompt = correct;
-    },
-    selectNum(num) {
-      this.quantity = num;
+    async handleUpload(file, type) {
+      const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/bmp",
+        "image/webp",
+      ];
+      const isAllowedType = allowedTypes.includes(file.file.type);
+      if (!isAllowedType) {
+        this.$message({
+          message: "❌ 不允许上传此类型的文件 ❗",
+          type: "",
+        });
+        return;
+      }
+      const isLt5M = file.file.size / 1024 / 1024 < 5;
+      if (!isLt5M) {
+        this.$message({
+          message: "❌ 图片大小不能超过 5MB ❗",
+          type: "",
+        });
+        return;
+      }
+      const imageStatus = await this.iSImageStatus(file.file);
+
+      if (!imageStatus.isValid) {
+        const fileList = this.currentTask.fileList.filter(
+          (f) => f.uid !== file.file.uid
+        );
+        this.$set(this.currentTask, "fileList", fileList);
+        return;
+      }
+      if (this.currentTask.fileList) {
+        const fileList = this.currentTask.fileList.filter(
+          (f) => f.uid === file.file.uid
+        );
+        this.$set(this.currentTask, "fileList", fileList);
+      }
+      if (type === 1) {
+        this.$set(this.currentTask, "uploading", this.currentTaskId);
+      } else if (type === 2) {
+        this.$set(this.currentTask, "uploading1", this.currentTaskId);
+      }
+      const formdata = new FormData();
+      formdata.append("file", file.file);
+      type === 1 ? formdata.append("type", "0") : formdata.append("type", "1");
+      const res = await upload(formdata);
+      const qzProject = {
+        id: this.currentTask.id,
+      };
+      if (type === 1) {
+        qzProject.primaryImage = res.url;
+        this.$set(this.currentTask, "uploadedImage", res.url);
+        this.$set(this.currentTask, "fileList", [file.file]);
+      } else if (type === 2) {
+        qzProject.mask = res.url;
+        this.$set(this.currentTask, "uploadedImage1", res.url);
+        this.$set(this.currentTask, "fileList1", [file.file]);
+      }
+      console.log(qzProject);
+      update(qzProject);
+      console.log(res);
     },
     async img2img() {
       if (!this.currentTask.uploadedImage) {
@@ -298,31 +306,11 @@ export default {
         });
         return;
       }
-      if (!this.currentTask.maskImage) {
-        this.$message({
-          message: "❌ 请选择蒙版图 ❗",
-          type: "",
-        });
-        return;
-      }
-      if (!this.selectSceneId && this.type !== 1) {
-        this.$message({
-          message: "❌ 请选择或填写商拍场景或描述中的至少一项 ❗",
-          type: "",
-        });
-        return;
-      }
       this.loading = true;
       const Img2imgVo = {
         projectId: this.currentTask.id,
-        type: this.type,
-        selectPmodelId: this.selectSceneId,
         quantity: this.quantity,
       };
-      if (this.type === 1) {
-        Img2imgVo.prompt = this.prompt;
-      }
-
       try {
         console.log(Img2imgVo);
         const res = await img2img(Img2imgVo);
@@ -359,4 +347,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/styles/work.scss";
+.fixed-bottom {
+  position: absolute;
+}
 </style>

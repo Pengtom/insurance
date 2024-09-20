@@ -211,6 +211,7 @@ p {
   @include flex-center;
   flex-direction: column;
   margin-left: 30px;
+  margin-right: 30px;
 }
 
 .loading-overlay {

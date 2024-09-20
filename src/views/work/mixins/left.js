@@ -279,6 +279,11 @@ export default {
                         } else {
                             tmp_canvas.width = width
                             tmp_canvas.height = height
+                            const widthAfterScale = tmp_canvas.width - 512;
+                            const remainder = widthAfterScale % 64;
+                            const adjustment = (remainder < 32) ? - remainder : (64 - remainder);
+                            tmp_canvas.width += adjustment;
+                            tmp_canvas.height += adjustment;
                         }
 
                         tmp_ctx.drawImage(image, 0, 0, width, height, 0, 0, tmp_canvas.width, tmp_canvas.height);

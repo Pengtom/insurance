@@ -217,9 +217,6 @@ export default {
         } else {
           item.imagesrc = require("@/assets/images/未标题-1.png");
         }
-        if (item.maskImage) {
-          this.$set(item, "maskImageSrc", item.maskImage);
-        }
         this.$set(item, "showOptions", false);
       });
     },

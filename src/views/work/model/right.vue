@@ -1,5 +1,5 @@
 <template>
-  <div id="canvasWrapper">
+  <div id="canvasWrapper" @keydown="handleEscKey" tabindex="0" ref="canvasWrapper">
     <div
       style="
         height: 20px;
@@ -22,11 +22,16 @@
         <div class="content-wrapper">
           <div @click="save">保存</div>
         </div>
-        <div style="width: 1px; height: 20px; background-color: #4f535a"></div>
       </div>
     </div>
     <div
-      style="position: absolute; top: 20px; right: 20px; cursor: pointer"
+      style="
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        color: #fff;
+      "
       @click="close"
     >
       关闭
@@ -58,10 +63,18 @@ export default {
 
     this.masks = Object.values(this.mask);
     console.log(this.masks, "蒙版图");
+    this.$nextTick(() => {
+      this.$refs.canvasWrapper.focus();
+    });
   },
   methods: {
     close() {
       this.$emit("close", null); // 关闭事件
+    },
+    handleEscKey(event) {
+      if (event.key == "Escape") {
+        this.$emit("close", null);
+      }
     },
     save() {
       this.maskImage = selectionCanvas.toDataURL("image/png");

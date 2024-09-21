@@ -1,5 +1,7 @@
 import { Loading } from 'element-ui';
 import { upload, update, deleteTaskById, getOne } from '@/api/zhiqi/task'
+import { getComputingPowerTotal } from '@/api/zhiqi/computeUsage'
+import store from '@/store'
 export default {
     props: {
         context: Object,
@@ -154,6 +156,8 @@ export default {
                 .then((response) => response.json())
                 .then((data) => {
                     this.$set(task, "fileName", data[0].data);
+                    getComputingPowerTotal()
+                    store.dispatch("getComputingPower");
                 })
                 .catch((error) => {
                     this.$message({
@@ -289,6 +293,10 @@ export default {
                 })
                     .then((response) => response.json())
                     .then((data) => {
+                        if (data[0].msg !== '已存在任务') {
+                              getComputingPowerTotal()
+                        store.dispatch("getComputingPower");
+                        }
                         this.$set(this.currentTask, "fileName", data[0].data);
                     })
                     .catch((error) => {
@@ -302,7 +310,7 @@ export default {
             }
             this.dialogVisible = true;
         },
-        async closeDig(maskImage) {        
+        async closeDig(maskImage) {
             if (maskImage) {
                 const fileImage = dataURLtoBlob(maskImage, Date.now() + ".png");
                 console.log(fileImage);

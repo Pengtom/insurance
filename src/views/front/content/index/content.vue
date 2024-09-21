@@ -312,6 +312,79 @@
         </div>
       </div>
       <div class="spacer-1">
+        <div class="empty-space">
+          <div style="width: 580px; height: 420px">
+            <img
+              width="580"
+              height="420"
+              :src="
+                require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')
+              "
+              alt="Content Image 1"
+              class="main-image"
+            />
+          </div>
+        </div>
+        <div class="content-container">
+          <div class="header-text">AI换装</div>
+          <div class="carousel-container">
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>高效内容创作，精准完成营销需求</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>热点洞悉，趋势精准预测</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>大师级内容优化与检索</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>出海本土化精准市场</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>广告策略、创意、内容、投放生成</p>
+            </div>
+          </div>
+          <router-link to="/work/imgtoimg/model" class="cta-link">
+            <div class="cta-text">免费试用</div>
+          </router-link>
+        </div>
+      </div>
+      <div class="spacer-1 spacer-2">
         <div class="image-gallery">
           <div class="gallery-row">
             <div class="hero-images">

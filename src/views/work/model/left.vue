@@ -105,6 +105,7 @@
                   list-type="picture"
                   :show-file-list="false"
                   :http-request="handleUpload"
+                  v-loading="!!currentTask.uploading"
                 >
                   <p v-if="!currentTask.loading">重新上传</p>
                 </el-upload>

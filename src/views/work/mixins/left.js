@@ -127,7 +127,7 @@ export default {
                 this.$set(this.currentTask, "fileList", fileList);
                 console.log(this.currentTask.fileList);
             }
-            this.$set(this.currentTask, "uploading", this.currentTaskId);
+            this.$set(this.currentTask, "uploading", true);
 
             const resizedImageBlob = await this.resizeImage(file.file, 1024);
 
@@ -140,37 +140,11 @@ export default {
             formdata.append("type", "0");
 
             const res = await upload(formdata);
-            const fileName = res.url.split("/").pop().split(".")[0];
-            update({ id: this.currentTask.id, primaryImage: res.url });
+            update({ id: this.currentTask.id, primaryImage: res.url, mask: false });
             const task = this.currentTask;
-            fetch(`/apiz/create-task/${fileName}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json", // 设置请求头，表明发送的是 JSON 数据
-                },
-                body: JSON.stringify({
-                    // 要发送的 JSON 数据对象
-                    image_url: `${res.url}`,
-                }),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    this.$set(task, "fileName", data[0].data);
-                    getComputingPowerTotal()
-                    store.dispatch("getComputingPower");
-                })
-                .catch((error) => {
-                    this.$message({
-                        message: "❌ 抠图失败 ❗",
-                        type: "",
-                    });
-                    this.$set(task, "fileName", true);
-                    console.log(error);
-                });
-
             this.$set(task, "uploadedImage", res.url);
             this.$set(task, "fileList", [newFile]);
-            this.$set(this.currentTask, "loading", true);
+            this.$set(this.currentTask, "uploading", false);
         },
         resizeImage(file, targetSize) {
             return new Promise((resolve, reject) => {
@@ -294,8 +268,8 @@ export default {
                     .then((response) => response.json())
                     .then((data) => {
                         if (data[0].msg !== '已存在任务') {
-                              getComputingPowerTotal()
-                        store.dispatch("getComputingPower");
+                            getComputingPowerTotal()
+                            store.dispatch("getComputingPower");
                         }
                         this.$set(this.currentTask, "fileName", data[0].data);
                     })

@@ -33,7 +33,7 @@
               loading="lazy"
               width="20"
               height="20"
-              src="https://www.weshop.com/ic_home_try_arrow.svg"
+              :src="require('@/assets/icons/未标题-1(1).png')"
             />
           </div>
           <div class="info-item info-right">
@@ -42,7 +42,7 @@
               loading="lazy"
               width="40"
               height="40"
-              src="https://www.weshop.com/ic_home_play.svg"
+              :src="require('@/assets/icons/播放器.png')"
             />
             <div class="info-details">
               <div class="info-detail-title">想了解更多?</div>
@@ -75,14 +75,16 @@
             <img
               width="580"
               height="420"
-              :src="require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')"
+              :src="
+                require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')
+              "
               alt="Content Image 1"
               class="main-image"
             />
           </div>
         </div>
         <div class="content-container">
-          <div class="header-text">AI 数字运营</div>
+          <div class="header-text">AI 数智运营</div>
           <div class="carousel-container">
             <div class="carousel-item">
               <img
@@ -90,9 +92,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>60秒完成内容创作，精准营销</p>
+              <p>高效内容创作，精准完成营销需求</p>
             </div>
             <div class="carousel-item">
               <img
@@ -100,9 +102,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>商品与热点的智能匹配</p>
+              <p>热点洞悉，趋势精准预测</p>
             </div>
             <div class="carousel-item">
               <img
@@ -110,9 +112,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>全流程营销闭环管理</p>
+              <p>大师级内容优化与检索</p>
             </div>
             <div class="carousel-item">
               <img
@@ -120,9 +122,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>快速生成多平台内容</p>
+              <p>出海本土化精准市场</p>
             </div>
             <div class="carousel-item">
               <img
@@ -130,9 +132,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>个性化分发与效果分析</p>
+              <p>广告策略、创意、内容、投放生成</p>
             </div>
           </div>
           <router-link to="/work/imgtoimg/model" class="cta-link">
@@ -140,6 +142,7 @@
           </router-link>
         </div>
       </div>
+
       <div class="spacer-1 spacer-2">
         <div class="image-gallery">
           <div class="gallery-row">
@@ -258,9 +261,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>创建海量自定义个人模特</p>
+              <p>多姿态套图，突出你的卖点</p>
             </div>
             <div class="carousel-item">
               <img
@@ -268,9 +271,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>在 60 秒内生成逼真的真人脸</p>
+              <p>定制品牌专属模特，版权无忧</p>
             </div>
             <div class="carousel-item">
               <img
@@ -278,9 +281,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>跨越国籍、年龄、性别的人工智能模型</p>
+              <p>秒级生成，还原真实超模大片质感</p>
             </div>
             <div class="carousel-item">
               <img
@@ -288,9 +291,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>超过 200 名全球知名模特的独家数字形象</p>
+              <p>全球多类型模特随心选，轻松实现本地化</p>
             </div>
             <div class="carousel-item">
               <img
@@ -298,9 +301,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>室内外场景，不受拍摄时间、地点限制</p>
+              <p>室内外海量场景，不受时间、地点限制</p>
             </div>
           </div>
           <a class="cta-link">
@@ -419,9 +422,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>创建海量自定义个人模特</p>
+              <p>分秒渲染，覆盖全品类</p>
             </div>
             <div class="carousel-item">
               <img
@@ -429,9 +432,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>在 60 秒内生成逼真的真人脸</p>
+              <p>轻松实现商品融合真实场景</p>
             </div>
             <div class="carousel-item">
               <img
@@ -439,9 +442,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>跨越国籍、年龄、性别的人工智能模型</p>
+              <p>仅需1张商品图, 节约外拍成本</p>
             </div>
             <div class="carousel-item">
               <img
@@ -449,19 +452,9 @@
                 width="20"
                 height="25"
                 loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
+                :src="require('@/assets/icons/对勾小.png')"
               />
-              <p>超过 200 名全球知名模特的独家数字形象</p>
-            </div>
-            <div class="carousel-item">
-              <img
-                style="object-fit: contain"
-                width="20"
-                height="25"
-                loading="lazy"
-                src="https://www.weshop.com/ic_home_intro_item.svg"
-              />
-              <p>室内外场景，不受拍摄时间、地点限制</p>
+              <p>自动识别上传图的类别，精细化处理</p>
             </div>
           </div>
           <a class="cta-link">
@@ -470,7 +463,7 @@
         </div>
       </div>
       <div class="spacer-3">
-        <router-link to="" v-for="(item,index) in bigPng" :key="index">
+        <router-link to="" v-for="(item, index) in bigPng" :key="index">
           <div class="custom-image-container">
             <img
               width="172"
@@ -480,13 +473,13 @@
               :src="item.src"
             />
             <div class="custom-text-overlay">
-              {{item.name}}
+              {{ item.name }}
               <img
                 width="24"
                 height="24"
                 loading="lazy"
                 class="custom-main-img"
-                src="https://www.weshop.com/ic_home_arrow.svg"
+                :src="require('@/assets/icons/方向.png')"
               />
             </div>
           </div>
@@ -623,11 +616,11 @@ export default {
           src: require("@/assets/indexImage/3-打光.png"),
           name: "智能打光",
         },
-          {
+        {
           src: require("@/assets/indexImage/4.图生图.png"),
           name: "图生图",
         },
-          {
+        {
           src: require("@/assets/indexImage/5建筑生成.png"),
           name: "建筑设计",
         },

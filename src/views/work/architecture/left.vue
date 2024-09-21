@@ -388,4 +388,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/styles/work.scss";
+.sticky-header {
+  background: url("../../../assets/images/AI建筑.png") no-repeat;
+  background-size: 100% auto;
+}
 </style>

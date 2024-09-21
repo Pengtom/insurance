@@ -41,13 +41,6 @@ module.exports = {
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       },
-      '/apix':{
-        target:'http://127.0.0.1:7861',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/apix':''
-        }
-      },
       '/apiz':{
         target:'http://127.0.0.1:5000',
         changeOrigin: true,

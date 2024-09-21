@@ -29,7 +29,7 @@ export default {
       context: {
         title: "AI商品",
         content:
-          "轻松生成多样化的AI数字人模特和专业电商拍摄场景，可适应全球各地市场需求，高效展示商品。",
+          "轻松实现商品融合真实场景，分秒渲染，足不出户即可生成商业摄影质量的产品主图。",
       },
       images: [
         "https://ai-image.weshop.com/a45b50c0-c64f-4dec-8a59-f9aa0073903c_560x720.png_preview.webp",

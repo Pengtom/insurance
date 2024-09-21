@@ -41,7 +41,7 @@
             <div class="avatarArea">
               <img
                 loading="lazy"
-                src="/girl.png"
+                :src="require('@/assets/icons/tou.png')"
                 width="40"
                 height="40"
                 decoding="async"
@@ -54,7 +54,7 @@
                 <div class="dropdown-main-header">
                   <img
                     loading="lazy"
-                    src="/girl.png"
+                    :src="require('@/assets/icons/hui.png')"
                     width="40"
                     height="40"
                     decoding="async"

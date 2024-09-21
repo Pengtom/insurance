@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Left from "./left copy.vue";
+import Left from "./left.vue";
 import Right from "../right.vue";
 import work from "../mixins/work";
 export default {
@@ -33,7 +33,7 @@ export default {
       context: {
         title: "AI模特",
         content:
-          "轻松生成多样化的AI数字人模特和专业电商拍摄场景，可适应全球各地市场需求，高效展示商品。",
+          "海量预先设计，百种数字模型，让您能够轻松解决各种场地、模特商业需求，触达全球各地的用户，精准展示商品。",
       },
       images: [
         "https://ai-image.weshop.com/2722ba48-a8e2-4e39-a80f-6dc994869147_776x1056.png_preview.webp",

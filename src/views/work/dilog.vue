@@ -1,5 +1,10 @@
 <template>
-  <div id="canvasWrapper" @keydown="handleEscKey" tabindex="0" ref="canvasWrapper">
+  <div
+    id="canvasWrapper"
+    @keydown="handleEscKey"
+    tabindex="0"
+    ref="canvasWrapper"
+  >
     <div
       style="
         height: 20px;
@@ -18,9 +23,9 @@
       <canvas id="maskCanvas"></canvas>
     </div>
     <div class="outer-container">
-      <div class="inner-container">
+      <div class="inner-container" @click="save">
         <div class="content-wrapper">
-          <div @click="save">保存</div>
+          <div>保存</div>
         </div>
       </div>
     </div>
@@ -96,18 +101,19 @@ export default {
 
         if (this.backgroundImage.width > this.backgroundImage.height) {
           // 宽度主导，保持宽度为屏幕宽度的某个百分比
-          canvasWidth = screenWidth * 0.6; // 占据屏幕60%的宽度
+          canvasWidth = screenWidth * 0.28; 
+          console.log(canvasWidth,"===================222222222",screenWidth);
+          
           canvasHeight =
             (this.backgroundImage.height / this.backgroundImage.width) *
             canvasWidth;
         } else {
           // 高度主导，保持高度为屏幕高度的某个百分比
-          canvasHeight = screenHeight * 0.6; // 占据屏幕60%的高度
+          canvasHeight = screenHeight * 0.5; // 占据屏幕60%的高度
           canvasWidth =
             (this.backgroundImage.width / this.backgroundImage.height) *
             canvasHeight;
         }
-
         // 设置 canvas 的宽度和高度
         backgroundCanvas.width = this.backgroundImage.width;
         backgroundCanvas.height = this.backgroundImage.height;
@@ -388,8 +394,8 @@ export default {
 }
 #canvasContainer {
   position: relative;
-  width: 800px;
-  height: 300px;
+  width: 600px;
+  height: 400px;
 }
 
 #backgroundCanvas,

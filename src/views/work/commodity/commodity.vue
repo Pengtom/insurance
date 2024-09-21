@@ -116,7 +116,7 @@
               <p v-if="currentTask.loading">选区图</p>
               <p v-if="!currentTask.loading">
                 <a
-                  @click="dialogVisible = true"
+                  @click="openDilog"
                   style="color: #7530fe; text-decoration: underline"
                   >编辑选区</a
                 >
@@ -128,7 +128,6 @@
       <custom
         @openSwitch="openSwitch"
         @correctval="correctval"
-        @reverseVal="reverseVal"
         @sceneId="sceneId"
       />
       <div class="fixed-bottom">
@@ -192,40 +191,19 @@
         </div>
       </div>
     </el-drawer>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="50%"
-      :modal="false"
-      flex
-      :before-close="dialogclose"
-    >
-      <img
-        :src="currentTask.uploadedImage"
-        alt="Uploaded Image"
-        ref="uploadedImage"
-        style="cursor: Pointer; object-fit: contain"
-        @click="getImageClickCoordinates"
-        @contextmenu.prevent="getImageClickCoordinates"
-        width="350"
-        height="350"
-      />
-      <img
-        width="350"
-        height="350"
-        :src="currentTask.maskImageSrc"
-        class="overlay-image"
-      />
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogclose">确 定</el-button>
-      </span>
-    </el-dialog>
+    <dilog
+      v-if="dialogVisible"
+      :bgImage="currentTask.uploadedImage"
+      :mask="currentTask.fileName"
+      @close="closeDig"
+    />
   </div>
 </template>
 
 <script>
 import mixins from "../mixins/left";
 import custom from "./custom.vue";
+import dilog from "../dilog.vue";
 import { queryListTask, save } from "@/api/zhiqi/task";
 import { img2img } from "@/api/zhiqi/sd";
 import store from "@/store";
@@ -233,6 +211,7 @@ export default {
   mixins: [mixins],
   components: {
     custom,
+    dilog
   },
   data() {
     return {
@@ -255,8 +234,8 @@ export default {
         } else {
           item.imagesrc = require("@/assets/images/未标题-1.png");
         }
-        if (item.maskImage) {
-          this.$set(item, "maskImageSrc", item.maskImage);
+        if (item.mask) {
+          this.$set(item, "maskImageSrc", item.mask);
         }
         this.$set(item, "showOptions", false);
       });
@@ -359,4 +338,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "~@/assets/styles/work.scss";
+.sticky-header {
+  background: url("../../../assets/images/AI商拍.png") no-repeat;
+  background-size: 100% auto;
+}
 </style>

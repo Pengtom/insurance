@@ -29,7 +29,7 @@ export default {
       context: {
         title: "建筑外观",
         content:
-          "轻松生成多样化的AI数字人模特和专业电商拍摄场景，可适应全球各地市场需求，高效展示商品。",
+          "提供思绪、线稿或是涂鸦手绘图，就能将概念中的建筑外观，转化为真实的渲染效果图，告别传统繁琐的建模流程。",
       },
       images: [
         "https://tse4.mm.bing.net/th/id/OIP.2_kpG99JOiWbA-74sOSYLQHaEc?w=290&h=180&c=7&r=0&o=5&pid=1.7",

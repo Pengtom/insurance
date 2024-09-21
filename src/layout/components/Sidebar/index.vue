@@ -50,7 +50,7 @@
             <img
               width="24"
               height="16"
-              src="https://www.weshop.com/_next/image?url=%2Fpro_points.png&w=32&q=75"
+              :src="require('@/assets/icons/pro_points.webp')"
               loading="lazy"
             />
             <span

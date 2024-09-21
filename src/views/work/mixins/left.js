@@ -1,5 +1,5 @@
 import { Loading } from 'element-ui';
-import { upload, update, deleteTaskById,getOne } from '@/api/zhiqi/task'
+import { upload, update, deleteTaskById, getOne } from '@/api/zhiqi/task'
 export default {
     props: {
         context: Object,
@@ -38,9 +38,9 @@ export default {
             this.projectDetails = res.data
         },
 
-        async deleteTask(taskId,type) {
+        async deleteTask(taskId, type) {
             console.log(type);
-            
+
             await deleteTaskById(taskId, type)
             this.tasks = this.tasks.filter(item => item.id !== taskId)
             this.init()
@@ -80,36 +80,6 @@ export default {
 
                 this.currentTaskId = taskId;
                 this.isDrawerVisible = true;
-                if (this.currentTask.fileName) {
-                    return
-                } else if (this.currentTask.maskImage) {
-                    try {
-                        const file = await getFileFromUrl(this.currentTask.uploadedImage, Date.now() + ".png")
-                        this.$set(this.currentTask, 'loading', true);
-                        const resizedImageBlob = await this.resizeImage(file, 1024);
-                        console.log(resizedImageBlob);
-
-                        const imageByteArray = await blobToByteArray(resizedImageBlob);
-
-                        const form = new FormData();
-                        form.append('image', new Blob([imageByteArray]), "image.png");
-                        const task = this.currentTask;
-                        await fetch('/apix/imagev2', {
-                            method: "POST",
-                            body: form
-                        }).then((response) => response.json())
-                            .then(async (data) => {
-                                if (task) {
-                                    await this.applyMask(this.currentTask.maskImage)
-                                    this.$set(task, 'fileName', data.message);
-                                }
-                            }).catch(error => {
-                                console.log(error);
-                            })
-                    } finally {
-                        this.$set(this.currentTask, 'loading', false);
-                    }
-                }
             }
         },
         handleDrawerClose() {
@@ -117,12 +87,17 @@ export default {
             this.currentTaskId = null; // 关闭抽屉不能再次选择同抽屉
         },
         async handleUpload(file) {
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/bmp', 'image/webp'];
+            const allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/bmp",
+                "image/webp",
+            ];
             const isAllowedType = allowedTypes.includes(file.file.type);
             if (!isAllowedType) {
                 this.$message({
                     message: "❌ 不允许上传此类型的文件 ❗",
-                    type: '',
+                    type: "",
                 });
                 return;
             }
@@ -130,115 +105,69 @@ export default {
             if (!isLt5M) {
                 this.$message({
                     message: "❌ 图片大小不能超过 5MB ❗",
-                    type: '',
+                    type: "",
                 });
                 return;
             }
             const imageStatus = await this.iSImageStatus(file.file);
 
             if (!imageStatus.isValid) {
-                const fileList = this.currentTask.fileList.filter(f => f.uid !== file.file.uid);
-                this.$set(this.currentTask, 'fileList', fileList);
+                const fileList = this.currentTask.fileList.filter(
+                    (f) => f.uid !== file.file.uid
+                );
+                this.$set(this.currentTask, "fileList", fileList);
                 return;
             }
             if (this.currentTask.fileList) {
-                const fileList = this.currentTask.fileList.filter(f => f.uid === file.file.uid);
-                this.$set(this.currentTask, 'fileList', fileList)
+                const fileList = this.currentTask.fileList.filter(
+                    (f) => f.uid === file.file.uid
+                );
+                this.$set(this.currentTask, "fileList", fileList);
+                console.log(this.currentTask.fileList);
             }
-            this.$set(this.currentTask, 'uploading', this.currentTaskId)
+            this.$set(this.currentTask, "uploading", this.currentTaskId);
 
             const resizedImageBlob = await this.resizeImage(file.file, 1024);
-            console.log(resizedImageBlob);
-
-            const imageByteArray = await blobToByteArray(resizedImageBlob);
-
-            const form = new FormData();
-            form.append('image', new Blob([imageByteArray]), "image.png");
-            const task = this.currentTask;
-            fetch('/apix/imagev2', {
-                method: "POST",
-                body: form
-            }).then((response) => response.json())
-                .then((data) => {
-                    if (task) {
-                        this.$set(task, 'fileName', data.message);
-                    }
-                }).catch(error => {
-                    console.log(error);
-                })
 
             const blob = await readFileAsBlob(resizedImageBlob);
-            const newFile = new File([blob], resizedImageBlob.name, { type: resizedImageBlob.type });
-            const formdata = new FormData()
-            formdata.append("file", newFile)
-            formdata.append("type", "0")
-            console.log(formdata);
+            const newFile = new File([blob], resizedImageBlob.name, {
+                type: resizedImageBlob.type,
+            });
+            const formdata = new FormData();
+            formdata.append("file", newFile);
+            formdata.append("type", "0");
 
-            const res = await upload(formdata)
-            console.log(res);
-            this.$set(task, 'uploadedImage', res.url);
-            this.$set(task, "fileList", [newFile])
-            this.$set(task, "clickCoordinates", [])
-            this.$set(task, "type", [])
-            this.$set(this.currentTask, 'loading', true);
+            const res = await upload(formdata);
+            const fileName = res.url.split("/").pop().split(".")[0];
+            update({ id: this.currentTask.id, primaryImage: res.url });
+            const task = this.currentTask;
+            fetch(`/apiz/create-task/${fileName}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json", // 设置请求头，表明发送的是 JSON 数据
+                },
+                body: JSON.stringify({
+                    // 要发送的 JSON 数据对象
+                    image_url: `${res.url}`,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    this.$set(task, "fileName", data[0].data);
+                })
+                .catch((error) => {
+                    this.$message({
+                        message: "❌ 抠图失败 ❗",
+                        type: "",
+                    });
+                    this.$set(task, "fileName", true);
+                    console.log(error);
+                });
+
+            this.$set(task, "uploadedImage", res.url);
+            this.$set(task, "fileList", [newFile]);
+            this.$set(this.currentTask, "loading", true);
         },
-        // resizeImage(file, targetHeight) {
-        //     return new Promise((resolve, reject) => {
-        //         // 创建 FileReader 对象读取文件内容
-        //         const reader = new FileReader();
-
-        //         // 当文件读取成功时
-        //         reader.onload = (event) => {
-        //             const image = new Image();
-        //             image.src = event.target.result;
-
-        //             image.onload = () => {
-        //                 // 创建临时画布以保持缩放后的图像
-        //                 const tmp_canvas = document.createElement('canvas');
-        //                 const tmp_ctx = tmp_canvas.getContext('2d');
-
-        //                 // 计算缩放因子
-        //                 let scaleFactor = 1;
-        //                 if (image.height > targetHeight) {
-        //                     scaleFactor = targetHeight / image.height;
-        //                 }
-
-        //                 // 计算缩放后的宽度和高度
-        //                 const scaledWidth = image.width * scaleFactor;
-        //                 const scaledHeight = image.height * scaleFactor;
-
-        //                 // 设置画布的大小
-        //                 tmp_canvas.width = scaledWidth;
-        //                 tmp_canvas.height = scaledHeight;
-
-        //                 // 绘制缩放后的图像到画布上
-        //                 tmp_ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, scaledWidth, scaledHeight);
-
-        //                 // 将画布内容转换为 Blob
-        //                 tmp_canvas.toBlob((blob) => {
-        //                     if (blob) {
-        //                         resolve(blob);
-        //                     } else {
-        //                         reject(new Error("Canvas to Blob conversion failed"));
-        //                     }
-        //                 });
-        //             };
-
-        //             // 处理图像加载错误
-        //             image.onerror = (error) => {
-        //                 reject(new Error("Image loading failed"));
-        //             };
-        //         };
-
-        //         // 处理文件读取错误
-        //         reader.onerror = (error) => {
-        //             reject(new Error("File reading failed"));
-        //         };
-
-        //         // 读取文件为 Data URL
-        //         reader.readAsDataURL(file);
-        //     });
-        // },
         resizeImage(file, targetSize) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -341,156 +270,61 @@ export default {
                 reader.readAsDataURL(file);
             })
         },
-        getImageClickCoordinates(event) {
-            event.preventDefault()
-            // if (this.currentTask.clickCoordinates) {
-            //     if (this.currentTask.clickCoordinates.length > 30) {
-            //         this.$message({
-            //             message: "❌ 点击次数太多 ❗",
-            //             type: '',
-            //         });
-            //         return;
-            //     }
-            // } else {
-            //     this.$set(this.currentTask, "clickCoordinates", [])
-            //     this.$set(this.currentTask, "type", [])
-            // }
-            const imgElement = this.$refs.uploadedImage;
-
-            if (imgElement) {
-                const rect = imgElement.getBoundingClientRect();
-                const imageWidth = rect.width
-                const imageHeight = rect.height
-                const target = 1024
-                const scaleW = target / imageWidth
-                const scaleH = target / imageHeight
-                const x = Math.round((event.clientX - rect.left) * scaleW);
-                const y = Math.round((event.clientY - rect.top) * scaleH);
-                this.currentTask.clickCoordinates.push(x);
-                this.currentTask.clickCoordinates.push(y);
-                if (event.button === 0) {
-                    this.currentTask.type.push(1)
-                }
-                if (event.button === 2) {
-                    this.currentTask.type.push(0)
-                }
-                console.log('点击坐标:', this.currentTask.clickCoordinates);
-                const formdata = new FormData()
-                formdata.append("type", this.currentTask.type)
-                formdata.append("click_list", this.currentTask.clickCoordinates);
-                formdata.append("file_name", this.currentTask.fileName)
-                fetch("/apix/clickv2", {
-                    method: 'post',
-                    body: formdata
-                }).then(res => res.json())
-                    .then(async data => {
-                        const maskBase64 = data.masks;
-                        const maskBase64Masksf = data.masksf;
-                        this.$set(this.currentTask, "maskImage", `data:image/png;base64,${maskBase64}`)
-                        this.$set(this.currentTask, "lastMask", `data:image/png;base64,${maskBase64Masksf}`)
-                        await this.applyMask(`data:image/png;base64,${maskBase64}`)
+        async openDilog() {
+            if (!this.currentTask.fileName || this.currentTask.fileName) {
+                this.$set(this.currentTask, "loading", true);
+                const fileName = this.currentTask.uploadedImage
+                    .split("/")
+                    .pop()
+                    .split(".")[0];
+                await fetch(`/apiz/create-task/${fileName}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json", // 设置请求头，表明发送的是 JSON 数据
+                    },
+                    body: JSON.stringify({
+                        // 要发送的 JSON 数据对象
+                        image_url: `${this.currentTask.uploadedImage}`,
+                    }),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        this.$set(this.currentTask, "fileName", data[0].data);
                     })
+                    .catch((error) => {
+                        this.$message({
+                            message: "❌ 抠图失败,请稍后重试 ❗",
+                            type: "",
+                        });
+                        console.log(error);
+                        this.$set(this.currentTask, "loading", false);
+                    });
             }
+            this.dialogVisible = true;
         },
-        applyMask(maskBase) {
-            return new Promise((resolve, reject) => {
-                const imageUrl = this.currentTask.uploadedImage;
-                const maskBase64 = maskBase;
+        async closeDig(maskImage) {        
+            if (maskImage) {
+                const fileImage = dataURLtoBlob(maskImage, Date.now() + ".png");
+                console.log(fileImage);
 
-                const imageCanvas = document.getElementById('imageCanvas');
-                const maskCanvas = document.getElementById('maskCanvas');
-                const resultCanvas = document.getElementById('resultCanvas');
+                const resizedImageBlob = await this.resizeImage(fileImage, 1024);
+                console.log(resizedImageBlob);
 
-                const imageContext = imageCanvas.getContext('2d');
-                const maskContext = maskCanvas.getContext('2d');
-                const resultContext = resultCanvas.getContext('2d');
+                const blob = await readFileAsBlob(resizedImageBlob);
+                const newFile = new File([blob], resizedImageBlob.name, {
+                    type: resizedImageBlob.type,
+                });
 
-                const image = new Image();
-                const mask = new Image();
-                image.crossOrigin = 'anonymous';
-                mask.crossOrigin = 'anonymous';
-                image.src = imageUrl;
-                mask.src = maskBase64;
+                const formdata = new FormData();
+                formdata.append("file", newFile);
+                formdata.append("type", "2");
+                console.log(newFile);
 
-                let imagesLoaded = 0;
-                const onImageLoad = () => {
-                    imagesLoaded++;
-                    if (imagesLoaded === 2) { // 确保两个图像都加载完成
-                        try {
-                            imageCanvas.width = image.width;
-                            imageCanvas.height = image.height;
-                            maskCanvas.width = image.width;
-                            maskCanvas.height = image.height;
-                            resultCanvas.width = image.width;
-                            resultCanvas.height = image.height;
-
-                            imageContext.drawImage(image, 0, 0);
-                            maskContext.drawImage(mask, 0, 0);
-
-                            const imageData = imageContext.getImageData(0, 0, image.width, image.height);
-                            const maskData = maskContext.getImageData(0, 0, image.width, image.height);
-
-                            const resultData = resultContext.createImageData(image.width, image.height);
-
-                            for (let i = 0; i < imageData.data.length; i += 4) {
-                                const alpha = maskData.data[i] > 128 ? 255 : 0; // 使用蒙版的亮度作为阈值
-                                resultData.data[i] = imageData.data[i];
-                                resultData.data[i + 1] = imageData.data[i + 1];
-                                resultData.data[i + 2] = imageData.data[i + 2];
-                                resultData.data[i + 3] = alpha;
-                            }
-
-                            resultContext.putImageData(resultData, 0, 0);
-                            const maskImageSrc = resultCanvas.toDataURL();
-                            this.$set(this.currentTask, 'maskImageSrc', maskImageSrc);
-                            resolve(); // 处理完成，解析 Promise
-                        } catch (error) {
-                            reject(error); // 处理过程中发生错误，拒绝 Promise
-                        }
-                    }
-                };
-
-                image.onload = onImageLoad;
-                mask.onload = onImageLoad;
-            });
-        },
-        async dialogclose() {
-            const fileName = Date.now()
-            const urlPattern = /^(https?:\/\/[^\s]+)$/;
-            if (!this.currentTask.maskImage) {
-                this.dialogVisible = false
-                return
+                const res = await upload(formdata);
+                this.$set(this.currentTask, "maskImageSrc", res.url);
+                update({ id: this.currentTask.id, mask: res.url });
             }
-            let fileImg = null
-            if (urlPattern.test(this.currentTask.maskImage)) {
-                fileImg = await getFileFromUrl(this.currentTask.maskImage, fileName + '.png')
-            } else {
-                fileImg = dataURLtoBlob(this.currentTask.maskImage, fileName + '.png')
-            }
-            console.log(fileImg, "====================");
-
-            const formdata = new FormData()
-            formdata.append("file", fileImg)
-            formdata.append("type", "1")
-            const [res, res1] = await Promise.all([
-                upload(formdata),
-                (async () => {
-                    const fileSrc = dataURLtoBlob(this.currentTask.maskImageSrc);
-                    const formdataSrc = new FormData();
-                    formdataSrc.append("file", fileSrc);
-                    formdataSrc.append("type", "2");
-                    return await upload(formdataSrc);
-                })()
-            ]);
-            const qzProject = {
-                id: this.currentTask.id,
-                primaryImage: this.currentTask.uploadedImage,
-                maskImage: res.url,
-                mask: res1.url
-            }
-            console.log(qzProject);
-            update(qzProject)
-            this.dialogVisible = false
+            this.dialogVisible = false;
         },
         openSelectFlag() {
             if (!this.currentTask.selectFlag) {
@@ -530,9 +364,6 @@ export default {
             }
         }
     }
-}
-async function blobToByteArray(blob) {
-    return new Uint8Array(await new Response(blob).arrayBuffer());
 }
 
 //文件转base64

@@ -73,6 +73,9 @@
                   <div class="dropdown-select">
                     <router-link to="/order1"> 我的订单 </router-link>
                   </div>
+                   <div class="dropdown-select">
+                    <router-link to="/order2"> 使用记录 </router-link>
+                  </div>
                   <div class="parttion"></div>
                   <div @click="logout">退出登录</div>
                 </div>

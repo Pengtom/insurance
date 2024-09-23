@@ -57,6 +57,10 @@ export const constantRoutes = [
       {
         path:'/order1',
         component:()=>import('@/views/front/content/order')
+      },
+      {
+        path:'/order2',
+        component:()=>import('@/views/front/content/usagerecord')
       }
     ]
   },

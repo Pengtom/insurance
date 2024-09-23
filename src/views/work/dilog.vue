@@ -101,9 +101,7 @@ export default {
 
         if (this.backgroundImage.width > this.backgroundImage.height) {
           // 宽度主导，保持宽度为屏幕宽度的某个百分比
-          canvasWidth = screenWidth * 0.28; 
-          console.log(canvasWidth,"===================222222222",screenWidth);
-          
+          canvasWidth = screenWidth * 0.28;
           canvasHeight =
             (this.backgroundImage.height / this.backgroundImage.width) *
             canvasWidth;
@@ -170,15 +168,16 @@ export default {
       const maskCtx = maskCanvas.getContext("2d");
 
       // 遍历蒙版URL并加载
-      for (let maskUrl of this.masks) {
-        const whiteAreaCoords = await this.loadMask(
-          maskUrl,
-          maskCtx,
-          maskCanvas
-        );
-        this.maskData.push({ maskUrl, whiteAreaCoords });
-      }
+      const loadMaskPromises = this.masks.map((maskBase64) =>
+        this.loadMask(maskBase64, maskCtx, maskCanvas)
+      );
+      // 等待所有蒙版加载完成
+      const results = await Promise.all(loadMaskPromises);
 
+      // 保存加载结果
+      results.forEach((whiteAreaCoords, index) => {
+        this.maskData.push({ maskBase64: this.masks[index], whiteAreaCoords });
+      });
       // 为 maskCanvas 添加事件监听
       maskCanvas.addEventListener("mousemove", this.handleMouseMove);
       maskCanvas.addEventListener("click", this.handleClick);
@@ -190,7 +189,6 @@ export default {
         const whiteAreaCoords = [];
 
         maskImage.src = imageSrc;
-        maskImage.crossOrigin = "anonymous";
         maskImage.onload = () => {
           // 将蒙版图像按背景图的宽高绘制到蒙版画布上
           maskCtx.drawImage(
@@ -373,6 +371,12 @@ export default {
         }
       }
     },
+  },
+  beforeDestroy() {
+    const maskCanvas = this.$el.querySelector("#maskCanvas");
+    maskCanvas.removeEventListener("mousemove", this.handleMouseMove);
+    maskCanvas.removeEventListener("click", this.handleClick);
+    maskCanvas.removeEventListener("contextmenu", this.handleRightClick);
   },
 };
 </script>

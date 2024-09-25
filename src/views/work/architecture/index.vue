@@ -12,7 +12,6 @@
       :isSuccess="isSuccess"
       :hasMore="hasMore"
       :currentTask="currentTask"
-      @load-more="loadMoreImages"
       @updateStatus="handleUpdateStatus"
     />
   </div>
@@ -22,6 +21,7 @@
 import Left from "./left.vue";
 import Right from "../right.vue";
 import work from "../mixins/work";
+import { list } from "@/api/zhiqi/image";
 export default {
   mixins: [work],
   data() {
@@ -31,19 +31,16 @@ export default {
         content:
           "提供思绪、线稿或是涂鸦手绘图，就能将概念中的建筑外观，转化为真实的渲染效果图，告别传统繁琐的建模流程。",
       },
-      images: [
-        "https://tse4.mm.bing.net/th/id/OIP.2_kpG99JOiWbA-74sOSYLQHaEc?w=290&h=180&c=7&r=0&o=5&pid=1.7",
-        "https://tse1.mm.bing.net/th/id/OIP.QEQ81qwRY_oOJ3GCEr-AVQHaEg?w=285&h=180&c=7&r=0&o=5&pid=1.7",
-        "https://tse3.mm.bing.net/th/id/OIP.B7zNTGqc-cXlnPRx9hCwlQHaEJ?w=330&h=186&c=7&r=0&o=5&pid=1.7",
-        "https://tse4.mm.bing.net/th/id/OIP.2_kpG99JOiWbA-74sOSYLQHaEc?w=290&h=180&c=7&r=0&o=5&pid=1.7",
-        "https://tse1.mm.bing.net/th/id/OIP.QEQ81qwRY_oOJ3GCEr-AVQHaEg?w=285&h=180&c=7&r=0&o=5&pid=1.7",
-        "https://tse4.mm.bing.net/th/id/OIP.D4iVQe1dYDeW4Z4gTDPvSgHaFf?w=277&h=205&c=7&r=0&o=5&pid=1.7",
-      ],
+      images: [],
     };
   },
   components: {
     Left,
     Right,
+  },
+  async mounted() {
+    const res = await list(3);
+    this.images = res.data;
   },
 };
 </script>

@@ -12,7 +12,6 @@
       :isSuccess="isSuccess"
       :hasMore="hasMore"
       :currentTask="currentTask"
-      @load-more="loadMoreImages"
       @updateStatus="handleUpdateStatus"
     />
   </div>
@@ -22,6 +21,7 @@
 import Left from "./left.vue";
 import Right from "../right.vue";
 import work from "../mixins/work";
+import { list } from "@/api/zhiqi/image";
 export default {
   components: {
     Left,
@@ -35,21 +35,7 @@ export default {
         content:
           "海量预先设计，百种数字模型，让您能够轻松解决各种场地、模特商业需求，触达全球各地的用户，精准展示商品。",
       },
-      images: [
-        "https://ai-image.weshop.com/2722ba48-a8e2-4e39-a80f-6dc994869147_776x1056.png_preview.webp",
-        "https://ai-image.weshop.com/156740a9-aa98-469f-a656-4b72ba74a2a6_560x704.png_preview.webp",
-        "https://ai-image.weshop.com/a1367049-dab6-4e8b-8868-35e7f390246f_856x1144.png_preview.webp",
-        "https://ai-image.weshop.com/7e67a54b-f72d-4459-ae83-212bc774bf11_560x752.png_preview.webp",
-        "https://ai-image.weshop.com/2722ba48-a8e2-4e39-a80f-6dc994869147_776x1056.png_preview.webp",
-        "https://ai-image.weshop.com/156740a9-aa98-469f-a656-4b72ba74a2a6_560x704.png_preview.webp",
-        "https://ai-image.weshop.com/a1367049-dab6-4e8b-8868-35e7f390246f_856x1144.png_preview.webp",
-        "https://ai-image.weshop.com/7e67a54b-f72d-4459-ae83-212bc774bf11_560x752.png_preview.webp",
-        "https://ai-image.weshop.com/7e67a54b-f72d-4459-ae83-212bc774bf11_560x752.png_preview.webp",
-        "https://ai-image.weshop.com/2722ba48-a8e2-4e39-a80f-6dc994869147_776x1056.png_preview.webp",
-        "https://ai-image.weshop.com/156740a9-aa98-469f-a656-4b72ba74a2a6_560x704.png_preview.webp",
-        "https://ai-image.weshop.com/a1367049-dab6-4e8b-8868-35e7f390246f_856x1144.png_preview.webp",
-        "https://ai-image.weshop.com/7e67a54b-f72d-4459-ae83-212bc774bf11_560x752.png_preview.webp",
-      ],
+      images: [],
     };
   },
   computed: {
@@ -58,6 +44,10 @@ export default {
         backgroundColor: this.flag ? "transparent" : "rgba(0, 0, 0, 0.45)",
       };
     },
+  },
+   async mounted() {
+    const res = await list(1);
+    this.images = res.data;
   },
 };
 </script>

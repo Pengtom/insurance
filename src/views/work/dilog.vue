@@ -64,10 +64,7 @@ export default {
   },
   mounted() {
     this.loadBackground(this.bgImage); // 加载背景图
-    console.log(this.mask);
-
     this.masks = Object.values(this.mask);
-    console.log(this.masks, "蒙版图");
     this.$nextTick(() => {
       this.$refs.canvasWrapper.focus();
     });

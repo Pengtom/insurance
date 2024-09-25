@@ -277,7 +277,7 @@ export default {
         });
         return;
       }
-      if (!this.currentTask.maskImage) {
+      if (!this.currentTask.maskImageSrc) {
         this.$message({
           message: "❌ 请选择蒙版图 ❗",
           type: "",

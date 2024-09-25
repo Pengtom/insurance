@@ -79,7 +79,7 @@
                 require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')
               "
               alt="Content Image 1"
-              class="main-image"
+              style="object-fit: contain"
             />
           </div>
         </div>
@@ -137,7 +137,7 @@
               <p>广告策略、创意、内容、投放生成</p>
             </div>
           </div>
-          <router-link to="/work/imgtoimg/model" class="cta-link">
+          <router-link to="" class="cta-link">
             <div class="cta-text">免费试用</div>
           </router-link>
         </div>
@@ -152,14 +152,7 @@
                 width="580"
                 height="420"
                 loading="lazy"
-                :src="require('@/assets/indexImage/首页-未登录-image60.png')"
-              />
-              <img
-                class="image2"
-                width="580"
-                height="420"
-                loading="lazy"
-                :src="require('@/assets/indexImage/首页-未登录-image60.png')"
+                :src="currentModelImage"
               />
             </div>
             <div class="featured-images">
@@ -176,14 +169,7 @@
                   width="580"
                   height="360"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image53.png')"
-                />
-                <img
-                  class="image2"
-                  width="580"
-                  height="360"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image53.png')"
+                  :src="currentBackgroundModelImage"
                 />
               </div>
             </div>
@@ -197,56 +183,28 @@
                 "
               >
                 <img
-                  class="image1"
-                  width="130"
-                  height="170"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image61.png')"
-                />
-                <img
                   class="image2"
                   width="130"
                   height="170"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image61.png')"
+                  :src="currentThumbnailImage"
                 />
               </div>
             </div>
             <div class="icon-gallery">
-              <div class="icon-item">
+              <div
+                class="icon-item"
+                v-for="(icon, index) in iconModelImages"
+                :key="index"
+                :class="{ selected: selectedIconIndex === index }"
+                @click="handleIconClick(index)"
+              >
                 <img
                   class="icon"
                   width="68"
                   height="68"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image59.png')"
-                />
-              </div>
-              <div class="icon-item">
-                <img
-                  class="icon"
-                  width="68"
-                  height="68"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image58.png')"
-                />
-              </div>
-              <div class="icon-item">
-                <img
-                  class="icon"
-                  width="68"
-                  height="68"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image57.png')"
-                />
-              </div>
-              <div class="icon-item">
-                <img
-                  class="icon"
-                  width="68"
-                  height="68"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image56.png')"
+                  :src="icon"
                 />
               </div>
             </div>
@@ -306,94 +264,21 @@
               <p>室内外海量场景，不受时间、地点限制</p>
             </div>
           </div>
-          <a class="cta-link">
-            <div class="cta-text">免费试用</div>
-          </a>
-        </div>
-      </div>
-      <div class="spacer-1">
-        <div class="empty-space">
-          <div style="width: 580px; height: 420px">
-            <img
-              width="580"
-              height="420"
-              :src="
-                require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')
-              "
-              alt="Content Image 1"
-              class="main-image"
-            />
-          </div>
-        </div>
-        <div class="content-container">
-          <div class="header-text">AI换装</div>
-          <div class="carousel-container">
-            <div class="carousel-item">
-              <img
-                style="object-fit: contain"
-                width="20"
-                height="25"
-                loading="lazy"
-                :src="require('@/assets/icons/对勾小.png')"
-              />
-              <p>高效内容创作，精准完成营销需求</p>
-            </div>
-            <div class="carousel-item">
-              <img
-                style="object-fit: contain"
-                width="20"
-                height="25"
-                loading="lazy"
-                :src="require('@/assets/icons/对勾小.png')"
-              />
-              <p>热点洞悉，趋势精准预测</p>
-            </div>
-            <div class="carousel-item">
-              <img
-                style="object-fit: contain"
-                width="20"
-                height="25"
-                loading="lazy"
-                :src="require('@/assets/icons/对勾小.png')"
-              />
-              <p>大师级内容优化与检索</p>
-            </div>
-            <div class="carousel-item">
-              <img
-                style="object-fit: contain"
-                width="20"
-                height="25"
-                loading="lazy"
-                :src="require('@/assets/icons/对勾小.png')"
-              />
-              <p>出海本土化精准市场</p>
-            </div>
-            <div class="carousel-item">
-              <img
-                style="object-fit: contain"
-                width="20"
-                height="25"
-                loading="lazy"
-                :src="require('@/assets/icons/对勾小.png')"
-              />
-              <p>广告策略、创意、内容、投放生成</p>
-            </div>
-          </div>
-          <router-link to="/work/imgtoimg/model" class="cta-link">
+           <router-link to="/work/imgtoimg/model" class="cta-link">
             <div class="cta-text">免费试用</div>
           </router-link>
         </div>
       </div>
-      <div class="spacer-1 spacer-2">
+      <div class="spacer-1">
         <div class="image-gallery">
           <div class="gallery-row">
             <div class="hero-images">
               <img
-                class="image1"
+                class="image2"
                 width="580"
                 height="420"
                 loading="lazy"
-                src="https://ai-image.weshop.com/home-resource/home-aiprod-fore.webp"
+                :src="require('@/assets/indexImage/大图展示.png')"
               />
             </div>
             <div class="featured-images">
@@ -410,14 +295,7 @@
                   width="580"
                   height="360"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image54.png')"
-                />
-                <img
-                  class="image2"
-                  width="580"
-                  height="360"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image54.png')"
+                  :src="currentBackgroundReloadImage"
                 />
               </div>
             </div>
@@ -435,52 +313,140 @@
                   width="130"
                   height="170"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image55.png')"
-                />
-                <img
-                  class="image2"
-                  width="130"
-                  height="170"
-                  loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image55.png')"
+                  :src="require('@/assets/indexImage/小图.png')"
                 />
               </div>
             </div>
             <div class="icon-gallery">
-              <div class="icon-item">
+              <div
+                class="icon-item"
+                v-for="(icon, index) in iconReloadImages"
+                :key="index"
+                :class="{ selected: selectedIconIndex === index }"
+                @click="handleIconClick(index)"
+              >
                 <img
                   class="icon"
                   width="68"
                   height="68"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image52.png')"
+                  :src="icon"
                 />
               </div>
-              <div class="icon-item">
+            </div>
+          </div>
+        </div>
+        <div class="content-container">
+          <div class="header-text">AI 换装</div>
+          <div class="carousel-container">
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>大幅降低模特商拍成本</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>快速裂变固有素材，增加更多可能</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>一键实现多风格服装搭配与实时预览</p>
+            </div>
+            <div class="carousel-item">
+              <img
+                style="object-fit: contain"
+                width="20"
+                height="25"
+                loading="lazy"
+                :src="require('@/assets/icons/对勾小.png')"
+              />
+              <p>适配任意模特、身材，呈现逼真试穿效果</p>
+            </div>
+          </div>
+          <router-link to="/work/imgtoimg/reloading" class="cta-link">
+            <div class="cta-text">免费试用</div>
+          </router-link>
+        </div>
+      </div>
+      <div class="spacer-1 spacer-2">
+        <div class="image-gallery">
+          <div class="gallery-row">
+            <div class="hero-images">
+              <img
+                class="image2"
+                width="580"
+                height="420"
+                loading="lazy"
+                :src="require('@/assets/indexImage/大图展示.png')"
+              />
+            </div>
+            <div class="featured-images">
+              <div
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  width: 580px;
+                  height: 360px;
+                "
+              >
                 <img
-                  class="icon"
-                  width="68"
-                  height="68"
+                  class="image1"
+                  width="580"
+                  height="360"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image51.png')"
+                  :src="currentBackgroundProductImage"
                 />
               </div>
-              <div class="icon-item">
+            </div>
+            <div class="thumbnail-images">
+              <div
+                style="
+                  position: relative;
+                  overflow: hidden;
+                  width: 130px;
+                  height: 170px;
+                "
+              >
                 <img
-                  class="icon"
-                  width="68"
-                  height="68"
+                  class="image1"
+                  width="130"
+                  height="170"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image50.png')"
+                  :src="require('@/assets/indexImage/图.png')"
                 />
               </div>
-              <div class="icon-item">
+            </div>
+            <div class="icon-gallery">
+              <div
+                class="icon-item"
+                v-for="(icon, index) in iconProductImages"
+                :key="index"
+                :class="{ selected: selectedIconIndex === index }"
+                @click="handleIconClick(index)"
+              >
                 <img
                   class="icon"
                   width="68"
                   height="68"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/首页-未登录-image49.png')"
+                  :src="icon"
                 />
               </div>
             </div>
@@ -530,9 +496,9 @@
               <p>自动识别上传图的类别，精细化处理</p>
             </div>
           </div>
-          <a class="cta-link">
+          <router-link to="/work/imgtoimg/product" class="cta-link">
             <div class="cta-text">免费试用</div>
-          </a>
+          </router-link>
         </div>
       </div>
       <div class="spacer-3">
@@ -565,8 +531,19 @@
         <div class="content-area">
           <div class="card-wrapper">
             <div class="card">
-              <label class="radio-container" style="background-color: #ffffff">
-                <input type="radio" class="radio-control" />
+              <label
+                class="radio-container"
+                :style="{
+                  backgroundColor: selectedCategory === '-1' ? '#ffffff' : '',
+                }"
+              >
+                <input
+                  type="radio"
+                  class="radio-control"
+                  v-model="selectedCategory"
+                  @click="handleSelection('-1')"
+                  value="-1"
+                />
                 <div class="image-label">
                   <div class="image-box">
                     <img
@@ -574,16 +551,25 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      :src="
-                        require('@/assets/indexImage/首页-未登录-image.png')
-                      "
+                      :src="require('@/assets/indexImage/1精选.png')"
                     />
                     精选
                   </div>
                 </div>
               </label>
-              <label class="radio-container">
-                <input type="radio" class="radio-control" />
+              <label
+                class="radio-container"
+                :style="{
+                  backgroundColor: selectedCategory === '1' ? '#ffffff' : '',
+                }"
+              >
+                <input
+                  type="radio"
+                  class="radio-control"
+                  v-model="selectedCategory"
+                  @click="handleSelection('1')"
+                  value="1"
+                />
                 <div class="image-label">
                   <div class="image-box">
                     <img
@@ -591,16 +577,25 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      :src="
-                        require('@/assets/indexImage/首页-未登录-image2.png')
-                      "
+                      :src="require('@/assets/indexImage/ai模特.png')"
                     />
-                    服饰
+                    AI模特
                   </div>
                 </div>
               </label>
-              <label class="radio-container">
-                <input type="radio" class="radio-control" />
+              <label
+                class="radio-container"
+                :style="{
+                  backgroundColor: selectedCategory === '2' ? '#ffffff' : '',
+                }"
+              >
+                <input
+                  type="radio"
+                  class="radio-control"
+                  v-model="selectedCategory"
+                  @click="handleSelection('2')"
+                  value="2"
+                />
                 <div class="image-label">
                   <div class="image-box">
                     <img
@@ -608,16 +603,25 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      :src="
-                        require('@/assets/indexImage/首页-未登录-image3.png')
-                      "
+                      :src="require('@/assets/indexImage/商拍.png')"
                     />
-                    美妆个护
+                    AI商拍
                   </div>
                 </div>
               </label>
-              <label class="radio-container">
-                <input type="radio" class="radio-control" />
+              <label
+                class="radio-container"
+                :style="{
+                  backgroundColor: selectedCategory === '3' ? '#ffffff' : '',
+                }"
+              >
+                <input
+                  type="radio"
+                  class="radio-control"
+                  v-model="selectedCategory"
+                  @click="handleSelection('3')"
+                  value="3"
+                />
                 <div class="image-label">
                   <div class="image-box">
                     <img
@@ -625,11 +629,9 @@
                       width="36"
                       height="36"
                       loading="lazy"
-                      :src="
-                        require('@/assets/indexImage/首页-未登录-image4.png')
-                      "
+                      :src="require('@/assets/indexImage/建筑.png')"
                     />
-                    家具
+                    建筑设计
                   </div>
                 </div>
               </label>
@@ -637,7 +639,7 @@
           </div>
         </div>
         <div style="width: 100%; padding: 20px 20px">
-          <div><load-image /></div>
+          <div><load-image :selectedCategory="selectedCategory" /></div>
         </div>
       </div>
     </div>
@@ -698,7 +700,119 @@ export default {
           name: "建筑设计",
         },
       ],
+      //模特
+      backgroundModelImages: [
+        require("@/assets/indexImage/人3-2.png"),
+        require("@/assets/indexImage/人4-2.png"),
+        require("@/assets/indexImage/人1-2.png"),
+        require("@/assets/indexImage/人2-2.png"),
+      ],
+      modelImages: [
+        require("@/assets/indexImage/人3.png"),
+        require("@/assets/indexImage/人4.png"),
+        require("@/assets/indexImage/人1.png"),
+        require("@/assets/indexImage/人2.png"),
+      ],
+      thumbnailImages: [
+        require("@/assets/indexImage/人3-3.png"),
+        require("@/assets/indexImage/人1-3.png"),
+      ],
+      iconModelImages: [
+        require("@/assets/indexImage/icon1.png"),
+        require("@/assets/indexImage/icon2.png"),
+        require("@/assets/indexImage/icon3.png"),
+        require("@/assets/indexImage/icon4.png"),
+      ],
+      backgroundProductImages: [
+        require("@/assets/indexImage/图0.jpg"),
+        require("@/assets/indexImage/图1.jpg"),
+        require("@/assets/indexImage/图3.jpg"),
+        require("@/assets/indexImage/图2.jpg"),
+      ],
+      iconProductImages: [
+        require("@/assets/indexImage/图0-书桌.png"),
+        require("@/assets/indexImage/图1-水池.png"),
+        require("@/assets/indexImage/图3-花.png"),
+        require("@/assets/indexImage/图2-石头.png"),
+      ],
+      backgroundReloadImages: [
+        require("@/assets/indexImage/5.8.png"),
+        require("@/assets/indexImage/5.7.png"),
+        require("@/assets/indexImage/5.6.png"),
+        require("@/assets/indexImage/5.5.png"),
+      ],
+      iconReloadImages: [
+        require("@/assets/indexImage/5.1.png"),
+        require("@/assets/indexImage/5.2.png"),
+        require("@/assets/indexImage/5.3.png"),
+        require("@/assets/indexImage/5.4.png"),
+      ],
+
+      // 当前的索引
+      currentBackgroundIndex: 0,
+      currentModelIndex: 0,
+      currentThumbnailIndex: 0,
+      selectedIconIndex: 0,
+      interval: null,
+      selectedCategory: "-1",
     };
+  },
+  computed: {
+    currentBackgroundModelImage() {
+      return this.backgroundModelImages[this.currentBackgroundIndex];
+    },
+    currentBackgroundProductImage() {
+      return this.backgroundProductImages[this.currentBackgroundIndex];
+    },
+    currentBackgroundReloadImage() {
+      return this.backgroundReloadImages[this.currentBackgroundIndex];
+    },
+    currentModelImage() {
+      return this.modelImages[this.currentModelIndex];
+    },
+    currentThumbnailImage() {
+      return this.thumbnailImages[this.currentThumbnailIndex];
+    },
+  },
+
+  async mounted() {
+    // 启动定时器，每 3 秒调用一次切换方法
+    this.interval = setInterval(this.switchImages, 3000);
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  methods: {
+    switchImages() {
+      // 切换背景图片
+      this.currentBackgroundIndex =
+        (this.currentBackgroundIndex + 1) % this.backgroundModelImages.length;
+      this.currentModelIndex = this.currentBackgroundIndex;
+      if (this.currentBackgroundIndex >= 2) {
+        this.currentThumbnailIndex = 1;
+      } else {
+        this.currentThumbnailIndex = 0; // 恢复到第一个小图
+      }
+      this.selectedIconIndex =
+        this.currentBackgroundIndex % this.iconModelImages.length;
+    },
+    handleIconClick(index) {
+      this.selectedIconIndex = index;
+      // 切换到点击的背景图
+      this.currentBackgroundIndex = index;
+      this.currentModelIndex = index;
+      if (index >= 2) {
+        this.currentThumbnailIndex = 1; // 切换到第二个小图
+      } else {
+        this.currentThumbnailIndex = 0; // 切换回第一个小图
+      }
+    },
+    async handleSelection(index) {
+      if (this.selectedCategory == index) {
+        return;
+      }
+      this.selectedCategory = index;
+    },
   },
 };
 </script>
@@ -741,7 +855,6 @@ export default {
   font-weight: 500;
   color: #fff;
   margin: 0;
-  /* padding: 3px; */
 }
 
 .secondary-text {
@@ -750,7 +863,6 @@ export default {
   font-size: 43px;
   font-weight: 500;
   margin: 0;
-  /* margin-top: 4px; */
 }
 
 .description {
@@ -766,7 +878,6 @@ export default {
   margin-top: 45px;
 }
 
-/* Styling for each info item */
 .info-item {
   display: flex;
   height: 64px;
@@ -783,7 +894,6 @@ export default {
   background: linear-gradient(70deg, #fd1e49, #8859ee);
 }
 
-/* Large image styling */
 .info-img-large {
   width: 65px;
   height: 76px;
@@ -1008,10 +1118,10 @@ export default {
 .icon {
   display: block;
 }
-.icon-gallery .icon-item:first-child::before {
+.icon-item.selected::before {
   content: "";
   position: absolute;
-  border: 4px solid #7530fe;
+  border: 4px solid rgb(33, 23, 255);
   border-radius: 14px;
   top: 0;
   left: 0;

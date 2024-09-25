@@ -220,7 +220,6 @@ export default {
     async init() {
       const params = { type: "1", name: "" };
       const res = await queryListTask(params);
-      console.log(res);
       this.tasks = res.data.sort((a, b) => {
         return new Date(b.createTime) - new Date(a.createTime);
       });
@@ -297,7 +296,6 @@ export default {
       };
 
       try {
-        console.log(Img2imgVo);
         const res = await img2img(Img2imgVo);
         if (res.code === 500) {
           this.$message({

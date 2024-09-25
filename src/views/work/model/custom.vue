@@ -69,15 +69,30 @@ export default {
   mounted() {
     queryListModel(0, 0).then((res) => {
       this.models = res.data;
-      console.log(res);
+      const image = {
+        modelImage: "/work/model/研发中2.png",
+        modelName: "研发中",
+      };
+      const image2 = {
+        modelImage: "/work/model/研发中3.png",
+        modelName: "研发中",
+      };
+      this.models = [...this.models, image, image2];
     });
     queryListModel(0, 1).then((res) => {
       this.scenes = res.data;
-      console.log(res);
     });
   },
   methods: {
     handleClick(id) {
+      console.log(id);
+      if (!id) {
+        this.$message({
+          message: "❌ 敬请期待 ❗",
+          type: "",
+        });
+        return;
+      }
       if (this.modelsIndex === id) {
         this.modelsIndex = null;
         this.$emit("modelId", this.sceneIndex);

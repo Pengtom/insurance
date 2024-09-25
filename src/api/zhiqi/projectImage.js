@@ -8,3 +8,10 @@ export function queryImagesByProjectId(projectId) {
         method: 'get'
     })
 }
+
+export function awaitQueue(projectId) {
+    return request({
+        url: prefix + `/awaitQueue/${projectId}`,
+        method: 'get'
+    })
+}

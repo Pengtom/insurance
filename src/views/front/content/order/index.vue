@@ -56,7 +56,7 @@
             :formatter="statusFormatter"
           >
           </el-table-column>
-          <el-table-column label="是否自动续订" align="center" width="160">
+          <!-- <el-table-column label="是否自动续订" align="center" width="160">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.autoRenew"
@@ -65,7 +65,7 @@
               >
               </el-switch>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <!-- <el-table-column fixed="right" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"
@@ -98,13 +98,8 @@ export default {
     this.init();
   },
   methods: {
-    handleClick(row) {
-      console.log(row);
-    },
     async init() {
       const res = await getUserOrder();
-      console.log(res);
-
       this.tableData = res.data;
     },
     statusFormatter(row, column, cellValue, index) {

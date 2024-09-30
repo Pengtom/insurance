@@ -50,8 +50,9 @@
             <img
               width="24"
               height="16"
-              :src="require('@/assets/icons/pro_points.webp')"
+              :src="require('@/assets/icons/PRO2.png')"
               loading="lazy"
+              style="object-fit:cover;"
             />
             <span
               style="
@@ -59,7 +60,7 @@
                 margin-left: 4px;
                 font-size: 14px;
                 line-height: 20px;
-                color: #7530fe;
+                color: rgb(33,23,255);
               "
               >{{compPower}}</span
             >
@@ -73,9 +74,10 @@
               >算力点</span
             >
           </div>
-          <router-link to="/order">
+          <router-link to="/order" style="display:flex;justify-content: center;">
             <div class="button">去购买</div>
           </router-link>
+          <span class="version">内测版1.0</span>
         </div>
       </div>
     </el-scrollbar>
@@ -170,7 +172,6 @@ export default {
         "",
         this.getNodesToFilter()
       );
-      console.log(filteredData);
     },
   },
 };
@@ -193,7 +194,7 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
-  justify-content: left;
+  justify-content: center;
   cursor: pointer;
   margin-top: 8px;
   margin-bottom: 6px;
@@ -204,15 +205,24 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #7530fe;
-  color: #7530fe;
-  margin-top: 4px;
+  border: 1px solid rgb(33,23,255);
+  color: rgb(33,23,255);
+  margin: 4px 12px 0 12px;
   border-radius: 6px;
   font-weight: 500;
-  margin-right: 12px;
-  margin-left: 12px;
   font-size: 14px;
   line-height: 20px;
+}
+.version {
+  width: 138px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  margin-top: 6px;
 }
 ::v-deep .scrollbar-wrapper .el-scrollbar__view {
   height: 100%;

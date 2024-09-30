@@ -156,6 +156,9 @@ export default {
   justify-content: center; /* 水平居中对齐 */
   align-items: center; /* 垂直居中对齐 */
 }
+::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner{
+  background-color: #2117ff;
+}
 ::v-deep label {
   display: inline-block !important;
 }
@@ -164,6 +167,9 @@ export default {
   flex-direction: column;
   gap: 30px;
   padding: 20px;
+}
+::v-deep .el-slider__bar{
+  background-color: #2117ff;
 }
 
 .ai-models,
@@ -178,11 +184,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-}
-
-.start-button {
-  background-color: #6b5bff;
-  border-color: #6b5bff;
 }
 
 .models-grid,

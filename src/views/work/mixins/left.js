@@ -41,7 +41,6 @@ export default {
         },
 
         async deleteTask(taskId, type) {
-            console.log(type);
 
             await deleteTaskById(taskId, type)
             this.tasks = this.tasks.filter(item => item.id !== taskId)
@@ -53,7 +52,6 @@ export default {
         },
         async openDrawer(taskId) {
             const task = this.tasks.find(task => task.id === taskId)
-            console.log(task);
             if (!this.currentTask || Object.keys(this.currentTask).length === 0) {
                 if (task.taskType === 1 || task.taskType === 2) {
                     this.$emit('success', {
@@ -78,7 +76,6 @@ export default {
                     this.isDrawerVisible = false;
                     return
                 }
-                console.log(this.currentTask);
 
                 this.currentTaskId = taskId;
                 this.isDrawerVisible = true;
@@ -89,14 +86,9 @@ export default {
             this.currentTaskId = null; // 关闭抽屉不能再次选择同抽屉
         },
         async handleUpload(file) {
-            const allowedTypes = [
-                "image/jpeg",
-                "image/png",
-                "image/bmp",
-                "image/webp",
-            ];
+            const allowedTypes = ["image/gif", "image/avif"];
             const isAllowedType = allowedTypes.includes(file.file.type);
-            if (!isAllowedType) {
+            if (isAllowedType) {
                 this.$message({
                     message: "❌ 不允许上传此类型的文件 ❗",
                     type: "",
@@ -125,7 +117,6 @@ export default {
                     (f) => f.uid === file.file.uid
                 );
                 this.$set(this.currentTask, "fileList", fileList);
-                console.log(this.currentTask.fileList);
             }
             this.$set(this.currentTask, "uploading", true);
 
@@ -249,48 +240,47 @@ export default {
             })
         },
         async openDilog() {
-            if (!this.currentTask.fileName || this.currentTask.fileName) {
-                this.$set(this.currentTask, "loading", true);
-                const fileName = this.currentTask.uploadedImage
-                    .split("/")
-                    .pop()
-                    .split(".")[0];
-                await fetch(`/apiz/create-task/${fileName}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json", // 设置请求头，表明发送的是 JSON 数据
-                    },
-                    body: JSON.stringify({
-                        // 要发送的 JSON 数据对象
-                        image_url: `${this.currentTask.uploadedImage}`,
-                    }),
+            this.$set(this.currentTask, "loading", true);
+            const fileName = this.currentTask.uploadedImage
+                .split("/")
+                .pop()
+                .split(".")[0];
+            await fetch(`/apiz/create-task/${fileName}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json", // 设置请求头，表明发送的是 JSON 数据
+                },
+                body: JSON.stringify({
+                    // 要发送的 JSON 数据对象
+                    image_url: `${this.currentTask.uploadedImage}`,
+                }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data[0].msg !== '已存在任务') {
+                        getComputingPowerTotal()
+                        store.dispatch("getComputingPower");
+                    }
+                    this.$set(this.currentTask, "fileName", data[0].data);
+                    this.dialogVisible = true;
                 })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data[0].msg !== '已存在任务') {
-                            getComputingPowerTotal()
-                            store.dispatch("getComputingPower");
-                        }
-                        this.$set(this.currentTask, "fileName", data[0].data);
-                    })
-                    .catch((error) => {
-                        this.$message({
-                            message: "❌ 抠图失败,请稍后重试 ❗",
-                            type: "",
-                        });
-                        console.log(error);
-                        this.$set(this.currentTask, "loading", false);
+                .catch((error) => {
+                    this.$message({
+                        message: "❌ 抠图失败,请稍后重试 ❗",
+                        type: "",
                     });
-            }
-            this.dialogVisible = true;
+                    this.$set(this.currentTask, "loading", false);
+                    return
+                });
+        },
+        openLoading() {
+            this.$set(this.currentTask, "loading", false);
         },
         async closeDig(maskImage) {
             if (maskImage) {
                 const fileImage = dataURLtoBlob(maskImage, Date.now() + ".png");
-                console.log(fileImage);
 
                 const resizedImageBlob = await this.resizeImage(fileImage, 1024);
-                console.log(resizedImageBlob);
 
                 const blob = await readFileAsBlob(resizedImageBlob);
                 const newFile = new File([blob], resizedImageBlob.name, {
@@ -300,7 +290,6 @@ export default {
                 const formdata = new FormData();
                 formdata.append("file", newFile);
                 formdata.append("type", "2");
-                console.log(newFile);
 
                 const res = await upload(formdata);
                 this.$set(this.currentTask, "maskImageSrc", res.url);
@@ -320,7 +309,6 @@ export default {
             this.$emit("data", this.isDrawerVisible)
         },
         'currentTask.loading'(newValue) {
-            console.log(newValue);
 
             if (newValue) {
                 // 当加载开始时
@@ -340,11 +328,6 @@ export default {
                 }
             }
         },
-        'currentTask.fileName'(newval) {
-            if (newval) {
-                this.$set(this.currentTask, "loading", false)
-            }
-        }
     }
 }
 

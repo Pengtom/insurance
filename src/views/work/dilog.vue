@@ -1,5 +1,6 @@
 <template>
   <div
+    v-show="isLoaded"
     id="canvasWrapper"
     @keydown="handleEscKey"
     tabindex="0"
@@ -60,6 +61,7 @@ export default {
       maskData: [], // 存储处理后的蒙版数据
       maskImage: null,
       scaleRatio: 1, // 缩放比例，用于蒙版图片
+      isLoaded: false,
     };
   },
   mounted() {
@@ -88,7 +90,7 @@ export default {
 
       this.backgroundImage.src = imageSrc;
       this.backgroundImage.crossOrigin = "anonymous";
-      this.backgroundImage.onload = () => {
+      this.backgroundImage.onload = async () => {
         // 获取屏幕宽度和高度
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
@@ -157,7 +159,8 @@ export default {
           selectioBgnCanvas.height
         );
         // 初始化蒙版
-        this.initMasks();
+        await this.initMasks();
+        this.isLoaded = true;
       };
     },
     async initMasks() {
@@ -366,6 +369,13 @@ export default {
             (x / gridSize + y / gridSize) % 2 === 0 ? color1 : color2;
           ctx.fillRect(x, y, gridSize, gridSize);
         }
+      }
+    },
+  },
+  watch: {
+    isLoaded(newval) {
+      if (newval === true) {
+        this.$emit("openLoading");
       }
     },
   },

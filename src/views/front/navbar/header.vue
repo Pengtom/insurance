@@ -35,7 +35,7 @@
         </el-menu>
         <div class="logged" v-if="isLogin">
           <router-link to="/index">
-            <div class="workButton">我的工作台</div>
+            <div class="workButton">AIGC工作台</div>
           </router-link>
           <el-dropdown trigger="click">
             <div class="avatarArea">
@@ -73,7 +73,7 @@
                   <div class="dropdown-select">
                     <router-link to="/order1"> 我的订单 </router-link>
                   </div>
-                   <div class="dropdown-select">
+                  <div class="dropdown-select">
                     <router-link to="/order2"> 使用记录 </router-link>
                   </div>
                   <div class="parttion"></div>
@@ -237,7 +237,6 @@ export default {
       // 发送获取验证码的请求
       await getSmsCode(this.loginForm.phone).then((res) => {
         this.loginForm.uuid = res.uuid;
-        console.log(res);
       });
     },
     startCountdown() {
@@ -262,7 +261,6 @@ export default {
         this.$router.push({ path: this.redirect || "/index" }).catch(() => {});
       });
       this.loginDialogVisible = false;
-      console.log(111);
     },
     get_wx_qrcode() {
       var obj = new WxLogin({
@@ -270,7 +268,9 @@ export default {
         id: "qr-code-img",
         appid: "wx03e5710bb6714893",
         scope: "snsapi_login",
-        redirect_uri: encodeURIComponent("http://50x8p19381.vicp.fun/wxCheck"),
+        redirect_uri: encodeURIComponent(
+          "https://aiboteai.aibertzh.com:8080/wxCheck"
+        ),
         state: this.state,
         style: "white",
         href: "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZXsKd2lkdGg6IDIwMHB4Owp9CmJvZHl7CmNvbG9yOiAjMzMzOwp9",
@@ -381,8 +381,9 @@ export default {
 }
 
 .header-nav .logo img {
-  height: 40px;
-  margin-right: 10px;
+  height: 30px;
+  margin-right: 5px;
+  margin-top: 5px;
 }
 
 .el-menu {
@@ -411,12 +412,12 @@ export default {
 .logged {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 6px;
 }
 
 .workButton {
-  padding: 0 24px;
-  height: 40px;
+  padding: 0 30px;
+  height: 36px;
   display: flex;
   align-items: center;
   border-radius: 20px;

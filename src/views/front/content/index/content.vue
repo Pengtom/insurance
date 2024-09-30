@@ -4,7 +4,7 @@
       <div style="position: absolute !important; width: 100%; height: 100%">
         <img
           class="image-bg"
-          :src="require('@/assets/indexImage/无排版背景图.jpg')"
+          src="https://ai-image.aibertzh.com/user/static/bg/bg.jpg"
           width="100%"
           height="100%"
         />
@@ -76,7 +76,7 @@
               width="580"
               height="420"
               :src="
-                require('@/assets/indexImage/20240910-图文生成板块-72_画板 1.png')
+                require('@/assets/indexImage/AI.png')
               "
               alt="Content Image 1"
               style="object-fit: contain"
@@ -264,7 +264,7 @@
               <p>室内外海量场景，不受时间、地点限制</p>
             </div>
           </div>
-           <router-link to="/work/imgtoimg/model" class="cta-link">
+          <router-link to="/work/imgtoimg/model" class="cta-link">
             <div class="cta-text">免费试用</div>
           </router-link>
         </div>
@@ -313,7 +313,7 @@
                   width="130"
                   height="170"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/小图.png')"
+                  src="https://ai-image.aibertzh.com/user/static/bg/%E5%B0%8F%E5%9B%BE.png"
                 />
               </div>
             </div>
@@ -429,7 +429,7 @@
                   width="130"
                   height="170"
                   loading="lazy"
-                  :src="require('@/assets/indexImage/图.png')"
+                  src="https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE.png"
                 />
               </div>
             </div>
@@ -702,50 +702,50 @@ export default {
       ],
       //模特
       backgroundModelImages: [
-        require("@/assets/indexImage/人3-2.png"),
-        require("@/assets/indexImage/人4-2.png"),
-        require("@/assets/indexImage/人1-2.png"),
-        require("@/assets/indexImage/人2-2.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA3-2.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA4-2.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA1-2.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA2-2.png',
       ],
       modelImages: [
-        require("@/assets/indexImage/人3.png"),
-        require("@/assets/indexImage/人4.png"),
-        require("@/assets/indexImage/人1.png"),
-        require("@/assets/indexImage/人2.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA3.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA4.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA1.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA2.png',
       ],
       thumbnailImages: [
-        require("@/assets/indexImage/人3-3.png"),
-        require("@/assets/indexImage/人1-3.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA3-3.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E4%BA%BA1-3.png',
       ],
       iconModelImages: [
-        require("@/assets/indexImage/icon1.png"),
-        require("@/assets/indexImage/icon2.png"),
-        require("@/assets/indexImage/icon3.png"),
-        require("@/assets/indexImage/icon4.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/icon1.png',
+        'https://ai-image.aibertzh.com/user/static/bg/icon2.png',
+        'https://ai-image.aibertzh.com/user/static/bg/icon3.png',
+        'https://ai-image.aibertzh.com/user/static/bg/icon4.png',
       ],
       backgroundProductImages: [
-        require("@/assets/indexImage/图0.jpg"),
-        require("@/assets/indexImage/图1.jpg"),
-        require("@/assets/indexImage/图3.jpg"),
-        require("@/assets/indexImage/图2.jpg"),
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE0.jpg',
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE1.jpg',
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE3.jpg',
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE2.jpg',
       ],
       iconProductImages: [
-        require("@/assets/indexImage/图0-书桌.png"),
-        require("@/assets/indexImage/图1-水池.png"),
-        require("@/assets/indexImage/图3-花.png"),
-        require("@/assets/indexImage/图2-石头.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE0-%E4%B9%A6%E6%A1%8C.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE1-%E6%B0%B4%E6%B1%A0.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE3-%E8%8A%B1.png',
+        'https://ai-image.aibertzh.com/user/static/bg/%E5%9B%BE2-%E7%9F%B3%E5%A4%B4.png',
       ],
       backgroundReloadImages: [
-        require("@/assets/indexImage/5.8.png"),
-        require("@/assets/indexImage/5.7.png"),
-        require("@/assets/indexImage/5.6.png"),
-        require("@/assets/indexImage/5.5.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/5.8.png',
+        'https://ai-image.aibertzh.com/user/static/bg/5.7.png',
+        'https://ai-image.aibertzh.com/user/static/bg/5.6.png',
+        'https://ai-image.aibertzh.com/user/static/bg/5.5.png',
       ],
       iconReloadImages: [
-        require("@/assets/indexImage/5.1.png"),
-        require("@/assets/indexImage/5.2.png"),
-        require("@/assets/indexImage/5.3.png"),
-        require("@/assets/indexImage/5.4.png"),
+        'https://ai-image.aibertzh.com/user/static/bg/5.1.png',
+        'https://ai-image.aibertzh.com/user/static/bg/5.2.png',
+        'https://ai-image.aibertzh.com/user/static/bg/5.3.png',
+        'https://ai-image.aibertzh.com/user/static/bg/5.4.png',
       ],
 
       // 当前的索引
@@ -797,7 +797,9 @@ export default {
         this.currentBackgroundIndex % this.iconModelImages.length;
     },
     handleIconClick(index) {
+      clearInterval(this.interval);
       this.selectedIconIndex = index;
+      this.interval = setInterval(this.switchImages, 3000);
       // 切换到点击的背景图
       this.currentBackgroundIndex = index;
       this.currentModelIndex = index;
@@ -1052,11 +1054,12 @@ export default {
   padding: 0;
 }
 .cta-text {
+  font-size: 22px;
   margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 30px;
   color: #fff;
   padding: 0 60px;
   cursor: pointer;

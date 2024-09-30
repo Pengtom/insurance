@@ -42,9 +42,13 @@
                             height: item.imageUrl ? 'auto' : '335px',
                           }"
                         >
-                          <div v-if="!item.imageUrl" class="loading-spinner">
-                            <div class="loading-text"></div>
-                          </div>
+                          <el-progress
+                            v-if="!item.imageUrl"
+                            type="circle"
+                            :percentage="item.progress"
+                            :stroke-width="1"
+                            :width="60"
+                          ></el-progress>
                           <el-image
                             v-else
                             :src="item.imageUrl"
@@ -53,6 +57,12 @@
                           >
                           </el-image>
                         </div>
+                      </div>
+                      <div
+                        v-if="!item.imageUrl && item.queuePosition"
+                        class="queue-position"
+                      >
+                        排在第 {{ item.queuePosition }} 位
                       </div>
                       <div class="overlay">
                         <span>预览</span>
@@ -75,7 +85,11 @@
       ref="previewOverlay"
     >
       <div class="close-btn">
-        <img src="https://www.weshop.com/ic_modal_close_light.svg" />
+        <img
+          width="44"
+          height="44"
+          :src="require('@/assets/icons/1错误.png')"
+        />
       </div>
       <div class="preview-content">
         <div class="preview-image-container left-image">
@@ -94,7 +108,7 @@
           <div class="inner-container">
             <div class="content-wrapper" @click="downloadImage">
               <img
-                src="https://www.weshop.com/ic_opreate_download_light.svg"
+                :src="require('@/assets/icons/2下载白.png')"
                 width="24"
                 height="24"
               />
@@ -111,7 +125,11 @@
 </template>
 
 <script>
-import { queryImagesByProjectId, awaitQueue } from "@/api/zhiqi/projectImage";
+import {
+  queryImagesByProjectId,
+  awaitQueue,
+  queryImagesById,
+} from "@/api/zhiqi/projectImage";
 import { getParam } from "@/api/zhiqi/task";
 export default {
   props: {
@@ -124,7 +142,6 @@ export default {
       showPreview: false,
       currentImg: "",
       success: "",
-      queue: "",
     };
   },
   methods: {
@@ -132,23 +149,44 @@ export default {
       const res = await getParam(this.currentTask.id);
       this.success = res.data;
     },
+    async checkQueueStatus() {
+      for (let item of this.image) {
+        if (!item.imageUrl) {
+          // 检查当前图片是否需要排队
+          const queueRes = await awaitQueue(item.id);
+          console.log(queueRes);
+          if (queueRes && queueRes.msg !== "未找到") {
+            this.$set(item, "queuePosition", queueRes.msg);
+          }
+        } else {
+          this.$set(item, "queuePosition", null);
+        }
+      }
+    },
     async loadImage() {
       this.intervalId = setInterval(async () => {
-        try {
-          const res = await queryImagesByProjectId(this.currentTask.id);
-          if (res && Array.isArray(res.data)) {
-            const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
+        if (this.image && Array.isArray(this.image)) {
+          const allImagesHaveUrl = this.image.every((item) => item.imageUrl);
 
-            if (allImagesHaveUrl) {
-              this.image = res.data;
-              clearInterval(this.intervalId);
-            } else {
-              this.image = res.data;
-              this.$emit("updateProjetStatus");
+          if (allImagesHaveUrl) {
+            clearInterval(this.intervalId);
+          } else {
+            for (let item of this.image) {
+              const res = await queryImagesById(this.currentTask.id, item.id);
+              console.log(res);
+              if (res.data.imageUrl) {
+                item.imageUrl = res.data.imageUrl;
+                this.$emit("updateProjetStatus");
+              }
+              console.log(item.progress, "========");
+
+              if (!item.progress) {
+                this.$set(item, "progress", 0);
+              }
+              this.$set(item, "progress", Math.min(item.progress + 5, 90));
             }
           }
-        } catch (error) {
-          console.error("Error fetching image:", error);
+          await this.checkQueueStatus();
         }
       }, 2000);
     },
@@ -202,14 +240,13 @@ export default {
         this.image = [];
         const res = await queryImagesByProjectId(this.currentTask.id);
         this.image = res.data;
+        await this.checkQueueStatus();
         clearInterval(this.intervalId);
         this.loadImage();
       },
     },
   },
   beforeDestroy() {
-    console.log(this.intervalId);
-
     if (this.intervalId) {
       clearInterval(this.intervalId);
     }
@@ -218,28 +255,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.loading-spinner {
-  position: absolute;
-  top: 40%;
-  left: 40%;
-  width: 40px;
-  height: 40px;
-  border: 5px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 5px solid #3498db;
-  animation: spin 1s linear infinite;
-  transform: translate(-50%, -50%);
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .task-wrapper {
   height: 100%;
   background-color: #fff;
@@ -355,6 +370,9 @@ export default {
   border-radius: 20px;
   margin: 10px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .image-content-inner {
   position: relative;
@@ -367,6 +385,9 @@ export default {
   display: inline-block;
   font-size: 14px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .image-src {
   width: 100%;

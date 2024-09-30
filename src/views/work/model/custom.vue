@@ -70,11 +70,11 @@ export default {
     queryListModel(0, 0).then((res) => {
       this.models = res.data;
       const image = {
-        modelImage: "/work/model/研发中2.png",
+        modelImage: require('@/assets/images/研发中2.png'),
         modelName: "研发中",
       };
       const image2 = {
-        modelImage: "/work/model/研发中3.png",
+        modelImage: require('@/assets/images/研发中3.png'),
         modelName: "研发中",
       };
       this.models = [...this.models, image, image2];
@@ -85,7 +85,6 @@ export default {
   },
   methods: {
     handleClick(id) {
-      console.log(id);
       if (!id) {
         this.$message({
           message: "❌ 敬请期待 ❗",

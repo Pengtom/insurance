@@ -2,10 +2,17 @@
   <div class="left-container">
     <div class="left">
       <div class="sticky-header">
-        <div style="font-size: 18px; line-height: 25px; margin-left: 10px">
+        <div
+          style="
+            font-size: 15px;
+            line-height: 25px;
+            margin-left: 10px;
+            color: #555555;
+          "
+        >
           {{ context.title }}
         </div>
-        <p style="font-size: 14px; line-height: 20px; color: #97a0b4">
+        <p style="font-size: 12px; line-height: 20px; color: #97a0b4">
           {{ context.content }}
         </p>
         <el-button type="primary" @click="addTask" class="new-task-button">
@@ -117,7 +124,7 @@
               <p v-if="!currentTask.loading">
                 <a
                   @click="openDilog"
-                  style="color: #7530fe; text-decoration: underline"
+                  style="color: rgb(33, 23, 255); text-decoration: underline"
                   >编辑选区</a
                 >
               </p>
@@ -129,7 +136,7 @@
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
-          <span style="margin-right: 4px; color: #7530fe"
+          <span style="margin-right: 4px; color: rgb(33, 23, 255)"
             >{{ 10 * quantity }}算力点</span
           >，生成{{ quantity }}张图片
         </div>
@@ -192,6 +199,7 @@
       :bgImage="currentTask.uploadedImage"
       :mask="currentTask.fileName"
       @close="closeDig"
+      @openLoading = "openLoading"
     />
   </div>
 </template>
@@ -277,9 +285,6 @@ export default {
         });
         return;
       }
-      console.log(!this.selectModelId);
-      console.log(!this.selectSceneId);
-
       if (!this.selectSceneId || !this.selectModelId) {
         this.$message({
           message: "❌ 请选择或填写商拍场景 不能为空 ❗",

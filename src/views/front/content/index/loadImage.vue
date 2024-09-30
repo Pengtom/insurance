@@ -32,9 +32,9 @@ export default {
   watch: {
     selectedCategory: {
       handler: async function (newValue, oldValue) {
+        this.allImages = []
         const res = await list(newValue);
         this.allImages = res.data;
-        console.log(res);
       },
       immediate: true,
       deep: true,
@@ -45,7 +45,6 @@ export default {
 
 <style scoped>
 .grid-item {
-  margin-bottom: 20px;
   background: white;
   border-radius: 20px;
   overflow: hidden;

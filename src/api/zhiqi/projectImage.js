@@ -9,6 +9,13 @@ export function queryImagesByProjectId(projectId) {
     })
 }
 
+export function queryImagesById(projectId, imageId) {
+    return request({
+        url: prefix + `/queryImage/${projectId}/${imageId}`,
+        method: 'get'
+    })
+}
+
 export function awaitQueue(projectId) {
     return request({
         url: prefix + `/awaitQueue/${projectId}`,

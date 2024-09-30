@@ -1,44 +1,45 @@
 <template>
   <div>
     <div class="ai-computing-power">
-      <p class="title">我的算力</p>
       <div class="spacer">
+        <span class="title">我的算力</span>
         <img
-          src="https://www.weshop.com/cpu-charge.svg"
+          :src="require('@/assets/icons/算力券着色版.png')"
           width="44"
           height="44"
         />
-        <span style="color: #7530fe; margin-right: 8px">{{ compPower }}</span>
+        <span style="color: #2117ff; margin-right: 8px; font-size: 45px">{{
+          compPower
+        }}</span>
       </div>
       <div class="content">
         <p>
-          "AI算力"（AI
-          computingpower）通用于进行人工智能（AI）任务和应用的计算能力。
-        </p>
-        <p>
-          AI算力点赋予用户在智启工具中进行生图、渲染、下载以及参与社区等操作的能力。
+          "AI算力"(AI computingpower)通用于进行人工智能(AI)任务和应用的计算能力.
+          AI算力点赋予用户在智启工具中进行生图、渲染、下载以及参与社区等操作的能力.
         </p>
       </div>
       <div class="power-point-info">
         <div class="power-point-details">
-          <img
-            src="https://www.weshop.com/cpu-charge.svg"
+          <!-- <img
+            :src="require('@/assets/icons/算力券着色版.png')"
             width="20"
             height="20"
-          />
-          <span>10算力点 ≈ 高速生成1张图</span>
+          /> -->
+          <span><strong>算力点 ≈ 高速生成1张图</strong></span>
         </div>
       </div>
       <div style="width: 60%; margin-top: 2%">
-        <el-button round type="primary" @click="findGreater"
-          >未过期的</el-button
+        <el-button round type="primary" @click="findGreater">未过期</el-button>
+        <el-button
+          round
+          type="primary"
+          @click="findExpired"
+          style="background: #333333"
+          >已过期</el-button
         >
-        <el-button round type="primary" @click="findExpired"
-          >已过期的</el-button
-        >
-        <el-button round type="primary" @click="findZero"
+        <!-- <el-button round type="primary" @click="findZero"
           >未过期已使用完的</el-button
-        >
+        > -->
         <el-table
           :data="tableData"
           height="300"
@@ -69,27 +70,16 @@
     <div class="plans-container" id="plan">
       <h1 class="plans-title">
         <span class="plans-title-text"
-          >感谢您的支持，请选择适合您的专业版计划</span
+          >感谢您的支持,请选择适合您的专业版计划</span
         >
-        <span>
-          <img
-            loading="lazy"
-            width="50"
-            height="26.5"
-            decoding="async"
-            class="plans-title-icon"
-            src="https://www.weshop.com/ic_pro_tag.svg"
-            style="color: transparent"
-          />
-        </span>
       </h1>
       <p class="plans-notice">以下专属权益供专业版用户使用</p>
-      <div class="plans-policy">
+      <!-- <div class="plans-policy">
         <div>
           <span>️️⚡️高速GPU算力池</span>
         </div>
         <div class="policy-divider"></div>
-      </div>
+      </div> -->
       <div class="plans-list">
         <div class="plans-nav">
           <!-- <div
@@ -108,20 +98,10 @@
               width="18"
               height="18"
               decoding="async"
-              src="https://www.weshop.com/ic_monthly_plan.svg"
+              :src="require('@/assets/icons/日历白.png')"
               style="color: transparent"
             />
-            <p class="plan-title">月算力包</p>
-            <!-- <img
-              alt="dropDown"
-              loading="lazy"
-              width="10"
-              height="10"
-              decoding="async"
-              class="plan-dropdown-icon"
-              src="https://www.weshop.com/ic_subscription_down.svg"
-              style="color: transparent"
-            /> -->
+            <p class="plan-title">算力加油包</p>
           </div>
           <div class="plan-content">
             <div class="plan-details" style="border: none">
@@ -130,20 +110,10 @@
                 <span> /</span><span>月</span>
               </div>
               <p class="plan-description">购买后，您将获得</p>
-              <div class="plan-rights">
-                <div class="plan-right">
-                  <img
-                    alt="index"
-                    loading="lazy"
-                    width="10"
-                    height="20"
-                    decoding="async"
-                    src="	https://www.weshop.com/ic_content_solid_dot.svg"
-                    style="color: transparent"
-                  />
-                  <span>AI算力点2000（约可高速生成200张图</span>
-                </div>
-              </div>
+              <div
+                class="plan-rights"
+                v-html="monthPackage[0].description"
+              ></div>
               <div
                 class="plan-purchase"
                 @click="openDialog(monthPackage[0].id)"
@@ -161,10 +131,10 @@
               width="18"
               height="18"
               decoding="async"
-              src="https://www.weshop.com/ic_yearly_plan.svg"
+              :src="require('@/assets/icons/图层白.png')"
               style="color: transparent"
             />
-            <div class="plan-title">年算力包</div>
+            <div class="plan-title">旗舰版算力包</div>
           </div>
           <div class="plan-content">
             <div
@@ -176,20 +146,7 @@
                 <p class="price-amount">¥{{ item.price }}</p>
               </div>
               <p class="plan-description">购买后，您将获得</p>
-              <div class="plan-rights">
-                <div class="plan-right">
-                  <img
-                    alt="index"
-                    loading="lazy"
-                    width="10"
-                    height="20"
-                    decoding="async"
-                    src="	https://www.weshop.com/ic_content_solid_dot.svg"
-                    style="color: transparent"
-                  />
-                  <span>AI算力点20000（约可高速生成2000张图</span>
-                </div>
-              </div>
+              <div class="plan-rights" v-html="item.description"></div>
               <div class="plan-purchase" @click="openDialog(item.id)">
                 <span>购买（立即生效）</span>
                 <!-- <div v-if="plan.popular" class="plan-popular">热门</div> -->
@@ -220,7 +177,7 @@
                 :class="{ selected: selectedPayment === 'zfb' }"
               >
                 <img
-                  src="https://www.weshop.com/alipay.svg"
+                  :src="require('@/assets/icons/alipay.png')"
                   alt="Alipay"
                   class="payment-icon"
                   width="22"
@@ -234,7 +191,7 @@
                 :class="{ selected: selectedPayment === 'wx' }"
               >
                 <img
-                  src="https://www.weshop.com/wechat.svg"
+                  :src="require('@/assets/icons/wechat.png')"
                   alt="WeChat Pay"
                   class="payment-icon"
                   width="22"
@@ -253,7 +210,6 @@
                 <!-- 显示循环箭头 -->
               </div>
               <img :src="wxImage" width="240" height="240" />
-              <!-- <img :src="wxImage" width="240" height="240" /> -->
             </div>
             <div class="payment-terms">
               <div class="terms-info">
@@ -341,8 +297,6 @@ export default {
       const res1 = await queryYearPackages("月包");
       this.monthPackage = res1.rows;
       const res2 = await getuserup();
-      console.log(res2);
-      console.log(res1, "===");
       this.purchases = res2.data;
       this.tableData = this.purchases.ValidPurchases;
     },
@@ -354,7 +308,6 @@ export default {
       this.setQRCodeTimer();
       this.intervalId = setInterval(async () => {
         const res = await polling(this.uuid);
-        console.log(res);
         if (res.data.status === "paid") {
           this.$message({
             message: "🎉 支付成功！感谢您的支持！",
@@ -416,7 +369,17 @@ export default {
 };
 </script>
 
+<style>
+.plan-details .plan-rights .plan-right {
+  display: flex;
+  gap: 8px;
+}
+</style>
 <style scoped>
+.el-button--primary {
+  background-color: rgb(33, 23, 255);
+  border-color: transparent;
+}
 .ai-computing-power {
   display: flex;
   flex-direction: column;
@@ -448,9 +411,11 @@ export default {
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
+  margin: 11px;
 }
 .content p {
   margin: 0;
+  font-size: 11px;
 }
 .power-point-info {
   display: flex;
@@ -462,8 +427,8 @@ export default {
   align-items: center;
   justify-content: center;
   margin-top: 10px;
-  color: #7530fe;
-  font-size: 14px;
+  color: #333333;
+  font-size: 13px;
   line-height: 20px;
 }
 .plans-container {
@@ -481,22 +446,24 @@ export default {
   margin: 0;
 }
 .plans-title-text {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 500;
+  color: #333333;
 }
 .plans-title-icon {
+  object-fit: cover;
   margin-left: 4px;
   vertical-align: text-top;
 }
 .plans-notice {
   margin-top: 10px;
   font-weight: 400;
-  font-size: 18px;
-  line-height: 25px;
-  color: #333;
+  font-size: 21px;
+  line-height: 30px;
+  color: #999999;
 }
 .plans-policy {
-  margin-top: 30px;
+  margin-top: 25px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
@@ -532,7 +499,7 @@ export default {
   height: 44px;
   padding: 24px;
   border-radius: 20px 20px 0 0;
-  background: linear-gradient(270deg, #7530fe, #000);
+  background: linear-gradient(70deg, #333333, #0a22ed);
   color: #fff;
   font-size: 14px;
   line-height: 20px;
@@ -542,10 +509,6 @@ export default {
   padding: 0;
   margin-left: 8px;
 }
-/* .plan-dropdown-icon {
-  cursor: pointer;
-  margin-left: 4px;
-} */
 .plan-content {
   display: flex;
   flex-wrap: wrap;
@@ -604,9 +567,9 @@ export default {
   bottom: 26px;
   left: 26px;
   right: 26px;
-  border-radius: 10px;
+  border-radius: 30px;
   color: #fff;
-  background-color: #7530fe;
+  background-color: rgb(33, 23, 255);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -699,7 +662,7 @@ export default {
   margin-right: 8px;
 }
 .payment-method.selected {
-  border-color: #7530fe; /* 选中时的边框颜色 */
+  border-color: #2117ff;
 }
 .payment-icon {
   margin-right: 12px;

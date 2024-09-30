@@ -12,7 +12,7 @@
           </div>
         </div>
         <div id="img-content" class="img-content">
-          <Waterfall :list="images">
+          <Waterfall :list="images" :width="250">
             <template #item="{ item }">
               <div class="card">
                 <LazyImg class="img" :url="item.url" />
@@ -50,8 +50,12 @@ export default {
   },
   data() {
     return {
-      imgWidth: 240,
-      imgMargin: 15,
+      breakpoints: {
+        1000: {
+          // 当容器宽度 < 1200
+          rowPerView: 4,
+        },
+      },
     };
   },
   methods: {
@@ -71,12 +75,12 @@ export default {
 }
 .inner-wrapper {
   width: 100%;
-  height: 95%;
+  height: 100%;
 }
 .content-wrapper {
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  /* overflow: scroll; */
   scrollbar-width: none;
 }
 .section {
@@ -85,7 +89,7 @@ export default {
   width: 100%;
   background-color: #fff;
   z-index: 50;
-  padding-top: 24px;
+  padding-top: 10px;
   top: 0;
 }
 .sub-section {
@@ -121,19 +125,17 @@ export default {
   transform: translate(0);
   width: 100% !important;
   box-sizing: border-box;
-  font-size: 18px;
-  line-height: 25px;
-  color: rgba(0, 0, 0, 0.88);
+  font-size: 30px;
+  line-height: 0;
+  color: #555555;
 }
 
 .img-content {
   width: 100%;
-  height: 1000px;
   margin-top: 10px;
   position: relative;
 }
 .img {
-  margin: 10px;
   border-radius: 12px;
 }
 .no-more-data {

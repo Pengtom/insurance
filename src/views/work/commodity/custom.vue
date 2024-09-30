@@ -8,6 +8,35 @@
         <el-radio-button :label="1">自定义</el-radio-button>
       </el-radio-group> -->
     </div>
+    <div class="container2" v-if="switchValue">
+      <div class="left-section">
+        <div class="input-section">
+          <label>场景描述</label>
+          <el-input
+            v-model="correct"
+            type="textarea"
+            placeholder="TIPS:场景描述请写场景以及位置等信息
+例如：一杯牛奶放在餐桌上，清晨，温馨"
+            :rows="16"
+            :maxlength="1500"
+            show-word-limit
+          />
+        </div>
+      </div>
+      <!-- <div class="right-section">
+        <div class="input-section">
+          <label>不希望出现的内容</label>
+          <el-input
+            v-model="reverse"
+            type="textarea"
+            placeholder="请输入不希望出现的内容"
+            :rows="16"
+            maxlength="1500"
+            show-word-limit
+          />
+        </div>
+      </div> -->
+    </div>
     <div style="padding: 0 10px">
       <!-- <div class="container" v-if="radio === 0">
         <div class="ai-models">
@@ -51,35 +80,6 @@
         </div>
       </div>
     </div>
-    <div class="container2" v-if="switchValue">
-      <div class="left-section">
-        <div class="input-section">
-          <label>场景描述</label>
-          <el-input
-            v-model="correct"
-            type="textarea"
-            placeholder="TIPS:场景描述请写场景以及位置等信息
-例如：一杯牛奶放在餐桌上，清晨，温馨"
-            :rows="16"
-            :maxlength="1500"
-            show-word-limit
-          />
-        </div>
-      </div>
-      <!-- <div class="right-section">
-        <div class="input-section">
-          <label>不希望出现的内容</label>
-          <el-input
-            v-model="reverse"
-            type="textarea"
-            placeholder="请输入不希望出现的内容"
-            :rows="16"
-            maxlength="1500"
-            show-word-limit
-          />
-        </div>
-      </div> -->
-    </div>
   </div>
 </template>
 
@@ -109,7 +109,6 @@ export default {
   mounted() {
     queryListModel(1, 1).then((res) => {
       this.scenes = res.data;
-      console.log(res);
     });
   },
   methods: {

@@ -2,10 +2,17 @@
   <div class="left-container">
     <div class="left">
       <div class="sticky-header">
-        <div style="font-size: 18px; line-height: 25px; margin-left: 10px">
+        <div
+          style="
+            font-size: 15px;
+            line-height: 25px;
+            margin-left: 10px;
+            color: #555555;
+          "
+        >
           {{ context.title }}
         </div>
-        <p style="font-size: 14px; line-height: 20px; color: #97a0b4">
+        <p style="font-size: 12px; line-height: 20px; color: #97a0b4">
           {{ context.content }}
         </p>
         <el-button type="primary" @click="addTask" class="new-task-button">
@@ -122,7 +129,7 @@
       <div class="fixed-bottom">
         <div class="info-text">
           本次任务将消耗
-          <span style="margin-right: 4px; color: #7530fe"
+          <span style="margin-right: 4px; color: rgb(33, 23, 255)"
             >{{ 10 * quantity }}算力点</span
           >，生成{{ quantity }}张图片
         </div>
@@ -256,14 +263,9 @@ export default {
       }
     },
     async handleUpload(file) {
-      const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/bmp",
-        "image/webp",
-      ];
+      const allowedTypes = ["image/gif", "image/avif"];
       const isAllowedType = allowedTypes.includes(file.file.type);
-      if (!isAllowedType) {
+      if (isAllowedType) {
         this.$message({
           message: "❌ 不允许上传此类型的文件 ❗",
           type: "",
@@ -292,7 +294,6 @@ export default {
           (f) => f.uid === file.file.uid
         );
         this.$set(this.currentTask, "fileList", fileList);
-        console.log(this.currentTask.fileList);
       }
       this.$set(this.currentTask, "uploading", this.currentTaskId);
       const formdata = new FormData();
@@ -303,9 +304,7 @@ export default {
         id: this.currentTask.id,
         primaryImage: res.url,
       };
-      console.log(qzProject);
       update(qzProject);
-      console.log(res);
       this.$set(this.currentTask, "uploadedImage", res.url);
       this.$set(this.currentTask, "fileList", [file.file]);
     },
@@ -353,7 +352,6 @@ export default {
         Img2imgVo.loraname = this.loraIndex;
       }
       try {
-        console.log(Img2imgVo);
         const res = await img2img(Img2imgVo);
         if (res.code === 500) {
           this.$message({

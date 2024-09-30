@@ -5,7 +5,7 @@
       <div>
         <el-table
           :data="tableData"
-          height="300"
+          height="400"
           style="
             width: 100%;
             margin: 50px 0 80px;
@@ -17,14 +17,14 @@
             prop="packageName"
             label="价格包名称"
             align="center"
-            width="160"
+            width="200"
           >
           </el-table-column>
           <el-table-column
             prop="computeType"
             label="使用类型"
             align="center"
-            width="120"
+            width="200"
             :formatter="statusFormatter"
           >
           </el-table-column>
@@ -32,14 +32,14 @@
             prop="computePowerUsed"
             label="使用的算力点数"
             align="center"
-            width="120"
+            width="200"
           >
           </el-table-column>
           <el-table-column
             prop="usageDate"
             label="使用日期"
             align="center"
-            width="170"
+            width="220"
           >
           </el-table-column>
         </el-table>
@@ -67,8 +67,6 @@ export default {
   methods: {
     async init() {
       const res = await queryUsage();
-      console.log(res);
-
       this.tableData = res.data;
     },
     statusFormatter(row, column, cellValue, index) {

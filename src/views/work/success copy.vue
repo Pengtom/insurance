@@ -75,7 +75,7 @@
       ref="previewOverlay"
     >
       <div class="close-btn">
-        <img src="https://www.weshop.com/ic_modal_close_light.svg" />
+        <img :src="require('@/assets/icons/1错误白.png')" />
       </div>
       <div class="preview-content">
         <div class="preview-image-container left-image">
@@ -94,7 +94,7 @@
           <div class="inner-container">
             <div class="content-wrapper" @click="downloadImage">
               <img
-                src="https://www.weshop.com/ic_opreate_download_light.svg"
+                :src="require('@/assets/icons/2下载白.png')"
                 width="24"
                 height="24"
               />

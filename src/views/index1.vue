@@ -1,6 +1,7 @@
 <template>
   <div class="app-container home">
-    <img :src="require('@/assets/images/4(1).jpg')" alt="" />
+    <img src="https://ai-image.aibertzh.com/user/static/bg/4%281%29.jpg" />
+    <img src="https://ai-image.aibertzh.com/user/static/bg/4.png" class="img" />
   </div>
 </template>
 
@@ -22,6 +23,12 @@ img {
   left: 0;
   top: 0;
   object-fit: cover;
+}
+.img {
+  width: 82%;
+  object-fit: contain;
+  left: 4%;
+  top: 2%;
 }
 </style>
 

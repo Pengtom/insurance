@@ -1,4 +1,4 @@
-$primary-color: #7530fe;
+$primary-color: rgb(33,23,255);
 $border-color: #e3e3e3;
 $background-color: #f5f7fd;
 $text-color: #333;
@@ -8,7 +8,7 @@ $box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 $modal-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 $padding-sm: 10px;
 $padding-md: 24px;
-$border-radius: 10px;
+$border-radius: 30px;
 $button-height: 44px;
 $button-width: 286px;
 
@@ -70,7 +70,9 @@ canvas {
 .new-task-button {
   margin: 0 5% 20px;
   width: 90%;
-  border-radius: 5px;
+  border-radius: 30px;
+  background: rgb(33,23,255);
+  border-color:rgb(33,23,255);
 }
 
 .tasks {

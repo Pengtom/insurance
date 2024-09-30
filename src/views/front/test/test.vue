@@ -1,13 +1,33 @@
-<template>
- <div>aaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
-</template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/1.jpg', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/2.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/3.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/4.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/5.jpg', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/6.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/7.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/8.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/10.png', '4', NULL, 'system', '2024-09-26 15:13:29', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/12.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/13.png', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/14.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/15.png', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/16.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/18.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/19.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/20.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/21.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/22.png', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/23.png', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/24.png', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/25.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/26.png', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/27.png', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/28.jpg', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/29.jpg', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/30.jpg', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/31.jpg', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/32.jpg', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/33.jpg', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/34.jpg', '4', '1', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/35.jpg', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);
+INSERT INTO `aibote`.`abt_qz_images` ( `url`, `type`, `is_choiceness`, `create_by`, `create_time`, `update_by`, `update_time`) VALUES ('https://ai-image.aibertzh.com/user/static/reloading/36.jpg', '4', '0', 'system', '2024-09-24 12:24:02', NULL, NULL);

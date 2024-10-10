@@ -332,7 +332,9 @@ export default {
       }
       this.timerId = setTimeout(() => {
         this.qrExpired = true;
-      }, 300000); // 5分钟 = 300000 毫秒
+         clearInterval(this.intervalId);
+         this.intervalId = null;
+      }, 180000); // 3分钟
     },
     // 重新生成二维码
     regenerateQRCode() {
@@ -683,11 +685,8 @@ export default {
   align-items: center;
   cursor: pointer; /* 鼠标悬停显示为可点击 */
 }
-
-.expired-qr-code .el-icon-loading {
-  font-size: 48px;
-  color: white;
-  animation: spin 2s linear infinite;
+.el-icon-refresh{
+  font-size: 30px;
 }
 
 @keyframes spin {

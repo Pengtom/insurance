@@ -134,3 +134,11 @@ export function deptTreeSelect() {
     method: 'get'
   })
 }
+
+export function updateUserById(userId, loginFrom) {
+  return request({
+    url: '/system/user/updateUser',
+    method: "put",
+    data: { userId: userId, phone: loginFrom.phone, code: loginFrom.code, uuid: loginFrom.uuid }
+  })
+}

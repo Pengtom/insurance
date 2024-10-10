@@ -92,3 +92,10 @@ export function getSmsCode(phoneNumber){
     timeout: 60000
   })
 }
+
+export function generateWxImage(){
+  return request({
+    url:'/generateWxImage',
+    method: 'get',
+  })
+}

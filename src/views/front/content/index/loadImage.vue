@@ -25,10 +25,6 @@ export default {
       allImages: [],
     };
   },
-  async mounted() {
-    const res = await list(-1);
-    this.allImages = res.data;
-  },
   watch: {
     selectedCategory: {
       handler: async function (newValue, oldValue) {

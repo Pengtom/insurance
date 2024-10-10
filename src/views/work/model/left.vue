@@ -126,7 +126,7 @@
                   @click="openDilog"
                   style="color: rgb(33, 23, 255); text-decoration: underline"
                   >编辑选区</a
-                >
+                >(首次进行抠图扣除5点算力)
               </p>
             </div>
           </template>

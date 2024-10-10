@@ -41,16 +41,26 @@
         <div>
           <div class="extra-item-group-one">关注我们</div>
           <div class="extra-item-group-two">
-            <img
-              :src="require('@/assets/indexImage/首页-未登录-image74.png')"
-              width="24"
-              height="24"
-            />
-            <img
-              :src="require('@/assets/indexImage/首页-未登录-image75.png')"
-              width="24"
-              height="24"
-            />
+            <a
+              href="https://www.douyin.com/user/MS4wLjABAAAAjJ8hwUX0U8vh-dbbPo24092alv3V-QXtZKvLqpEQlQ5dbrrXd-lftH5cRWAjnyX1?from_tab_name=main"
+              target="blank"
+            >
+              <img
+                :src="require('@/assets/indexImage/首页-未登录-image74.png')"
+                width="24"
+                height="24"
+              />
+            </a>
+            <a
+              href="https://www.xiaohongshu.com/user/profile/668e066b000000001e00ad0d?xhsshare=CopyLink&appuid=668e066b000000001e00ad0d&apptime=1728368643&share_id=accc50ca716946adb2f4e0d8a1e1e218"
+              target="blank"
+            >
+              <img
+                :src="require('@/assets/indexImage/首页-未登录-image75.png')"
+                width="24"
+                height="24"
+              />
+            </a>
             <img
               :src="require('@/assets/indexImage/首页-未登录-image76.png')"
               width="24"
@@ -59,13 +69,13 @@
               @mouseleave="hideQRCode"
             />
             <div class="showKfImage showwxImage" v-if="showQR">
-                <el-image
-                  style="width: 100px; height: 100px; border-radius: 8px"
-                  :src="require('@/assets/logo/企业微信二维码.jpg')"
-                  fit="cover"
-                >
-                </el-image>
-              </div>
+              <el-image
+                style="width: 100px; height: 100px; border-radius: 8px"
+                :src="require('@/assets/logo/企业微信二维码.jpg')"
+                fit="cover"
+              >
+              </el-image>
+            </div>
           </div>
         </div>
       </div>
@@ -75,7 +85,7 @@
         <div class="footer-copy">
           <div>© 2024 艾铂特（珠海）人工智能科技有限公司</div>
         </div>
-        <a class="footer-link" href="#">
+        <a class="footer-link" href="https://beian.miit.gov.cn" target="blank">
           <div class="footer-info">
             <p>粤ICP备2024293608号-1</p>
           </div>
@@ -283,7 +293,7 @@ export default {
   box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 }
-.showwxImage{
+.showwxImage {
   bottom: 30px;
 }
 .extra-item-group-one {

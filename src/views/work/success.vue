@@ -29,7 +29,7 @@
               </div>
               <div>
                 <div class="image-container">
-                  <div v-for="(item, index) in image" :key="index">
+                  <div v-for="(item, index) in images" :key="index">
                     <div
                       class="image-content"
                       @click="hidePreview(item.imageUrl)"
@@ -42,15 +42,21 @@
                             height: item.imageUrl ? 'auto' : '335px',
                           }"
                         >
-                          <el-progress
+                          <!-- <el-progress
                             v-if="!item.imageUrl"
                             type="circle"
                             :percentage="item.progress"
                             :stroke-width="1"
                             :width="60"
-                          ></el-progress>
+                          ></el-progress> -->
+                          <div
+                            v-if="!item.imageUrl && !item.queuePosition"
+                            class="loading-spinner"
+                          >
+                            <div class="loading-text"></div>
+                          </div>
                           <el-image
-                            v-else
+                            v-if="item.imageUrl"
                             :src="item.imageUrl"
                             width="252"
                             class="image-src"
@@ -64,7 +70,7 @@
                       >
                         排在第 {{ item.queuePosition }} 位
                       </div>
-                      <div class="overlay">
+                      <div v-else class="overlay">
                         <span>预览</span>
                       </div>
                     </div>
@@ -131,65 +137,119 @@ import {
   queryImagesById,
 } from "@/api/zhiqi/projectImage";
 import { getParam } from "@/api/zhiqi/task";
+
 export default {
   props: {
     currentTask: Object,
   },
   data() {
     return {
-      image: [], // 初始化 image 为 null
-      intervalId: null,
+      images: [],
       showPreview: false,
       currentImg: "",
       success: "",
     };
   },
-  methods: {
-    async init() {
-      const res = await getParam(this.currentTask.id);
-      this.success = res.data;
+  computed: {
+    allImagesLoaded() {
+      return this.images.every((img) => img.imageUrl);
     },
-    async checkQueueStatus() {
-      for (let item of this.image) {
-        if (!item.imageUrl) {
-          // 检查当前图片是否需要排队
-          const queueRes = await awaitQueue(item.id);
-          console.log(queueRes);
-          if (queueRes && queueRes.msg !== "未找到") {
-            this.$set(item, "queuePosition", queueRes.msg);
-          }
+  },
+  async created() {
+    await this.initializeTask();
+  },
+  methods: {
+    async initializeTask() {
+      try {
+        const taskDetails = await getParam(this.currentTask.id);
+        this.success = taskDetails.data;
+        await this.loadImages();
+      } catch (error) {
+        console.error("Error initializing task:", error);
+      }
+    },
+    async loadImages() {
+      try {
+        const imagesData = await queryImagesByProjectId(this.currentTask.id);
+        this.images = imagesData.data.map((image) => ({
+          ...image,
+          queuePosition: null,
+        }));
+        this.monitorImageLoading();
+      } catch (error) {
+        console.error("Error loading images:", error);
+      }
+    },
+    async monitorImageLoading() {
+      if (!this.allImagesLoaded) {
+        let anyImageUpdated = false;
+        const imagesToUpdate = this.images.filter((image) => !image.imageUrl);
+
+        // 使用 Promise.all 进行并行处理
+        await Promise.all(
+          imagesToUpdate.map(async (image) => {
+            try {
+              // 检查队列状态
+              const queueRes = await awaitQueue(image.id);
+              if (queueRes && queueRes.msg !== "未找到") {
+                this.$set(image, "queuePosition", queueRes.msg);
+              } else if (queueRes && queueRes.msg === "未找到") {
+                this.$set(image, "queuePosition", "");
+
+                // 查询图片数据
+                const imageData = await queryImagesById(
+                  this.currentTask.id,
+                  image.id
+                );
+                console.log(imageData);
+
+                if (imageData && imageData.data && imageData.data.imageUrl) {
+                  this.$set(image, "imageUrl", imageData.data.imageUrl);
+                  this.$emit("updateProjetStatus");
+                  anyImageUpdated = true;
+                }
+              }
+            } catch (error) {
+              console.error(`Error processing image ID ${image.id}:`, error);
+            }
+          })
+        );
+
+        if (anyImageUpdated) {
+          this.refreshQueueStatus();
         } else {
-          this.$set(item, "queuePosition", null);
+          this.scheduleNextPoll();
         }
       }
     },
-    async loadImage() {
-      this.intervalId = setInterval(async () => {
-        if (this.image && Array.isArray(this.image)) {
-          const allImagesHaveUrl = this.image.every((item) => item.imageUrl);
 
-          if (allImagesHaveUrl) {
-            clearInterval(this.intervalId);
-          } else {
-            for (let item of this.image) {
-              const res = await queryImagesById(this.currentTask.id, item.id);
-              console.log(res);
-              if (res.data.imageUrl) {
-                item.imageUrl = res.data.imageUrl;
-                this.$emit("updateProjetStatus");
-              }
-              console.log(item.progress, "========");
+    async refreshQueueStatus() {
+      const imagesToUpdate = this.images.filter((img) => !img.imageUrl);
 
-              if (!item.progress) {
-                this.$set(item, "progress", 0);
-              }
-              this.$set(item, "progress", Math.min(item.progress + 5, 90));
+      // 使用 Promise.all 并行更新队列状态
+      await Promise.all(
+        imagesToUpdate.map(async (image) => {
+          try {
+            const queueRes = await awaitQueue(image.id);
+            if (queueRes && queueRes.msg !== "未找到") {
+              this.$set(image, "queuePosition", queueRes.msg);
             }
+          } catch (error) {
+            console.error(
+              `Error refreshing queue status for image ID ${image.id}:`,
+              error
+            );
           }
-          await this.checkQueueStatus();
-        }
-      }, 2000);
+        })
+      );
+
+      this.scheduleNextPoll();
     },
+
+    scheduleNextPoll() {
+      setTimeout(() => this.monitorImageLoading(), 2000);
+    },
+
     async downloadImage() {
       try {
         const filename = this.currentImg.substring(
@@ -234,27 +294,39 @@ export default {
   },
   watch: {
     currentTask: {
-      immediate: true, // 使得在组件首次加载时也会触发
-      async handler() {
-        this.init();
-        this.image = [];
-        const res = await queryImagesByProjectId(this.currentTask.id);
-        this.image = res.data;
-        await this.checkQueueStatus();
-        clearInterval(this.intervalId);
-        this.loadImage();
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          this.initializeTask();
+        }
       },
     },
-  },
-  beforeDestroy() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.loading-spinner {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  width: 40px;
+  height: 40px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 5px solid #3498db;
+  animation: spin 1s linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .task-wrapper {
   height: 100%;
   background-color: #fff;
@@ -398,6 +470,16 @@ export default {
 }
 .image-content:hover .overlay {
   opacity: 1;
+}
+.queue-position {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .overlay {
   position: absolute;

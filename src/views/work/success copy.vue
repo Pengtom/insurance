@@ -29,7 +29,7 @@
               </div>
               <div>
                 <div class="image-container">
-                  <div v-for="(item, index) in image" :key="index">
+                  <div v-for="(item, index) in images" :key="index">
                     <div
                       class="image-content"
                       @click="hidePreview(item.imageUrl)"
@@ -42,11 +42,21 @@
                             height: item.imageUrl ? 'auto' : '335px',
                           }"
                         >
-                          <div v-if="!item.imageUrl" class="loading-spinner">
+                          <!-- <el-progress
+                            v-if="!item.imageUrl"
+                            type="circle"
+                            :percentage="item.progress"
+                            :stroke-width="1"
+                            :width="60"
+                          ></el-progress> -->
+                          <div
+                            v-if="!item.imageUrl && !item.queuePosition"
+                            class="loading-spinner"
+                          >
                             <div class="loading-text"></div>
                           </div>
                           <el-image
-                            v-else
+                            v-if="item.imageUrl"
                             :src="item.imageUrl"
                             width="252"
                             class="image-src"
@@ -54,7 +64,13 @@
                           </el-image>
                         </div>
                       </div>
-                      <div class="overlay">
+                      <div
+                        v-if="!item.imageUrl && item.queuePosition"
+                        class="queue-position"
+                      >
+                        排在第 {{ item.queuePosition }} 位
+                      </div>
+                      <div v-else class="overlay">
                         <span>预览</span>
                       </div>
                     </div>
@@ -75,7 +91,11 @@
       ref="previewOverlay"
     >
       <div class="close-btn">
-        <img :src="require('@/assets/icons/1错误白.png')" />
+        <img
+          width="44"
+          height="44"
+          :src="require('@/assets/icons/1错误.png')"
+        />
       </div>
       <div class="preview-content">
         <div class="preview-image-container left-image">
@@ -111,46 +131,95 @@
 </template>
 
 <script>
-import { queryImagesByProjectId, awaitQueue } from "@/api/zhiqi/projectImage";
+import {
+  queryImagesByProjectId,
+  awaitQueue,
+  queryImagesById,
+} from "@/api/zhiqi/projectImage";
 import { getParam } from "@/api/zhiqi/task";
+
 export default {
   props: {
     currentTask: Object,
   },
   data() {
     return {
-      image: [], // 初始化 image 为 null
-      intervalId: null,
+      images: [],
       showPreview: false,
       currentImg: "",
       success: "",
-      queue: "",
     };
   },
-  methods: {
-    async init() {
-      const res = await getParam(this.currentTask.id);
-      this.success = res.data;
+  computed: {
+    allImagesLoaded() {
+      return this.images.every((img) => img.imageUrl);
     },
-    async loadImage() {
-      this.intervalId = setInterval(async () => {
-        try {
-          const res = await queryImagesByProjectId(this.currentTask.id);
-          if (res && Array.isArray(res.data)) {
-            const allImagesHaveUrl = res.data.every((item) => item.imageUrl);
-
-            if (allImagesHaveUrl) {
-              this.image = res.data;
-              clearInterval(this.intervalId);
-            } else {
-              this.image = res.data;
-              this.$emit("updateProjetStatus");
+  },
+  async created() {
+    await this.initializeTask();
+  },
+  methods: {
+    async initializeTask() {
+      try {
+        const taskDetails = await getParam(this.currentTask.id);
+        this.success = taskDetails.data;
+        await this.loadImages();
+      } catch (error) {
+        console.error("Error initializing task:", error);
+      }
+    },
+    async loadImages() {
+      try {
+        const imagesData = await queryImagesByProjectId(this.currentTask.id);
+        this.images = imagesData.data.map((image) => ({
+          ...image,
+          queuePosition: null,
+        }));
+        this.monitorImageLoading();
+      } catch (error) {
+        console.error("Error loading images:", error);
+      }
+    },
+    async monitorImageLoading() {
+      if (!this.allImagesLoaded) {
+        let anyImageUpdated = false;
+        const imagesToUpdate = this.images.filter((image) => !image.imageUrl);
+        for (let image of imagesToUpdate) {
+          if (!image.imageUrl) {
+            const queueRes = await awaitQueue(image.id);
+            if (queueRes && queueRes.msg !== "未找到") {
+              this.$set(image, "queuePosition", queueRes.msg);
+            } else if (queueRes && queueRes.msg === "未找到") {
+              this.$set(image, "queuePosition", "");
+              let imageData = await queryImagesById(
+                this.currentTask.id,
+                image.id
+              );
+              console.log(imageData);
+              
+              if (imageData && imageData.data && imageData.data.imageUrl) {
+                this.$set(image, "imageUrl", imageData.data.imageUrl);
+                this.$emit("updateProjetStatus");
+                anyImageUpdated = true;
+              }
             }
           }
-        } catch (error) {
-          console.error("Error fetching image:", error);
         }
-      }, 2000);
+        if (anyImageUpdated) {
+          this.refreshQueueStatus();
+        } else {
+          setTimeout(() => this.monitorImageLoading(), 2000);
+        }
+      }
+    },
+    async refreshQueueStatus() {
+      for (let image of this.images.filter((img) => !img.imageUrl)) {
+        const queueRes = await awaitQueue(image.id);
+        if (queueRes && queueRes.msg !== "未找到") {
+          this.$set(image, "queuePosition", queueRes.msg);
+        }
+      }
+      setTimeout(() => this.monitorImageLoading(), 2000);
     },
     async downloadImage() {
       try {
@@ -196,23 +265,13 @@ export default {
   },
   watch: {
     currentTask: {
-      immediate: true, // 使得在组件首次加载时也会触发
-      async handler() {
-        this.init();
-        this.image = [];
-        const res = await queryImagesByProjectId(this.currentTask.id);
-        this.image = res.data;
-        clearInterval(this.intervalId);
-        this.loadImage();
+      immediate: true,
+      handler(newVal) {
+        if (newVal) {
+          this.initializeTask();
+        }
       },
     },
-  },
-  beforeDestroy() {
-    console.log(this.intervalId);
-
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
   },
 };
 </script>
@@ -239,7 +298,6 @@ export default {
     transform: rotate(360deg);
   }
 }
-
 .task-wrapper {
   height: 100%;
   background-color: #fff;
@@ -355,6 +413,9 @@ export default {
   border-radius: 20px;
   margin: 10px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .image-content-inner {
   position: relative;
@@ -367,6 +428,9 @@ export default {
   display: inline-block;
   font-size: 14px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .image-src {
   width: 100%;
@@ -377,6 +441,16 @@ export default {
 }
 .image-content:hover .overlay {
   opacity: 1;
+}
+.queue-position {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .overlay {
   position: absolute;

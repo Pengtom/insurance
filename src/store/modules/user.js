@@ -82,10 +82,12 @@ const user = {
       return new Promise((resolve, reject) => {
         wxLogin(state).then(res => {
           if (res.message === "用户已登录") {
-            setToken(res.token)
-            setIsLogin(true)
-            commit('SET_TOKEN', res.token)
-            commit('SET_ISLOGIN', true)
+            if (res.user.phonenumber) {
+              setToken(res.token)
+              setIsLogin(true)
+              commit('SET_TOKEN', res.token)
+              commit('SET_ISLOGIN', true)
+            }
           }
           resolve(res)
         }).catch(error => {

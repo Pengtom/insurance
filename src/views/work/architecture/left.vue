@@ -240,7 +240,7 @@ export default {
       };
       const res = await save({ type: 3, name: "任务-" + newTaskId });
       newTask.id = res.msg;
-      this.tasks.unshift(newTask);
+      this.init()
       this.currentTaskId = newTask.id;
       this.isDrawerVisible = true;
     },

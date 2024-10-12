@@ -322,6 +322,7 @@ export default {
       setIsLogin(true);
       this.$store.commit("SET_TOKEN", this.userInfo.toekn);
       this.$store.commit("SET_ISLOGIN", true);
+      this.$router.push({ path: this.redirect || "/index" }).catch(() => {});
       this.loginDialogVisible = false;
     },
     menuChildItem(data, uniqueId) {
@@ -378,10 +379,8 @@ export default {
         this.timer2 = setInterval(() => {
           this.$store.dispatch("wxLogin", this.loginForm.uuid).then((res) => {
             if (res.message === "用户已登录") {
-              console.log(res, "==================");
               if (!res.user.phonenumber) {
                 this.userInfo = { toekn: res.token, user: res.user };
-                console.log(this.userInfo);
                 this.phoneFlag = false;
                 if (this.timer2) {
                   clearInterval(this.timer2);

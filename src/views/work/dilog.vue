@@ -153,11 +153,11 @@ export default {
         const scaledMaskCanvasWidth = maskCanvas.width * this.scaleRatio;
         selectionCanvas.style.left = `${scaledMaskCanvasWidth + 20}px`;
         selectioBgnCanvas.style.left = `${scaledMaskCanvasWidth + 20}px`;
-        this.drawTransparentBackground(
-          selectioBgnCanvas.getContext("2d"),
-          selectioBgnCanvas.width,
-          selectioBgnCanvas.height
-        );
+        // this.drawTransparentBackground(
+        //   selectioBgnCanvas.getContext("2d"),
+        //   selectioBgnCanvas.width,
+        //   selectioBgnCanvas.height
+        // );
         // 初始化蒙版
         await this.initMasks();
         this.isLoaded = true;
@@ -356,21 +356,21 @@ export default {
         this.renderOnSelectionCanvas(mask.whiteAreaCoords);
       });
     },
-    drawTransparentBackground(ctx, width, height) {
-      // 定义方格大小和颜色
-      const gridSize = 30;
-      const color1 = "#cccccc"; // 浅灰色
-      const color2 = "#ffffff"; // 白色
+    // drawTransparentBackground(ctx, width, height) {
+    //   // 定义方格大小和颜色
+    //   const gridSize = 30;
+    //   const color1 = "#cccccc"; // 浅灰色
+    //   const color2 = "#ffffff"; // 白色
 
-      // 绘制交替的方格
-      for (let y = 0; y < height; y += gridSize) {
-        for (let x = 0; x < width; x += gridSize) {
-          ctx.fillStyle =
-            (x / gridSize + y / gridSize) % 2 === 0 ? color1 : color2;
-          ctx.fillRect(x, y, gridSize, gridSize);
-        }
-      }
-    },
+    //   // 绘制交替的方格
+    //   for (let y = 0; y < height; y += gridSize) {
+    //     for (let x = 0; x < width; x += gridSize) {
+    //       ctx.fillStyle =
+    //         (x / gridSize + y / gridSize) % 2 === 0 ? color1 : color2;
+    //       ctx.fillRect(x, y, gridSize, gridSize);
+    //     }
+    //   }
+    // },
   },
   watch: {
     isLoaded(newval) {

@@ -240,6 +240,14 @@ export default {
             })
         },
         async openDilog() {
+            const computingPower = await this.$store.dispatch("getComputingPower");
+            if (computingPower < 5) {
+                this.$message({
+                    message: "❌ 您的算力点不足，请及时充值 ❗",
+                    type: "",
+                });
+                return;
+            }
             this.$set(this.currentTask, "loading", true);
             const fileName = this.currentTask.uploadedImage
                 .split("/")

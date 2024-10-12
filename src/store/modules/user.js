@@ -98,9 +98,10 @@ const user = {
 
     //获取算力点
     getComputingPower({ commit, state }) {
-      return new ((resolve) => {
+      return new Promise((resolve,reject) => {
         getComputingPowerTotal().then(res => {
           commit('SETCOMPPOWER', res.data.total_remaining_compute_power)
+          resolve(res.data.total_remaining_compute_power)
         })
       })
     },

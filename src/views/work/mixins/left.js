@@ -76,7 +76,6 @@ export default {
                     this.isDrawerVisible = false;
                     return
                 }
-
                 this.currentTaskId = taskId;
                 this.isDrawerVisible = true;
             }
@@ -132,6 +131,7 @@ export default {
 
             const res = await upload(formdata);
             update({ id: this.currentTask.id, primaryImage: res.url, mask: false });
+            this.$set(this.currentTask, "maskImageSrc", null)
             const task = this.currentTask;
             this.$set(task, "uploadedImage", res.url);
             this.$set(task, "fileList", [newFile]);

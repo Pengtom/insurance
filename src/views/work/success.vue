@@ -201,8 +201,6 @@ export default {
                   this.currentTask.id,
                   image.id
                 );
-                console.log(imageData);
-
                 if (imageData && imageData.data && imageData.data.imageUrl) {
                   this.$set(image, "imageUrl", imageData.data.imageUrl);
                   this.$emit("updateProjetStatus");

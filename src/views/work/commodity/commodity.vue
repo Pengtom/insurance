@@ -308,6 +308,7 @@ export default {
       };
       if (this.type === 1) {
         Img2imgVo.prompt = this.prompt;
+        Img2imgVo.selectPmodelId = null
       }
 
       try {

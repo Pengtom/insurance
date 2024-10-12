@@ -37,7 +37,7 @@
         </div>
       </div> -->
     </div>
-    <div style="padding: 0 10px">
+    <div style="padding: 0 10px" v-if="!switchValue">
       <!-- <div class="container" v-if="radio === 0">
         <div class="ai-models">
           <div class="header">

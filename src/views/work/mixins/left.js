@@ -256,9 +256,9 @@ export default {
                 }),
             })
                 .then((response) => response.json())
-                .then((data) => {
+                .then(async (data) => {
                     if (data[0].msg !== '已存在任务') {
-                        getComputingPowerTotal()
+                        await getComputingPowerTotal()
                         store.dispatch("getComputingPower");
                     }
                     this.$set(this.currentTask, "fileName", data[0].data);
